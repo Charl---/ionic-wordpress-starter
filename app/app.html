@@ -1,0 +1,24 @@
+<ion-menu [content]="content">
+  <ion-content>
+    <ion-list>
+      <ion-list-header>
+        Menu
+      </ion-list-header>
+      <button menuClose ion-item (click)="navigateTo(rootPage,null, true)">
+        <ion-icon name="home" item-left></ion-icon>
+        Home
+      </button>
+      <button menuClose ion-item *ngFor="let category of categories$ | async" (click)="goToListPage(listPage, {category: category})">
+        <ion-icon name="book" item-left></ion-icon>
+        {{category.title}}
+      </button>
+      <button menuClose ion-item (click)="navigateTo(settingsPage)">
+        <ion-icon name="settings" item-left></ion-icon>
+        Settings
+      </button>
+     </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<ion-nav id="nav" [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
