@@ -21,10 +21,10 @@ export class CategoryStore extends Store<CategoryState>{
       categories: []
     });
     this.api = httpApi;
-    platform.ready().then(() => {
-      this.connectivity.state$.subscribe(state => {
-        this.api = state.isOnline ? httpApi : sqlApi;
-      })
+    this.connectivity.state$.subscribe(state => {
+      this.api = state.isOnline ? httpApi : sqlApi;
+      if(state.isOnline)
+        this.load();
     })
   }
 

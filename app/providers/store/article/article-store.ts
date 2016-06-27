@@ -119,6 +119,16 @@ export class ArticleStore extends Store<ArticleState> {
       })
   }
 
+  getById(id: string): Promise<Article> {
+    const existingArticle = this.currentState.articles
+      .get(this.currentState.currentCategory)
+      .find(item => item.id === id);
+      
+    return existingArticle
+      ? Promise.resolve(existingArticle)
+      : this.platform.ready().then(() => this.api.findOne(id))
+  }
+
   search(query: string): Promise<Article[]> {
     return this.platform.ready()
       .then(() => this.api.findAll({

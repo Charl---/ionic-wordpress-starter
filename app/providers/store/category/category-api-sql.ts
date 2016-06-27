@@ -30,14 +30,6 @@ export class CategorySqlApi extends SqlApi implements ApiCrudAdapter<Category>{
       })
   }
 
-  find(id: string): Promise<Category> {
-    return this.storage.query(`SELECT * FROM category WHERE id = ${id}`)
-      .then((data: any) => {
-        const category: Category = data.res.rows.item(0);
-        return new Category(category.id, category.name, category.description, category.slug)
-      })
-  }
-
   destroyAll(): Promise<void> {
     return this.storage.query('delete from category');
   }

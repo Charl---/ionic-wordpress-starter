@@ -22,13 +22,4 @@ export class CategoryHttpApi extends Api implements ApiCrudAdapter<Category>{
         return new Category(cat.id, cat.name, cat.description, cat.slug)
       }))
   }
-
-  findOne(id: string): Promise<Category> {
-    const config = this.config.data$.getValue();
-    return this.request({
-      method: RequestMethod.Get,
-      url: `${config.baseUrl}categories/${id}`
-    }).toPromise()
-      .then((cat: Category) => new Category(cat.id, cat.name, cat.description, cat.slug));
-  }
 }

@@ -33,11 +33,10 @@ export class ListPage implements OnInit, OnDestroy{
       .state$
       .filter(state => state.articles.get(this.category).length > this.articles.length)
       .subscribe(state => {
-        console.log('new state ', state);
         state.articles
           .get(this.category)
           .slice(this.articles.length)
-          .forEach((article: Article) => this.articles.push(article));
+          .forEach(article => this.articles.push(article));
       });
   }
 

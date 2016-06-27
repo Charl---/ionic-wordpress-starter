@@ -56,15 +56,6 @@ export class ArticleHttpApi extends Api implements ApiCrudAdapter<Article>{
       url: `${config.baseUrl}posts`,
       params: httpParams
     }).toPromise()
-    .then(articles => articles.map(article => this.transformArticle(article)));
-  }
-
-  findOne(id:string): Promise<Article> {
-    const config = this.config.data$.getValue();
-    return this.request({
-      method: RequestMethod.Get,
-      url: `${config.baseUrl}posts/${id}`,
-    }).toPromise()
-      .then(this.transformArticle);
+      .then(articles => articles.map(article => this.transformArticle(article)));
   }
 }
