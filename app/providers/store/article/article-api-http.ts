@@ -17,6 +17,7 @@ export class ArticleHttpApi extends Api implements ApiCrudAdapter<Article>{
     super(http);
   }
 
+//todo move this out of here
   private transformArticle(a: any): Article {
     const category = this.categoryStore
       .currentState
