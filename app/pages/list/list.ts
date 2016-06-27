@@ -1,8 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {NavController, NavParams, Loading, Refresher, InfiniteScroll, Modal} from 'ionic-angular';
-import {OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
-import {Category, ArticleStore, Article, ArticleState} from '../../providers/store';
+import {Observable, Subscription} from 'rxjs/Rx';
+import {Category, ArticleStore, Article} from '../../providers/store';
 import {SearchPage} from '../search/search';
 import {ArticlePage} from '../article/article';
 import {Config} from '../../providers/config';
@@ -11,9 +10,10 @@ import {Connectivity} from '../../providers/connectivity';
 @Component({
   templateUrl: 'build/pages/list/list.html'
 })
-export class ListPage implements OnInit{
+export class ListPage implements OnInit, OnDestroy{
   category: Category;
   articles: Article[];
+  subscription: Subscription;
   Search: any;
   // displayInfiniteScroll: boolean;
 
@@ -29,16 +29,20 @@ export class ListPage implements OnInit{
   }
 
   ngOnInit(): void {
-    this.articleStore
+    this.subscription = this.articleStore
       .state$
-      .subscribe((state: ArticleState) => {
-        console.log(state.articles)
-        state.articles.get(this.category)
+      .filter(state => state.articles.get(this.category).length > this.articles.length)
+      .subscribe(state => {
+        console.log('new state ', state);
+        state.articles
+          .get(this.category)
           .slice(this.articles.length)
-          .forEach((article: Article) => {
-            this.articles.push(article);
-          })
+          .forEach((article: Article) => this.articles.push(article));
       });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
   goToArticlePage(article: Article): void {

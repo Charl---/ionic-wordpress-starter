@@ -10,7 +10,7 @@
       </button>
       <button menuClose ion-item *ngFor="let category of categories$ | async" (click)="goToListPage(listPage, {category: category})">
         <ion-icon name="book" item-left></ion-icon>
-        {{category.title}}
+        {{category.name}}
       </button>
       <button menuClose ion-item (click)="navigateTo(settingsPage)">
         <ion-icon name="settings" item-left></ion-icon>

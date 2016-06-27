@@ -23,21 +23,16 @@ export class SettingsPage {
   }
 
   resetLocalDb(): void {
-    const subscription = forkJoin(
+    Promise.all([
       this.userSqlApi.destroyAll(),
       this.articleSqlApi.destroyAll(),
       this.categorySqlApi.destroyAll()
-    )
-      .subscribe(
-        () => {
-          const myAlert = Alert.create({
-            title: 'Success',
-            subTitle: 'Your data has been wiped out!',
-            buttons: ['OK']
-          })
-          this.nav.present(myAlert);
-          subscription.unsubscribe();
-        },(err) => console.log(err)
-      )
+    ])
+      .then(() => this.nav.present(Alert.create({
+        title: 'Success',
+        subTitle: 'Your data has been wiped out!',
+        buttons: ['OK']
+      })))
+      .catch((err) => console.log(err))
   }
 }

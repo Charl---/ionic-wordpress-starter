@@ -14,7 +14,8 @@ export const CONFIG_API_URL = ''
 export class Config {
   data$: BehaviorSubject<IConfig> = new BehaviorSubject({
     baseUrl: 'http://touriscopie.fr/wp-json/wp/v2/',
-    articlePerPage: 15
+    articlePerPage: 10,
+    defaultPicture: ''
   })
   constructor(private http: Http) {}
 
@@ -22,10 +23,5 @@ export class Config {
     // this.http.get(CONFIG_API_URL)
     //   .map(data => data.json())
     //   .merge(this.data$)
-    this.data$.next({
-      baseUrl: 'http://touriscopie.fr/wp-json/wp/v2/',
-      articlePerPage: 10,
-      defaultPicture: ''
-    })
   }
 }

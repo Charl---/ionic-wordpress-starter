@@ -11,7 +11,7 @@
 </ion-navbar>
 
 <ion-content>
-  <ion-refresher (refresh)="doRefresh($event)" *ngIf="connectivity.isOnline$ | async">
+  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="connectivity.isOnline$ | async">
     <ion-refresher-content
             pullingIcon="arrow-dropdown"
             pullingText="Pull to refresh"
@@ -36,7 +36,7 @@
       </button>
     </ion-item>
   </ion-list>
-  <ion-infinite-scroll (infinite)="loadMore($event)">
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
     <ion-infinite-scroll-content
             loadingSpinner="bubbles"
             loadingText="Loading more data...">

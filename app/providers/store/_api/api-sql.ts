@@ -1,14 +1,12 @@
-import {OnInit} from '@angular/core'
 import {Storage, SqlStorage, Platform} from 'ionic-angular';
 export * from './api-common';
 
-export class SqlApi implements OnInit{
+export class SqlApi{
   protected storage: Storage = new Storage(SqlStorage);
-  
-  constructor(protected platform: Platform,
-              private createQuery: string) {}
 
-  ngOnInit():void {
+  constructor(protected platform: Platform,
+              private createQuery: string)
+  {
     this.platform.ready()
       .then(() => this.initTable(this.createQuery))
       .catch(err => console.error(err));

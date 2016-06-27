@@ -7,10 +7,9 @@ import {UserSqlApi, UserState, User} from './index';
 export class UserStore extends Store<UserState> {
 
   constructor(private sqlApi:UserSqlApi,
-              private platform:Platform,
-              eventQueue:EventQueue
-  ) {
-    super(eventQueue, {
+              private platform:Platform)
+ {
+    super(new EventQueue(), {
       users: []
     });
   }
@@ -34,6 +33,6 @@ export class UserStore extends Store<UserState> {
 
   find(id: string): Promise<User> {
     const existingUser = this.currentState.users.find((user: User) => id === user.id);
-    return existingUser ? Promise.resolve(existingUser) : this.sqlApi.find(id);
+    return existingUser ? Promise.resolve(existingUser) : this.sqlApi.findOne(id);
   }
 }

@@ -1,25 +1,43 @@
 import {Injectable} from '@angular/core';
 import {Platform} from 'ionic-angular';
 import {Network, Connection} from 'ionic-native';
-import {Observable} from 'rxjs/Rx';
-import {fromPromise} from 'rxjs/observable/fromPromise';
+import {BehaviorSubject, Observable, Subject} from 'rxjs/Rx';
+import {Store, EventQueue} from 'sparix';
+
 /*
   Generated class for the Connectivity provider.
 
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
+
+interface ConnectivityState {
+  isOnline: boolean;
+}
+
 @Injectable()
-export class Connectivity {
-  isOnline$: Observable<boolean>;
+export class Connectivity extends Store<ConnectivityState>{
   constructor(platform: Platform) {
-    this.isOnline$ = fromPromise(platform.ready())
-      .map(() => Network.connection !== Connection.NONE)
-      .merge(
-        Network.onConnect()
-          .map(() => true),
-        Network.onDisconnect()
-          .map(() => false)
-      )
+    super(new EventQueue(), {
+      isOnline: false
+    })
+    platform.ready().then(() => {
+      this.update(state => ({
+        isOnline: Network.connection !== Connection.NONE
+      }))
+      Network.onConnect()
+        .subscribe(() => this.update(state => ({
+          isOnline: true
+        })))
+      Network.onDisconnect().map(() => false)
+        .subscribe(() => this.update(state => ({
+          isOnline: false
+        })))
+
+        // Network.onConnect().map(() => true)
+        //   .merge(Network.onDisconnect().map(() => false))
+
+
+    })
   }
 }

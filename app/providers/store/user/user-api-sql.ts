@@ -2,14 +2,19 @@ import {Injectable} from '@angular/core'
 import {Storage, SqlStorage, Platform} from 'ionic-angular'
 import {Observable} from 'rxjs/Rx';
 import {fromPromise} from 'rxjs/observable/fromPromise'
-import {SqlApi} from '../_api/api-sql';
+import {SqlApi, ApiCrudAdapter} from '../_api/api-sql';
 import {User} from './index';
 import {HtmlEscape} from '../../html-escape';
 
 @Injectable()
-export class UserSqlApi extends SqlApi {
+export class UserSqlApi extends SqlApi implements ApiCrudAdapter<User> {
   constructor(platform: Platform) {
     super(platform, 'CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, avatar TEXT, description TEXT, slug TEXT)')
+  }
+
+  private transformUser(data: any): User {
+    const user = data.res.rows.item(0);
+    return new User(user.id, user.name, user.avatar, user.description, user.slug);
   }
 
   insert(user: User): Promise<User> {
@@ -17,18 +22,12 @@ export class UserSqlApi extends SqlApi {
       .then(() => user)
   }
 
-  find(id: string): Promise<User> {
+  findOne(id: string): Promise<User> {
     return this.storage.query(`SELECT * FROM user WHERE id = ${id}`)
-      .then((data: any) => {
-        const user = data.res.rows.item(0);
-        return new User(user.id, user.name, user.avatar, user.description, user.slug)
-      })
+      .then(this.transformUser)
   }
 
-  destroyAll(): Observable<any> {
-    return fromPromise(
-      this.platform.ready()
-        .then(() => this.storage.query('delete from user'))
-    )
+  destroyAll(): Promise<void> {
+    return this.storage.query('delete from user')
   }
 }

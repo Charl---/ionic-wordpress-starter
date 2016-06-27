@@ -11,7 +11,7 @@ import {HomePage} from './pages/home/home';
 import {ListPage} from './pages/list/list';
 import {SettingsPage} from './pages/settings/settings';
 import {APP_DIRECTIVES, APP_PROVIDERS} from './providers'
-
+import {Connectivity} from './providers/connectivity'
 
 
 @Component({
@@ -31,7 +31,8 @@ export class WordpressApp {
               private config: Config,
               private articleStore: ArticleStore,
               public menu: MenuController,
-              public categoryStore: CategoryStore
+              public categoryStore: CategoryStore,
+              private connec: Connectivity
   ) {
     this.initializeApp();
   }
@@ -50,19 +51,17 @@ export class WordpressApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
-      // const loading = this.loading();
-      this.config.load();
+      // this.config.load();
       this.categoryStore.load();
       this.categories$ = this.categoryStore
-        .map((state: CategoryState) => {
-          // state.categories.forEach((category: Category) => {
-          //   this.articleStore.currentState.articles.set(category, []);
-          // })
-          Promise.all(state.categories
-            .map((category: Category) => this.articleStore.loadFromSql({filters: {category}}))
-          )
-            // .then(() => loading.dismiss())
-            .catch((err: Error) => console.error('error loading sql articles', err));
+        .filter(state => state.categories.length > 0)
+        .map(state => {
+          Promise.all(
+            state.categories
+              .map((category: Category) => this.articleStore.loadFromSql({filters: {category}}))
+            )
+            .then(() => console.log('articles loaded from sqllite'))
+            .catch(err => console.error('error loading sql articles', err));
           return state.categories;
         })
     });
@@ -78,7 +77,7 @@ export class WordpressApp {
       .load(params.category)
       .then(() => this.navigateTo(page, params, true))
       .then(() => loading.dismiss())
-      .catch((err: Error) => console.error(err));
+      .catch(err => console.error(err));
   }
 
   presentModal(page: any): void {

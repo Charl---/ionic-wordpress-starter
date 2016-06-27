@@ -8,14 +8,12 @@ export interface ApiFindAllOptions{
   filters?: any;
 }
 
-export interface SparixListAdapter<T> {
-  findAll(params: ApiFindAllOptions): Observable<T[]>;
-  findOne(id: string): Observable<T>;
-}
-
-export interface SparixCrudAdapter<T> extends SparixListAdapter<T>{
-  insert(item: T):Promise<T>;
-  insertAll(items: T[]):Observable<T[]>;
-  update(item: T): Observable<T>;
-  destroyAll(): Observable<any>;
+export interface ApiCrudAdapter<T> {
+  findAll?(params?: ApiFindAllOptions): Promise<T[]>;
+  findOne?(id: string): Promise<T>;
+  insert?(item: T): Promise<T>;
+  insertAll?(items: T[]): Promise<T[]>;
+  update?(item: T): Promise<T>;
+  destroy?(item: T): Promise<void>;
+  destroyAll?(): Promise<void>;
 }

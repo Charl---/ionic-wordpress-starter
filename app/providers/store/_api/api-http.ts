@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Rx';
-import { Http, Request, Response, URLSearchParams } from '@angular/http';
+import { Http, Request, Response, URLSearchParams, RequestOptions } from '@angular/http';
 
 export * from './api-common';
 
@@ -15,7 +15,7 @@ export class Api {
       delete options.params
     }
 
-    return this.http.request(new Request(options))
+    return this.http.request(new Request(new RequestOptions(options)))
       .map((res: Response) => res.json());
   }
 }
