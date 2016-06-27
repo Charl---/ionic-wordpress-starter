@@ -13,9 +13,9 @@ import {Connectivity} from '../../providers/connectivity';
 export class ListPage implements OnInit, OnDestroy{
   category: Category;
   articles: Article[];
-  subscription: Subscription;
+  articleSub: Subscription;
+  connec$: Observable<boolean>;
   Search: any;
-  // displayInfiniteScroll: boolean;
 
   constructor(private nav: NavController,
               private navParams: NavParams,
@@ -29,7 +29,7 @@ export class ListPage implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.subscription = this.articleStore
+    this.articleSub = this.articleStore
       .state$
       .filter(state => state.articles.get(this.category).length > this.articles.length)
       .subscribe(state => {
@@ -38,10 +38,13 @@ export class ListPage implements OnInit, OnDestroy{
           .slice(this.articles.length)
           .forEach(article => this.articles.push(article));
       });
+
+    this.connec$ = this.connectivity
+      .map(state => state.isOnline);
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe()
+    this.articleSub.unsubscribe()
   }
 
   goToArticlePage(article: Article): void {

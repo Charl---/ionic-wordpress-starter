@@ -11,7 +11,7 @@
 </ion-navbar>
 
 <ion-content>
-  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="connectivity.isOnline$ | async">
+  <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="connec$ | async">
     <ion-refresher-content
             pullingIcon="arrow-dropdown"
             pullingText="Pull to refresh"
