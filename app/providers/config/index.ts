@@ -15,7 +15,8 @@ export class Config {
   data$: BehaviorSubject<IConfig> = new BehaviorSubject({
     baseUrl: 'http://touriscopie.fr/wp-json/wp/v2/',
     articlePerPage: 10,
-    defaultPicture: ''
+    defaultPicture: 'http://touriscopie.fr/wp-content/uploads/2015/05/cropped-parasol.jpg',
+    homeCategory: 'Editorial',
   })
   constructor(private http: Http) {}
 

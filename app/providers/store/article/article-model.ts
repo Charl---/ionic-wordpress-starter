@@ -8,14 +8,15 @@ export class Article {
               public picture: string,
               public date: string,
               public author?: User,
-              public category?: Category
+              public category?: Category,
+              defaultPicture?: string
   ) {
     if (!picture) {
       try {
         const pictureElement = document.createRange()
           .createContextualFragment(body)
           .querySelector('img');
-        this.picture = pictureElement ? pictureElement.getAttribute('src') : '';
+        this.picture = pictureElement ? pictureElement.getAttribute('src') : defaultPicture;
       } catch(err) {
         this.picture = '';
         console.error('Article error picture', err.message);
