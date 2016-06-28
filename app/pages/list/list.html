@@ -9,7 +9,7 @@
     </button>
   </ion-buttons>
 </ion-navbar>
-<ion-content>
+<ion-content class="list">
   <ion-item *ngIf="displayFilter" class="list-filter">
     <ion-label>
       <ion-icon name="search"></ion-icon>
@@ -30,7 +30,14 @@
       <ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
     </ion-thumbnail>
     <h2>{{article.title}}</h2>
-    <user-widget [user]="article.author"></user-widget>
+    <ion-row>
+      <ion-col>
+          <user-widget [user]="article.author" [options]="userWidgetOptions"></user-widget>
+      </ion-col>
+      <ion-col>
+        <time>{{article.date | date}}</time>
+      </ion-col>
+    </ion-row>
     <button clear item-right (click)="goToArticlePage(article)">
       View
     </button>

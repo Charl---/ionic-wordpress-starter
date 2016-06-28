@@ -6,7 +6,7 @@ export class Article {
               public title: string,
               public body: string,
               public picture: string,
-              public date: string,
+              public date: Date,
               public author?: User,
               public category?: Category,
               defaultPicture?: string

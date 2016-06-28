@@ -5,6 +5,7 @@ import {Category, ArticleStore, Article} from '../../providers/store';
 import {ArticlePage} from '../article/article';
 import {Config} from '../../config';
 import {Connectivity} from '../../providers/ionic';
+import {UserWidgetOptions} from '../../providers/directives/user-widget';
 
 @Component({
   templateUrl: 'build/pages/list/list.html'
@@ -15,6 +16,12 @@ export class ListPage implements OnInit {
   connec$: Observable<boolean>;
   displayFilter: boolean = false;
   filter: string = '';
+  userWidgetOptions: UserWidgetOptions = {
+    avatarWidth: 26,
+    avatarHeight: 26,
+    fontSize: '0.7em',
+    color: 'grey'
+  }
 
   constructor(
     private nav: NavController,

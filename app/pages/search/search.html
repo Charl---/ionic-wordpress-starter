@@ -11,7 +11,7 @@
     </ion-item>
   </form>
 </ion-toolbar>
-<ion-content>
+<ion-content class="list">
     <div text-center *ngIf="articleStore.loading$ | async">
       <ion-spinner></ion-spinner>
     </div>
@@ -21,7 +21,14 @@
           <ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
         </ion-thumbnail>
         <h2>{{article.title}}</h2>
-        <user-widget [user]="article.author"></user-widget>
+        <ion-row>
+          <ion-col>
+              <user-widget [user]="article.author" [options]="userWidgetOptions"></user-widget>
+          </ion-col>
+          <ion-col>
+            <time>{{article.date | date}}</time>
+          </ion-col>
+        </ion-row>
         <button clear item-right (click)="goToArticlePage(article)">
           View
         </button>

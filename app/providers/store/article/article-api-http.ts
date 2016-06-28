@@ -31,7 +31,7 @@ export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article>{
     const user = a._embedded.author[0];
     const author = new User(user.id, user.name, /*user.avatar_urls[48]*/null , user.description, user.slug);
     this.userStore.insert(author);
-    return new Article(a.id, HtmlEscape.unescape(a.title.rendered), a.content.rendered, null, a.date, author, category, this.config.defaultPicture);
+    return new Article(a.id, HtmlEscape.unescape(a.title.rendered), a.content.rendered, null, new Date(a.date), author, category, this.config.defaultPicture);
   }
 
   findAll(params: ApiFindAllOptions): Promise<Article[]> {

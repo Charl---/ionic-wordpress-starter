@@ -52,7 +52,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article>{
 
   private buildArticle(data: any): Article[] {
     return data[0].map((articleProp: any[]) => {
-      let article = new Article(articleProp[0], articleProp[1], articleProp[2], articleProp[3], articleProp[4],null, null, this.config.defaultPicture);
+      let article = new Article(articleProp[0], articleProp[1], articleProp[2], articleProp[3], new Date(articleProp[4]),null, null, this.config.defaultPicture);
       article.author = data[1].find((author: User) => {
         return articleProp[5] === author.id
       });

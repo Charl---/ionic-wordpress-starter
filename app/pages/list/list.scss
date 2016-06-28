@@ -1,3 +1,11 @@
 .list-filter {
   @include fadeInDown();
 }
+
+.list {
+  time {
+    color: grey;
+    font-size: 0.7em;
+    float: right;
+  }
+}
