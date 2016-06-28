@@ -6,6 +6,7 @@ import {Article} from './index';
 import {User, UserStore} from '../user'
 import {CategoryStore, Category} from '../category';
 import {Config} from '../../../config';
+import {HtmlEscape} from '../../../utils';
 
 const httpParams = {
   _embed: true
@@ -30,7 +31,7 @@ export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article>{
     const user = a._embedded.author[0];
     const author = new User(user.id, user.name, /*user.avatar_urls[48]*/null , user.description, user.slug);
     this.userStore.insert(author);
-    return new Article(a.id, a.title.rendered, a.content.rendered, null, a.date, author, category, this.config.defaultPicture);
+    return new Article(a.id, HtmlEscape.unescape(a.title.rendered), a.content.rendered, null, a.date, author, category, this.config.defaultPicture);
   }
 
   findAll(params: ApiFindAllOptions): Promise<Article[]> {

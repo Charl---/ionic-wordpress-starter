@@ -13,7 +13,7 @@ import {Connectivity} from './providers/ionic'
 
 
 @Component({
-  templateUrl: 'build/app.html'
+  templateUrl: 'build/ionic-wordpress-app.html'
 })
 export class WordpressApp implements OnInit{
   @ViewChild(Nav) nav: Nav;

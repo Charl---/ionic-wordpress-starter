@@ -3,6 +3,7 @@ import {SqlStorage, Platform} from 'ionic-angular';
 import {fromPromise} from 'rxjs/observable/fromPromise'
 import {Observable} from 'rxjs/Rx';
 
+
 import {Article} from './index';
 import {CategoryStore,Category} from '../category';
 import {UserStore, User} from '../user';
@@ -28,7 +29,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article>{
     const articles = [];
     for (let i = 0; i < data.res.rows.length; i++) {
       let item: Article = data.res.rows.item(i);
-      articles.push([item.id, item.title, HtmlEscape.unescape(item.body), item.picture, item.date, item.author, item.category]);
+      articles.push([item.id, HtmlEscape.unescape(item.title), HtmlEscape.unescape(item.body), item.picture, item.date, item.author, item.category]);
       categoryId.push(item.category);
       usersId.push(item.author);
     }
@@ -80,7 +81,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article>{
   }
 
   insert(article: Article): Promise<Article> {
-    return this.storage.query(`INSERT OR REPLACE INTO article (id, title, body, picture, date, author, category) VALUES ('${article.id}', '${article.title}', '${HtmlEscape.escape(article.body)}', '${article.picture}', '${article.date}', '${article.author.id}', '${article.category.id}')`)
+    return this.storage.query(`INSERT OR REPLACE INTO article (id, title, body, picture, date, author, category) VALUES ('${article.id}', '${HtmlEscape.escape(article.title)}', '${HtmlEscape.escape(article.body)}', '${article.picture}', '${article.date}', '${article.author.id}', '${article.category.id}')`)
       .then(() => article)
       .catch(err => console.error(err));
   }
