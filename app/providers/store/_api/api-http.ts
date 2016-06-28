@@ -4,7 +4,9 @@ import { Http, Request, Response, URLSearchParams, RequestOptions } from '@angul
 export * from './api-common';
 
 export class HttpApi {
-  constructor(private http: Http) {}
+  constructor(
+    private http: Http
+  ) {}
 
   request(options: any): Observable<any> {
     if (options.params) {

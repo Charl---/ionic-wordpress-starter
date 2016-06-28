@@ -13,11 +13,12 @@ export class SearchPage implements OnInit, OnDestroy{
   articles: Article[] = [];
   searchSub: Subscription;
 
-  constructor(public articleStore: ArticleStore,
-              private builder: FormBuilder,
-              private nav: NavController,
-              private viewCtrl: ViewController)
-  {
+  constructor(
+    public articleStore: ArticleStore,
+    private builder: FormBuilder,
+    private nav: NavController,
+    private viewCtrl: ViewController
+  ) {
     this.searchForm = builder.group({
       search: ['']
     });

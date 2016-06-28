@@ -8,7 +8,9 @@ import {Article} from '../../providers/store'
 export class ArticlePage {
   article: Article;
 
-  constructor(private navParams: NavParams) {
-    this.article = this.navParams.get('article')
+  constructor(
+    navParams: NavParams
+  ) {
+    this.article = navParams.get('article')
   }
 }

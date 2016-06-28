@@ -24,12 +24,13 @@ export class WordpressApp implements OnInit{
   categories$: Observable<Category[]>;
 
 
-  constructor(private platform: Platform,
-              private config: Config,
-              private articleStore: ArticleStore,
-              public menu: MenuController,
-              public categoryStore: CategoryStore,
-              private connec: Connectivity
+  constructor(
+    private platform: Platform,
+    private config: Config,
+    private articleStore: ArticleStore,
+    public menu: MenuController,
+    public categoryStore: CategoryStore,
+    private connec: Connectivity
   ) {}
 
   private loading(): Loading {
