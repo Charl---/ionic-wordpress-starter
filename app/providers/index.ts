@@ -1,21 +1,19 @@
-import {EventQueue} from 'sparix';
 import {STORE_PROVIDERS} from './store';
-import {Connectivity} from './connectivity';
-import {ListFilter} from './list-filter'
+import {IONIC_PROVIDERS} from './ionic';
+import {APP_DIRECTIVES} from './directives';
+import {APP_PIPES} from './pipes';
+
 import {FORM_PROVIDERS, FORM_DIRECTIVES} from '@angular/common';
 
-export const APP_PROVIDERS = [
-  ...STORE_PROVIDERS,
+const APP_PROVIDERS = [
   ...FORM_PROVIDERS,
-  Connectivity,
-  EventQueue,
-  ListFilter
+  ...IONIC_PROVIDERS,
+  ...STORE_PROVIDERS,
+  ...APP_PIPES
 ];
 
-export const APP_DIRECTIVES = [
-  ...FORM_DIRECTIVES
-];
-
-export const APP_PIPES = [
-  ListFilter
-];
+export {
+  APP_PROVIDERS,
+  APP_DIRECTIVES,
+  APP_PIPES
+};

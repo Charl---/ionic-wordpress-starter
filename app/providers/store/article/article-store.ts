@@ -5,9 +5,9 @@ import {Store, EventQueue, Updater} from 'sparix';
 import {ArticleHttpApi, ArticleSqlApi, Article, ArticleState} from './index';
 import {ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-common';
 import {Category} from '../category';
-import {Connectivity} from '../../connectivity';
+import {Connectivity} from '../../ionic';
 import {Config} from '../../../config';
-import {ListFilter} from '../../list-filter';
+import {ListFilter} from '../../pipes';
 
 const initialState: ArticleState = {
   currentCategory: null,
@@ -57,8 +57,9 @@ export class ArticleStore extends Store<ArticleState> {
   }
 
   load(category: Category): Promise<Article[]> {
-    const articles = this.currentState.articles.get(category);
-    if (articles.length) {
+    let articles = this.currentState.articles.get(category);
+    articles = articles ? articles : [];
+    if(articles.length) {
       this.update(() => ({
         currentCategory: category,
         currentPage: Math.round(articles.length / this.config.articlePerPage)

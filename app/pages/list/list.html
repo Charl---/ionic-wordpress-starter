@@ -30,34 +30,12 @@
       <ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
     </ion-thumbnail>
     <h2>{{article.title}}</h2>
-    <ion-item>
-      <ion-avatar item-left>
-        <ion-img [src]="article?.author?.avatar" width="48" height="48" alt=""></ion-img>
-      </ion-avatar>
-      <button clear>{{article?.author?.name}}</button>
-    </ion-item>
+    <user-widget [user]="article.author"></user-widget>
     <button clear item-right (click)="goToArticlePage(article)">
       View
     </button>
   </ion-item>
 </ion-list>
-<!-- <ion-list [virtualScroll]="articles">
-<ion-item *virtualItem="let article">
-<ion-thumbnail item-left>
-<ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
-</ion-thumbnail>
-<h2>{{article.title}}</h2>
-<ion-item>
-<ion-avatar item-left>
-<ion-img [src]="article?.author?.avatar" width="48" height="48" alt=""></ion-img>
-</ion-avatar>
-<button clear>{{article?.author?.name}}</button>
-</ion-item>
-<button clear item-right (click)="goToArticlePage(article)">
-View
-</button>
-</ion-item>
-</ion-list> -->
 <ion-infinite-scroll (ionInfinite)="loadMore($event)">
   <ion-infinite-scroll-content
   loadingSpinner="bubbles"

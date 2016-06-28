@@ -1,0 +1,21 @@
+.user-widget {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: rgba(255,255,255,0.5);
+
+  .user-widget__avatar {
+    width: 48px;
+    height: 48px;
+    margin-right: 10px;
+    vertical-align: middle;
+    border-radius: 50%;
+  }
+  .user-widget__meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 18px;
+    font-size: 14px;
+  }
+}

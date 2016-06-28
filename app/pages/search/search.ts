@@ -36,7 +36,7 @@ export class SearchPage implements OnInit, OnDestroy{
       .debounceTime(1000)
       .filter((form) => form.search.length > 2)
       .do(() => this.articles = null)
-      .mergeMap((form: any) => this.articleStore.search(form))
+      .mergeMap(form => this.articleStore.search(form))
       .do(articles => articles.length === 0 ? this.displayToast('no results :(') : null)
       .subscribe(
         articles => this.articles = articles,

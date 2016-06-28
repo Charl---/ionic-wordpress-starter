@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {ViewController, NavController, Alert} from 'ionic-angular';
-import {forkJoin} from 'rxjs/observable/forkJoin';
 import {ArticleSqlApi, CategorySqlApi, UserSqlApi} from '../../providers/store';
 
 

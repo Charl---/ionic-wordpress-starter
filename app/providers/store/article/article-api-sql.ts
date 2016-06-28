@@ -8,7 +8,7 @@ import {CategoryStore,Category} from '../category';
 import {UserStore, User} from '../user';
 import {SqlApi, ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-sql';
 import {Config} from '../../../config';
-import {HtmlEscape} from '../../html-escape';
+import {HtmlEscape} from '../../../utils';
 
 @Injectable()
 export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article>{
@@ -82,11 +82,13 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article>{
   insert(article: Article): Promise<Article> {
     return this.storage.query(`INSERT OR REPLACE INTO article (id, title, body, picture, date, author, category) VALUES ('${article.id}', '${article.title}', '${HtmlEscape.escape(article.body)}', '${article.picture}', '${article.date}', '${article.author.id}', '${article.category.id}')`)
       .then(() => article)
+      .catch(err => console.error(err));
   }
 
   insertAll(articles: Article[]): Promise<Article[]>{
     return Promise.all(articles.map(article => this.insert(article)))
-      .then(() => articles);
+      .then(() => articles)
+      .catch(err => console.error(err));
   }
 
   search(params: ApiFindAllOptions): Promise<Article[]> {
@@ -95,5 +97,6 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article>{
     return this.storage.query(query)
       .then(data => this.formatData(data))
       .then(data => this.buildArticle(data))
+      .catch(err => console.error(err));
   }
 }

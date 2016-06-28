@@ -3,7 +3,7 @@ import {Storage, SqlStorage, Platform} from 'ionic-angular';
 import {Observable} from "rxjs/Rx";
 import {Category} from "./index";
 import {SqlApi, ApiCrudAdapter} from '../_api/api-sql';
-import {HtmlEscape} from '../../html-escape';
+import {HtmlEscape} from '../../../utils';
 
 @Injectable()
 export class CategorySqlApi extends SqlApi implements ApiCrudAdapter<Category>{
@@ -15,6 +15,7 @@ export class CategorySqlApi extends SqlApi implements ApiCrudAdapter<Category>{
     return this.storage
       .query(`INSERT OR REPLACE INTO category (id, name, description, slug) VALUES ('${category.id}', '${category.name}', '${HtmlEscape.escape(category.description)}', '${category.slug}')`)
       .then(() => category)
+      .catch(err => console.error(err));
   }
 
   findAll(): Promise<Category[]> {
@@ -28,14 +29,17 @@ export class CategorySqlApi extends SqlApi implements ApiCrudAdapter<Category>{
         }
         return categories;
       })
+      .catch(err => console.error(err));
   }
 
   destroyAll(): Promise<void> {
-    return this.storage.query('delete from category');
+    return this.storage.query('delete from category')
+      .catch(err => console.error(err));
   }
 
   insertAll(categories: Category[]): Promise<Category[]>{
     return Promise.all(categories.map(category => this.insert(category)))
-      .then(() => categories);
+      .then(() => categories)
+      .catch(err => console.error(err));
   }
 }

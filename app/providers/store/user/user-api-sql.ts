@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Rx';
 import {fromPromise} from 'rxjs/observable/fromPromise'
 import {SqlApi, ApiCrudAdapter} from '../_api/api-sql';
 import {User} from './index';
-import {HtmlEscape} from '../../html-escape';
+import {HtmlEscape} from '../../../utils';
 
 @Injectable()
 export class UserSqlApi extends SqlApi implements ApiCrudAdapter<User> {

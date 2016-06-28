@@ -5,7 +5,7 @@ import {BehaviorSubject, Observable} from 'rxjs/Rx';
 import {Store, EventQueue} from 'sparix';
 import {CategoryHttpApi, CategorySqlApi, CategoryState, Category} from './index';
 import {ApiCrudAdapter} from '../_api/api-common'
-import {Connectivity} from '../../connectivity'
+import {Connectivity} from '../../ionic'
 
 @Injectable()
 export class CategoryStore extends Store<CategoryState>{

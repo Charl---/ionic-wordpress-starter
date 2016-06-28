@@ -4,7 +4,7 @@ import {Observable, Subscription} from 'rxjs/Rx';
 import {Category, ArticleStore, Article} from '../../providers/store';
 import {ArticlePage} from '../article/article';
 import {Config} from '../../config';
-import {Connectivity} from '../../providers/connectivity';
+import {Connectivity} from '../../providers/ionic';
 
 @Component({
   templateUrl: 'build/pages/list/list.html'
@@ -18,11 +18,12 @@ export class ListPage implements OnInit, OnDestroy{
   displayFilter: boolean = false;
   filter: string = '';
 
-  constructor(private nav: NavController,
-              private navParams: NavParams,
-              private config: Config,
-              public connectivity: Connectivity,
-              public articleStore: ArticleStore
+  constructor(
+    private nav: NavController,
+    private navParams: NavParams,
+    private config: Config,
+    public connectivity: Connectivity,
+    public articleStore: ArticleStore
   ) {
     this.category = this.navParams.get('category');
     this.articles = [];
@@ -40,6 +41,7 @@ export class ListPage implements OnInit, OnDestroy{
     //   });
     this.articles$ = this.articleStore
       .map(state => state.articles.get(this.category))
+      .do(articles => console.log(articles))
 
     this.connec$ = this.connectivity
       .map(state => state.isOnline);

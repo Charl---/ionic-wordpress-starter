@@ -1,19 +1,23 @@
-
-<ion-navbar *navbar>
-  <button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-  <ion-title>Home</ion-title>
-</ion-navbar>
-
-<ion-content padding class="getting-started">
-
-  <h3>Getting Started</h3>
-  <p>
-     Get it started!
-  </p>
-  <p>
-    <button primary menuToggle>Toggle Menu</button>
-  </p>
-
+<ion-content class="home">
+  <ion-navbar *navbar clear>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{config.homeTitle}}</ion-title>
+  </ion-navbar>
+  <ion-slides [options]="config.sliderConfig">
+    <ion-slide *ngFor="let article of articles$ | async"
+                [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}">
+      <article class="home-slide">
+        <!-- <user-widget [user]="article.author"></user-widget> -->
+        <div></div>
+        <h1>{{article.title}}</h1>
+        <div class="read-button-container">
+          <button light (click)="goToArticlePage(article)">
+            <ion-icon name="book"></ion-icon>
+          </button>
+        </div>
+      </article>
+    </ion-slide>
+  </ion-slides>
 </ion-content>

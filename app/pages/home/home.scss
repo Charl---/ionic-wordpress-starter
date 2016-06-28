@@ -1,9 +1,42 @@
-.getting-started {
+.home {
+  position: relative;
 
-  p {
-    margin: 20px 0;
-    line-height: 22px;
-    font-size: 16px;
+  ion-navbar {
+    position: absolute;
+    .toolbar-background {
+      background: rgba(255,255,255,0.5);
+    }
   }
-
+  .slide-zoom {
+    height: 100%;
+  }
+  .home-slide {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height:100%;
+    user-widget {
+      margin-top: 5.6rem;
+      width:100%;
+    }
+    h1 {
+      background: rgba(255,255,255,0.5);
+    }
+    .read-button-container {
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: row;
+      button {
+        overflow: hidden;
+        width: 56px;
+        min-width: 0;
+        height: 56px;
+        border-radius: 50%;
+        font-size: 14px;
+        line-height: 56px;
+        vertical-align: middle;
+        background-clip: padding-box;
+      }
+    }
+  }
 }

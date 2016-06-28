@@ -20,5 +20,6 @@ export class CategoryHttpApi extends HttpApi implements ApiCrudAdapter<Category>
       .then((categories: Category[]) => categories.map(cat => {
         return new Category(cat.id, cat.name, cat.description, cat.slug)
       }))
+      .catch(err => console.error(err));
   }
 }
