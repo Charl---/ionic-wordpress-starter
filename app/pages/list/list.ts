@@ -15,6 +15,8 @@ export class ListPage implements OnInit, OnDestroy{
   // articleSub: Subscription;
   articles$: Observable<Article[]>;
   connec$: Observable<boolean>;
+  displayFilter: boolean = false;
+  filter: string = '';
 
   constructor(private nav: NavController,
               private navParams: NavParams,
