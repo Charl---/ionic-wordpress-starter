@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, ElementRef} from '@angular/core';
+import {Component, Input, OnInit, ElementRef} from '@angular/core';
 import {User} from '../../store';
 
 export interface UserWidgetOptions {
@@ -36,8 +36,5 @@ export class UserWidget implements OnInit {
 
     if(this.options.color)
       meta.style.color = this.options.color;
-
-    // if(this.options.align)
-
   }
 }

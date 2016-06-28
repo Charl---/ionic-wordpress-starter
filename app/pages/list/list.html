@@ -10,18 +10,17 @@
   </ion-buttons>
 </ion-navbar>
 <ion-content class="list">
-  <ion-item *ngIf="displayFilter" class="list-filter">
-    <ion-label>
-      <ion-icon name="search"></ion-icon>
-    </ion-label>
-    <ion-input autofocus type="search" [(ngModel)]="filter"></ion-input>
-  </ion-item>
+  <search-widget
+    *ngIf="displayFilter"
+    [options]="searchWidgetOptions"
+    (onSearch)="filter = $event">
+  </search-widget>
   <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="connec$ | async">
     <ion-refresher-content
-    pullingIcon="arrow-dropdown"
-    pullingText="Pull to refresh"
-    refreshingSpinner="bubbles"
-    refreshingText="Refreshing...">
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="bubbles"
+      refreshingText="Refreshing...">
   </ion-refresher-content>
 </ion-refresher>
 <ion-list>

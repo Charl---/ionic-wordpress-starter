@@ -1,28 +1,32 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ControlGroup, FormBuilder} from '@angular/common';
-import {Loading, NavController, ViewController, Toast} from 'ionic-angular';
-import {Observable, Subscription} from 'rxjs/Rx';
+import {Loading, NavController, NavParams, Toast} from 'ionic-angular';
 import {ArticleStore, Article, ArticleState} from '../../providers/store';
 import {ArticlePage} from '../article/article';
+import {UserWidgetOptions} from '../../providers/directives/user-widget';
+import {SearchWidgetOptions} from '../../providers/directives/search-widget';
 
 @Component({
   templateUrl: 'build/pages/search/search.html'
 })
-export class SearchPage implements OnInit, OnDestroy{
-  searchForm: ControlGroup;
+export class SearchPage implements OnInit{
   articles: Article[] = [];
-  searchSub: Subscription;
+  query: string;
+  userWidgetOptions: UserWidgetOptions = {
+    avatarWidth: 36,
+    avatarHeight: 36,
+    fontSize: '1em',
+    color: 'black'
+  }
+  searchWidgetOptions: SearchWidgetOptions = {
+    placeholder: 'filter the articles...',
+    autofocus: true
+  }
 
   constructor(
     public articleStore: ArticleStore,
-    private builder: FormBuilder,
     private nav: NavController,
-    private viewCtrl: ViewController
-  ) {
-    this.searchForm = builder.group({
-      search: ['']
-    });
-  }
+    private navParams: NavParams
+  ) {}
 
   private displayToast(message): void {
     const toast = Toast.create({
@@ -33,20 +37,17 @@ export class SearchPage implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.searchSub = this.searchForm.valueChanges
-      .debounceTime(1000)
-      .filter((form) => form.search.length > 2)
-      .do(() => this.articles = null)
-      .mergeMap(form => this.articleStore.search(form))
-      .do(articles => articles.length === 0 ? this.displayToast('no results :(') : null)
-      .subscribe(
-        articles => this.articles = articles,
-        err => this.displayToast('something wrong happen')
-      )
+    this.query = this.navParams.get('query')
+    this.query ? this.searchHandler(this.query) : null;
   }
 
-  ngOnDestroy(): void {
-    this.searchSub.unsubscribe();
+  searchHandler(query: string): void {
+    if(query.length > 2)
+      this.articleStore.search({ search: query })
+        .do(articles => articles.length === 0 ? this.displayToast('no results :(') : null)
+        .toPromise()
+        .then(articles => this.articles = articles)
+        .catch(err => this.displayToast('something wrong happen'));
   }
 
   goToArticlePage(article: Article): void {

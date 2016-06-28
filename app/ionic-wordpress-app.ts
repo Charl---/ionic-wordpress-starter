@@ -10,7 +10,7 @@ import {ListPage} from './pages/list/list';
 import {SettingsPage} from './pages/settings/settings';
 import {SearchPage} from './pages/search/search';
 import {Connectivity} from './providers/ionic'
-
+import {SearchWidgetOptions} from './providers/directives/search-widget';
 
 @Component({
   templateUrl: 'build/ionic-wordpress-app.html'
@@ -22,7 +22,11 @@ export class WordpressApp implements OnInit{
   settingsPage: any = SettingsPage;
   searchPage: any = SearchPage;
   categories$: Observable<Category[]>;
-
+  query: string;
+  searchWidgetOptions: SearchWidgetOptions = {
+    placeholder: 'Search...',
+    autofocus: true
+  }
 
   constructor(
     private platform: Platform,
@@ -70,7 +74,11 @@ export class WordpressApp implements OnInit{
       .catch(err => console.error(err));
   }
 
-  presentModal(page: any): void {
-    this.nav.present(Modal.create(page));
+  searchHandler(query: string): void {
+    if(query.length > 2) {
+      this.query = '';
+      this.navigateTo(SearchPage, {query}, true);
+      this.menu.close();
+    }
   }
 }

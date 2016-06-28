@@ -6,6 +6,7 @@ import {ArticlePage} from '../article/article';
 import {Config} from '../../config';
 import {Connectivity} from '../../providers/ionic';
 import {UserWidgetOptions} from '../../providers/directives/user-widget';
+import {SearchWidgetOptions} from '../../providers/directives/search-widget';
 
 @Component({
   templateUrl: 'build/pages/list/list.html'
@@ -16,6 +17,10 @@ export class ListPage implements OnInit {
   connec$: Observable<boolean>;
   displayFilter: boolean = false;
   filter: string = '';
+  searchWidgetOptions: SearchWidgetOptions = {
+    class: 'list-filter',
+    placeholder: 'filter the articles...'
+  }
   userWidgetOptions: UserWidgetOptions = {
     avatarWidth: 26,
     avatarHeight: 26,

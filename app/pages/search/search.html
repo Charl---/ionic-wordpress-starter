@@ -2,14 +2,7 @@
   <button menuToggle>
     <ion-icon name="menu"></ion-icon>
   </button>
-  <form [ngFormModel]="searchForm">
-    <ion-item>
-      <ion-label>
-        <ion-icon name="search"></ion-icon>
-      </ion-label>
-      <ion-input autofocus type="search" ngControl="search"></ion-input>
-    </ion-item>
-  </form>
+  <search-widget [query]="query" (onSearch)="searchHandler($event)"></search-widget>
 </ion-toolbar>
 <ion-content class="list">
     <div text-center *ngIf="articleStore.loading$ | async">

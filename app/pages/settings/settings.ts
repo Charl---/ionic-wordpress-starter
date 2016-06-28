@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ViewController, NavController, Alert} from 'ionic-angular';
+import {NavController, Alert} from 'ionic-angular';
 import {ArticleStore, CategoryStore, UserStore} from '../../providers/store';
 
 
