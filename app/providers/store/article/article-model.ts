@@ -19,7 +19,6 @@ export class Article {
         this.picture = pictureElement ? pictureElement.getAttribute('src') : defaultPicture;
       } catch(err) {
         this.picture = '';
-        console.error('Article error picture', err.message);
       }
     }
   }

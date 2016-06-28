@@ -1,17 +1,23 @@
 import {Injectable } from '@angular/core';
+import {BehaviorSubject} from 'rxjs/Rx';
 import {Platform} from 'ionic-angular';
 import {Store, EventQueue} from 'sparix';
 import {UserSqlApi, UserState, User} from './index';
 
+const initialState: UserState = {
+  users: []
+}
+
 @Injectable()
 export class UserStore extends Store<UserState> {
+  loading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlApi:UserSqlApi,
-              private platform:Platform)
- {
-    super(new EventQueue(), {
-      users: []
-    });
+  constructor(
+    private sqlApi:UserSqlApi,
+    private platform:Platform,
+    eventQueue: EventQueue
+  ) {
+    super(eventQueue, initialState);
   }
 
   insert(user: User): Promise<User> {
@@ -34,5 +40,12 @@ export class UserStore extends Store<UserState> {
   find(id: string): Promise<User> {
     const existingUser = this.currentState.users.find((user: User) => id === user.id);
     return existingUser ? Promise.resolve(existingUser) : this.sqlApi.findOne(id);
+  }
+
+  destroyAll(): Promise<void> {
+    this.loading$.next(true);
+    return this.sqlApi.destroyAll()
+      .then((state) => this.update(state => initialState))
+      .then(() => this.loading$.next(false))
   }
 }

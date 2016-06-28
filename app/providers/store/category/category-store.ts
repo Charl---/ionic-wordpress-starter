@@ -7,23 +7,27 @@ import {CategoryHttpApi, CategorySqlApi, CategoryState, Category} from './index'
 import {ApiCrudAdapter} from '../_api/api-common'
 import {Connectivity} from '../../ionic'
 
+const initialState: CategoryState = {
+  categories: []
+}
+
 @Injectable()
 export class CategoryStore extends Store<CategoryState>{
   private api: ApiCrudAdapter<Category>;
   loading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private platform: Platform,
-              httpApi: CategoryHttpApi,
-              private sqlApi: CategorySqlApi,
-              private connectivity: Connectivity)
-  {
-    super(new EventQueue, {
-      categories: []
-    });
+  constructor(
+    private platform: Platform,
+    private sqlApi: CategorySqlApi,
+    private connectivity: Connectivity,
+    httpApi: CategoryHttpApi,
+    eventQueue: EventQueue
+  ) {
+    super(eventQueue, initialState);
     this.api = httpApi;
     this.connectivity.state$.subscribe(state => {
       this.api = state.isOnline ? httpApi : sqlApi;
-      if(state.isOnline)
+      if(state.isOnline && this.currentState.categories.length === 0)
         this.load();
     })
   }
@@ -44,9 +48,12 @@ export class CategoryStore extends Store<CategoryState>{
           })
       : this.platform.ready()
         .then(() => this.api.findAll())
-        .then(categories => this.simpleUpdate(categories))
-        .then(() => this.loading$.next(false))
-        .then(() => this.sqlApi.insertAll(this.currentState.categories))
+        .then(categories => {
+          this.simpleUpdate(categories);
+          this.loading$.next(false);
+          return categories;
+        })
+        .then(categories => this.sqlApi.insertAll(categories))
         .catch((err: Error) => console.error('cat load error ', err));
   }
 
@@ -58,5 +65,12 @@ export class CategoryStore extends Store<CategoryState>{
         .then(() => this.api.findOne(id))
         .then(category => this.sqlApi.insert(category))
         .catch((err: Error) => console.error('cat load one error ', err));
+  }
+
+  destroyAll(): Promise<void> {
+    this.loading$.next(true);
+    return this.sqlApi.destroyAll()
+      .then(() => this.update(state => initialState))
+      .then(() => this.loading$.next(false))
   }
 }

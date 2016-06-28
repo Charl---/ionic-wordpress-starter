@@ -50,7 +50,6 @@ export class WordpressApp implements OnInit{
             state.categories
               .map((category: Category) => this.articleStore.loadFromSql({filters: {category}}))
             )
-            .then(() => console.log('articles loaded from sqllite'))
             .catch(err => console.error('error loading sql articles', err));
           return state.categories;
         })

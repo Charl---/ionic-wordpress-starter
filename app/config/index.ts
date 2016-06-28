@@ -12,6 +12,7 @@ export class Config {
   articlePerPage: number;
   homeCategory: string;
   homeTitle: string;
+  homeArticleLength: number;
   defaultPicture: string;
   sliderConfig: SliderConfig;
 }
@@ -25,6 +26,7 @@ export const APP_CONFIG: Config = {
   defaultPicture: 'http://touriscopie.fr/wp-content/uploads/2015/05/cropped-parasol.jpg',
   homeTitle: 'Touriscopie Mag',
   homeCategory: 'Editorial',
+  homeArticleLength: 10,
   sliderConfig: {
     loop: true,
     autoplay: 6000

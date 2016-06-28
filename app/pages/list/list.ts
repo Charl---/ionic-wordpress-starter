@@ -9,10 +9,8 @@ import {Connectivity} from '../../providers/ionic';
 @Component({
   templateUrl: 'build/pages/list/list.html'
 })
-export class ListPage implements OnInit, OnDestroy{
+export class ListPage implements OnInit {
   category: Category;
-  articles: Article[];
-  // articleSub: Subscription;
   articles$: Observable<Article[]>;
   connec$: Observable<boolean>;
   displayFilter: boolean = false;
@@ -20,35 +18,20 @@ export class ListPage implements OnInit, OnDestroy{
 
   constructor(
     private nav: NavController,
-    private navParams: NavParams,
     private config: Config,
     public connectivity: Connectivity,
-    public articleStore: ArticleStore
+    public articleStore: ArticleStore,
+    navParams: NavParams
   ) {
-    this.category = this.navParams.get('category');
-    this.articles = [];
+    this.category = navParams.get('category');
   }
 
   ngOnInit(): void {
-    // this.articleSub = this.articleStore
-    //   .state$
-    //   .filter(state => state.articles.get(this.category).length > this.articles.length)
-    //   .subscribe(state => {
-    //     state.articles
-    //       .get(this.category)
-    //       .slice(this.articles.length)
-    //       .forEach(article => this.articles.push(article));
-    //   });
     this.articles$ = this.articleStore
       .map(state => state.articles.get(this.category))
-      .do(articles => console.log(articles))
 
     this.connec$ = this.connectivity
       .map(state => state.isOnline);
-  }
-
-  ngOnDestroy() {
-    // this.articleSub.unsubscribe()
   }
 
   goToArticlePage(article: Article): void {

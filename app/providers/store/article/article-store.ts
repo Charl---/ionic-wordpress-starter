@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {Platform} from 'ionic-angular';
 import {Observable, BehaviorSubject} from 'rxjs/Rx';
 import {Store, EventQueue, Updater} from 'sparix';
-import {ArticleHttpApi, ArticleSqlApi, Article, ArticleState} from './index';
+import {ArticleHttpApi, ArticleSqlApi, Article, ArticleState, } from './index';
 import {ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-common';
-import {Category} from '../category';
+import {Category, CategoryStore} from '../category';
 import {Connectivity} from '../../ionic';
 import {Config} from '../../../config';
 import {ListFilter} from '../../pipes';
@@ -25,6 +25,7 @@ export class ArticleStore extends Store<ArticleState> {
               private platform: Platform,
               private connectivity: Connectivity,
               private articlesFilter: ListFilter,
+              private categoryStore: CategoryStore,
               private sqlApi: ArticleSqlApi,
               httpApi: ArticleHttpApi,
               eventQueue: EventQueue
@@ -129,5 +130,17 @@ export class ArticleStore extends Store<ArticleState> {
           : this.articlesFilter.transform(this.currentState.articles.values().next().value, params.search);
       })
     ).do(() => this.loading$.next(false));
+  }
+
+  destroyAll(): Promise<void> {
+    this.loading$.next(true);
+    return this.sqlApi.destroyAll()
+      .then(() => {
+        this.update(state => {
+          this.categoryStore.currentState.categories.forEach(cat => this.currentState.articles.set(cat, []))
+          return {};
+        })
+      })
+      .then(() => this.loading$.next(false))
   }
 }

@@ -59,7 +59,6 @@ export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article>{
 
   search(params: ApiFindAllOptions): Promise<Article[]> {
     httpParams['search'] = params.search;
-    console.log("lol",httpParams)
     return this.request({
       method: RequestMethod.Get,
       url: `${this.config.baseUrl}posts`,

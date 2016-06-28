@@ -1,37 +1,43 @@
 import {Component} from '@angular/core';
 import {ViewController, NavController, Alert} from 'ionic-angular';
-import {ArticleSqlApi, CategorySqlApi, UserSqlApi} from '../../providers/store';
+import {ArticleStore, CategoryStore, UserStore} from '../../providers/store';
 
 
 @Component({
   templateUrl: 'build/pages/settings/settings.html',
 })
 export class SettingsPage {
+  isLoading: boolean = false;
   constructor(
-    private viewCtrl: ViewController,
-    private articleSqlApi: ArticleSqlApi,
-    private categorySqlApi: CategorySqlApi,
-    private userSqlApi: UserSqlApi,
+    private articleStore: ArticleStore,
+    private categoryStore: CategoryStore,
+    private userStore: UserStore,
     private nav: NavController
-  ) {
-    this.viewCtrl = viewCtrl;
-  }
-
-  close(): void {
-    this.viewCtrl.dismiss();
-  }
+  ) {}
 
   resetLocalDb(): void {
+    this.isLoading = true;
     Promise.all([
-      this.userSqlApi.destroyAll(),
-      this.articleSqlApi.destroyAll(),
-      this.categorySqlApi.destroyAll()
+      this.userStore.destroyAll(),
+      this.articleStore.destroyAll(),
+      this.categoryStore.destroyAll()
     ])
-      .then(() => this.nav.present(Alert.create({
-        title: 'Success',
-        subTitle: 'Your data has been wiped out!',
-        buttons: ['OK']
-      })))
-      .catch((err) => console.log(err))
+      .then(() => {
+        this.isLoading = false;
+        this.categoryStore.load()
+        this.nav.present(Alert.create({
+          title: 'Success',
+          subTitle: 'Your data has been wiped out!',
+          buttons: ['OK']
+        }))
+      })
+      .catch((err) => {
+        this.isLoading = false
+        this.nav.present(Alert.create({
+          title: 'Error',
+          subTitle: 'something wrong happen',
+          buttons: ['OK']
+        }))
+      })
   }
 }
