@@ -23,9 +23,9 @@ export class SearchPage implements OnInit, OnDestroy{
     });
   }
 
-  private noResultsToast(): void {
+  private displayToast(message): void {
     const toast = Toast.create({
-      message: 'No results',
+      message: message,
       duration: 3000
     });
     this.nav.present(toast);
@@ -33,14 +33,14 @@ export class SearchPage implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.searchSub = this.searchForm.valueChanges
-      .debounceTime(700)
+      .debounceTime(1000)
       .filter((form) => form.search.length > 2)
       .do(() => this.articles = null)
       .mergeMap((form: any) => this.articleStore.search(form))
-      .do(articles => articles.length === 0 ? this.noResultsToast() : null)
+      .do(articles => articles.length === 0 ? this.displayToast('no results :(') : null)
       .subscribe(
         articles => this.articles = articles,
-        err => console.error('search error ', err)
+        err => this.displayToast('something wrong happen')
       )
   }
 

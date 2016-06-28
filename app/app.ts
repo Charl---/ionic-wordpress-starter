@@ -1,5 +1,5 @@
 import 'rxjs/Rx';
-import {Component, ViewChild, provide, PLATFORM_DIRECTIVES} from '@angular/core';
+import {Component, ViewChild, provide, PLATFORM_DIRECTIVES, PLATFORM_PIPES} from '@angular/core';
 import {App, Platform, Nav, Modal, Loading, MenuController, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {Observable} from 'rxjs/Rx';
@@ -9,7 +9,7 @@ import {HomePage} from './pages/home/home';
 import {ListPage} from './pages/list/list';
 import {SettingsPage} from './pages/settings/settings';
 import {SearchPage} from './pages/search/search';
-import {APP_DIRECTIVES, APP_PROVIDERS} from './providers'
+import {APP_DIRECTIVES, APP_PROVIDERS, APP_PIPES} from './providers'
 import {Connectivity} from './providers/connectivity'
 
 
@@ -83,5 +83,6 @@ export class WordpressApp {
 ionicBootstrap(WordpressApp, [
   ...APP_PROVIDERS,
   provide(Config, {useValue: APP_CONFIG}),
-  provide(PLATFORM_DIRECTIVES, {useValue: APP_DIRECTIVES, multi: true})
+  provide(PLATFORM_DIRECTIVES, {useValue: APP_DIRECTIVES, multi: true}),
+  provide(PLATFORM_PIPES, {useValue: APP_PIPES, multi: true})
 ], {});

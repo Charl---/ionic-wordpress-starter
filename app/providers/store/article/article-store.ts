@@ -7,6 +7,7 @@ import {ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-common';
 import {Category} from '../category';
 import {Connectivity} from '../../connectivity';
 import {Config} from '../../../config';
+import {ListFilter} from '../../list-filter';
 import {Api} from "../_api/api-http";
 
 const initialState: ArticleState = {
@@ -24,6 +25,7 @@ export class ArticleStore extends Store<ArticleState> {
   constructor(private config: Config,
               private platform: Platform,
               private connectivity: Connectivity,
+              private articlesFilter: ListFilter,
               private sqlApi: ArticleSqlApi,
               httpApi: ArticleHttpApi,
               eventQueue: EventQueue
@@ -42,11 +44,6 @@ export class ArticleStore extends Store<ArticleState> {
         category: category
       }
     }
-  }
-
-  private searchInState(params: ApiFindAllOptions): Article[] {
-    return this.currentState.articles.values().next().value
-      .filter(article => article.body.indexOf(params.search) > -1 || article.title.indexOf(params.search) > -1)
   }
 
   loadFromSql(options: ApiFindAllOptions): Promise<any> {
@@ -129,7 +126,7 @@ export class ArticleStore extends Store<ArticleState> {
       this.platform.ready().then(() => {
         return this.connectivity.currentState.isOnline
           ? this.api.search(params)
-          : this.searchInState(params);
+          : this.articlesFilter.transform(this.currentState.articles.values().next().value, params.search);
       })
     ).do(() => this.loading$.next(false));
   }

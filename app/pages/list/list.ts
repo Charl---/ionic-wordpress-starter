@@ -12,7 +12,8 @@ import {Connectivity} from '../../providers/connectivity';
 export class ListPage implements OnInit, OnDestroy{
   category: Category;
   articles: Article[];
-  articleSub: Subscription;
+  // articleSub: Subscription;
+  articles$: Observable<Article[]>;
   connec$: Observable<boolean>;
 
   constructor(private nav: NavController,
@@ -26,22 +27,24 @@ export class ListPage implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.articleSub = this.articleStore
-      .state$
-      .filter(state => state.articles.get(this.category).length > this.articles.length)
-      .subscribe(state => {
-        state.articles
-          .get(this.category)
-          .slice(this.articles.length)
-          .forEach(article => this.articles.push(article));
-      });
+    // this.articleSub = this.articleStore
+    //   .state$
+    //   .filter(state => state.articles.get(this.category).length > this.articles.length)
+    //   .subscribe(state => {
+    //     state.articles
+    //       .get(this.category)
+    //       .slice(this.articles.length)
+    //       .forEach(article => this.articles.push(article));
+    //   });
+    this.articles$ = this.articleStore
+      .map(state => state.articles.get(this.category))
 
     this.connec$ = this.connectivity
       .map(state => state.isOnline);
   }
 
   ngOnDestroy() {
-    this.articleSub.unsubscribe()
+    // this.articleSub.unsubscribe()
   }
 
   goToArticlePage(article: Article): void {

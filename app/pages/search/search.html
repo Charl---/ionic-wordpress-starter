@@ -1,9 +1,7 @@
 <ion-toolbar>
-  <ion-buttons start>
-    <button>
-      <ion-icon name="close"></ion-icon>
-    </button>
-  </ion-buttons>
+  <button menuToggle>
+    <ion-icon name="menu"></ion-icon>
+  </button>
   <form [ngFormModel]="searchForm">
     <ion-item>
       <ion-label>
@@ -29,27 +27,9 @@
           </ion-avatar>
           <button clear>{{article?.author?.name}}</button>
         </ion-item>
-        <button clear item-right >
+        <button clear item-right (click)="goToArticlePage(article)">
           View
         </button>
       </ion-item>
     </ion-list>
-    <!-- <ion-list>
-        <ion-item *ngFor="let article of articles$ | async">
-            <ion-thumbnail item-left>
-                <ion-img [src]="article.picture" width="48" height="48"></ion-img>
-            </ion-thumbnail>
-            <h2>{{article.title}}</h2>
-            <ion-item>
-                <ion-avatar item-left>
-                    <ion-img [src]="article.author.avatar" width="48" height="48" alt=""></ion-img>
-                </ion-avatar>
-                <button clear>{{article.author.name}}</button>
-            </ion-item>
-
-            <button clear item-right (click)="goToArticlePage(article)">
-                View
-            </button>
-        </ion-item>
-    </ion-list> -->
 </ion-content>

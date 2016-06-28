@@ -13,33 +13,50 @@
 <ion-content>
   <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="connec$ | async">
     <ion-refresher-content
-            pullingIcon="arrow-dropdown"
-            pullingText="Pull to refresh"
-            refreshingSpinner="bubbles"
-            refreshingText="Refreshing...">
-    </ion-refresher-content>
-  </ion-refresher>
-  <ion-list [virtualScroll]="articles">
-    <ion-item *virtualItem="let article">
-      <ion-thumbnail item-left>
-        <ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
-      </ion-thumbnail>
-      <h2>{{article.title}}</h2>
-      <ion-item>
-        <ion-avatar item-left>
-          <ion-img [src]="article?.author?.avatar" width="48" height="48" alt=""></ion-img>
-        </ion-avatar>
-        <button clear>{{article?.author?.name}}</button>
-      </ion-item>
-      <button clear item-right (click)="goToArticlePage(article)">
-        View
-      </button>
+    pullingIcon="arrow-dropdown"
+    pullingText="Pull to refresh"
+    refreshingSpinner="bubbles"
+    refreshingText="Refreshing...">
+  </ion-refresher-content>
+</ion-refresher>
+<ion-list>
+  <ion-item *ngFor="let article of articles$ | async">
+    <ion-thumbnail item-left>
+      <ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
+    </ion-thumbnail>
+    <h2>{{article.title}}</h2>
+    <ion-item>
+      <ion-avatar item-left>
+        <ion-img [src]="article?.author?.avatar" width="48" height="48" alt=""></ion-img>
+      </ion-avatar>
+      <button clear>{{article?.author?.name}}</button>
     </ion-item>
-  </ion-list>
-  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
-    <ion-infinite-scroll-content
-            loadingSpinner="bubbles"
-            loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <button clear item-right (click)="goToArticlePage(article)">
+      View
+    </button>
+  </ion-item>
+</ion-list>
+<!-- <ion-list [virtualScroll]="articles">
+<ion-item *virtualItem="let article">
+<ion-thumbnail item-left>
+<ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
+</ion-thumbnail>
+<h2>{{article.title}}</h2>
+<ion-item>
+<ion-avatar item-left>
+<ion-img [src]="article?.author?.avatar" width="48" height="48" alt=""></ion-img>
+</ion-avatar>
+<button clear>{{article?.author?.name}}</button>
+</ion-item>
+<button clear item-right (click)="goToArticlePage(article)">
+View
+</button>
+</ion-item>
+</ion-list> -->
+<ion-infinite-scroll (ionInfinite)="loadMore($event)">
+  <ion-infinite-scroll-content
+  loadingSpinner="bubbles"
+  loadingText="Loading more data...">
+</ion-infinite-scroll-content>
+</ion-infinite-scroll>
 </ion-content>
