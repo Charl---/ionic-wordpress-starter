@@ -64,8 +64,8 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article>{
   }
 
   findAll(params: ApiFindAllOptions): Promise<Article[]> {
-    const classicQuery = `SELECT * FROM article WHERE category = ${params.filters.category.id} ORDER BY date DESC`;
-    let query = `SELECT * FROM article WHERE category = ${params.filters.category.id} ORDER BY date DESC`
+    // let query = `SELECT * FROM article a, user u, category c WHERE a.category = ${params.filters.category.id} AND a.author=u.id AND a.category=c.id ORDER BY date DESC`;
+    let query = `SELECT * FROM article WHERE category = ${params.filters.category.id} ORDER BY date DESC`;
     if (params.page) {
       const articleParPage = this.config.articlePerPage;
       query += ` LIMIT ${articleParPage} OFFSET ${articleParPage * (params.page -1)}`;
