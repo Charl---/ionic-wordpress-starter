@@ -13,7 +13,7 @@
 </ion-toolbar>
 <ion-content>
     <div text-center *ngIf="articleStore.loading$ | async">
-        <ion-spinner name="bubbles"></ion-spinner>
+        <ion-spinner></ion-spinner>
     </div>
     <ion-list [virtualScroll]="articles" *ngIf="articles">
       <ion-item *virtualItem="let article">

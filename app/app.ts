@@ -11,4 +11,9 @@ ionicBootstrap(WordpressApp, [
   provide(Config, {useValue: APP_CONFIG}),
   provide(PLATFORM_DIRECTIVES, {useValue: APP_DIRECTIVES, multi: true}),
   provide(PLATFORM_PIPES, {useValue: APP_PIPES, multi: true})
-], {});
+], {
+  prodMode: false,
+  activator: 'ripple',
+  menuType: 'overlay',
+  spinner: 'bubbles'
+});

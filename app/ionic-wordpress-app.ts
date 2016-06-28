@@ -34,7 +34,6 @@ export class WordpressApp implements OnInit{
 
   private loading(): Loading {
     const loading = Loading.create({
-      spinner: 'bubbles',
       content: 'loading page'
     });
     this.nav.present(loading);
