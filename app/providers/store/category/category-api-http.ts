@@ -3,7 +3,7 @@ import {Http, RequestMethod} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {Api, ApiCrudAdapter} from '../_api/api-http';
 import {Category} from './index';
-import {Config, IConfig} from '../../config';
+import {Config} from '../../../config';
 
 @Injectable()
 export class CategoryHttpApi extends Api implements ApiCrudAdapter<Category>{
@@ -12,10 +12,9 @@ export class CategoryHttpApi extends Api implements ApiCrudAdapter<Category>{
   }
 
   findAll(params?:any): Promise<Category[]> {
-    const config = this.config.data$.getValue();
     return this.request({
       method: RequestMethod.Get,
-      url: `${config.baseUrl}categories`,
+      url: `${this.config.baseUrl}categories`,
       params
     }).toPromise()
       .then((categories: Category[]) => categories.map(cat => {

@@ -16,4 +16,5 @@ export interface ApiCrudAdapter<T> {
   update?(item: T): Promise<T>;
   destroy?(item: T): Promise<void>;
   destroyAll?(): Promise<void>;
+  search?(params: ApiFindAllOptions): Promise<T[]>
 }

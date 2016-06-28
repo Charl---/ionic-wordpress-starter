@@ -15,6 +15,7 @@ export class Api {
       delete options.params
     }
 
+    console.log(options)
     return this.http.request(new Request(new RequestOptions(options)))
       .map((res: Response) => res.json());
   }

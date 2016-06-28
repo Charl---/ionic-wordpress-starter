@@ -5,7 +5,11 @@ import {Api, ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-http';
 import {Article} from './index';
 import {User, UserStore} from '../user'
 import {CategoryStore, Category} from '../category';
-import {Config, IConfig} from '../../config';
+import {Config} from '../../../config';
+
+const httpParams = {
+  _embed: true
+};
 
 @Injectable()
 export class ArticleHttpApi extends Api implements ApiCrudAdapter<Article>{
@@ -26,20 +30,15 @@ export class ArticleHttpApi extends Api implements ApiCrudAdapter<Article>{
     const user = a._embedded.author[0];
     const author = new User(user.id, user.name, /*user.avatar_urls[48]*/ '', user.description, user.slug);
     this.userStore.insert(author);
-    return new Article(a.id, a.title.rendered, a.content.rendered, null, a.date, author, category, this.config.data$.getValue().defaultPicture);
+    return new Article(a.id, a.title.rendered, a.content.rendered, null, a.date, author, category, this.config.defaultPicture);
   }
 
   findAll(params: ApiFindAllOptions): Promise<Article[]> {
-    const config = this.config.data$.getValue();
-    const httpParams = {
-      _embed: true,
-      per_page: 100
-    };
     if(params.filters.category)
       httpParams['filter[category_name]'] = params.filters.category.slug;
 
     if(params.page) {
-      httpParams['per_page'] = config.articlePerPage;
+      httpParams['per_page'] = this.config.articlePerPage;
       httpParams['page'] = params.page;
     }
 
@@ -49,14 +48,23 @@ export class ArticleHttpApi extends Api implements ApiCrudAdapter<Article>{
     if(params.before)
       httpParams['before'] = params.before;
 
-    if(params.search)
-      httpParams['search'] = params.search;
-
     return this.request({
       method: RequestMethod.Get,
-      url: `${config.baseUrl}posts`,
+      url: `${this.config.baseUrl}posts`,
       params: httpParams
     }).toPromise()
       .then(articles => articles.map(article => this.transformArticle(article)));
+  }
+
+  search(params: ApiFindAllOptions): Promise<Article[]> {
+    httpParams['search'] = params.search;
+    console.log("lol",httpParams)
+    return this.request({
+      method: RequestMethod.Get,
+      url: `${this.config.baseUrl}posts`,
+      params: httpParams
+    })
+      .map(articles => articles.map(article => this.transformArticle(article)))
+      .toPromise();
   }
 }

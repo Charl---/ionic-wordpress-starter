@@ -1,29 +1,27 @@
 import 'rxjs/Rx';
-import {Component} from '@angular/core';
-import {ViewChild} from '@angular/core';
+import {Component, ViewChild, provide, PLATFORM_DIRECTIVES} from '@angular/core';
 import {App, Platform, Nav, Modal, Loading, MenuController, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
-import {EventQueue} from 'sparix';
 import {Observable} from 'rxjs/Rx';
-import {Config} from './providers/config'
+import {Config, APP_CONFIG} from './config'
 import {CategoryStore, Category, CategoryState, ArticleStore} from './providers/store';
 import {HomePage} from './pages/home/home';
 import {ListPage} from './pages/list/list';
 import {SettingsPage} from './pages/settings/settings';
+import {SearchPage} from './pages/search/search';
 import {APP_DIRECTIVES, APP_PROVIDERS} from './providers'
 import {Connectivity} from './providers/connectivity'
 
 
 @Component({
-  templateUrl: 'build/app.html',
-  directives: [APP_DIRECTIVES]
+  templateUrl: 'build/app.html'
 })
 export class WordpressApp {
   @ViewChild(Nav) nav: Nav;
-
   rootPage: any = HomePage;
   listPage: any = ListPage;
   settingsPage: any = SettingsPage;
+  searchPage: any = SearchPage;
   categories$: Observable<Category[]>;
 
 
@@ -48,11 +46,7 @@ export class WordpressApp {
 
   private initializeApp(): void {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
-      // this.config.load();
-      this.categoryStore.load();
       this.categories$ = this.categoryStore
         .filter(state => state.categories.length > 0)
         .map(state => {
@@ -88,5 +82,6 @@ export class WordpressApp {
 
 ionicBootstrap(WordpressApp, [
   ...APP_PROVIDERS,
-  EventQueue
+  provide(Config, {useValue: APP_CONFIG}),
+  provide(PLATFORM_DIRECTIVES, {useValue: APP_DIRECTIVES, multi: true})
 ], {});

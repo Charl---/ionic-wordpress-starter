@@ -6,8 +6,15 @@ import {ArticleHttpApi, ArticleSqlApi, Article, ArticleState} from './index';
 import {ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-common';
 import {Category} from '../category';
 import {Connectivity} from '../../connectivity';
-import {Config} from '../../config';
+import {Config} from '../../../config';
 import {Api} from "../_api/api-http";
+
+const initialState: ArticleState = {
+  currentCategory: null,
+  currentPage: 1,
+  mostRecentDate: null,
+  articles: new Map<Category, Article[]>()
+}
 
 @Injectable()
 export class ArticleStore extends Store<ArticleState> {
@@ -18,14 +25,10 @@ export class ArticleStore extends Store<ArticleState> {
               private platform: Platform,
               private connectivity: Connectivity,
               private sqlApi: ArticleSqlApi,
-              httpApi: ArticleHttpApi
+              httpApi: ArticleHttpApi,
+              eventQueue: EventQueue
   ) {
-    super(new EventQueue, {
-      currentCategory: null,
-      currentPage: 1,
-      mostRecentDate: null,
-      articles: new Map<Category, Article[]>()
-    });
+    super(new EventQueue, initialState);
     this.api = httpApi;
     this.connectivity.state$.subscribe(state => {
       this.api = state.isOnline ? httpApi : sqlApi;
@@ -41,6 +44,11 @@ export class ArticleStore extends Store<ArticleState> {
     }
   }
 
+  private searchInState(params: ApiFindAllOptions): Article[] {
+    return this.currentState.articles.values().next().value
+      .filter(article => article.body.indexOf(params.search) > -1 || article.title.indexOf(params.search) > -1)
+  }
+
   loadFromSql(options: ApiFindAllOptions): Promise<any> {
     return this.platform.ready()
       .then(() => this.sqlApi.findAll(options))
@@ -54,11 +62,10 @@ export class ArticleStore extends Store<ArticleState> {
 
   load(category: Category): Promise<Article[]> {
     const articles = this.currentState.articles.get(category);
-    const config = this.config.data$.getValue();
     if (articles.length) {
       this.update(() => ({
         currentCategory: category,
-        currentPage: Math.round(articles.length / config.articlePerPage)
+        currentPage: Math.round(articles.length / this.config.articlePerPage)
       }))
       return Promise.resolve(articles);
     } else {
@@ -79,7 +86,6 @@ export class ArticleStore extends Store<ArticleState> {
       }
   }
 
-
   loadMore(category: Category): Promise<Article[]> {
     this.update((state: ArticleState) => ({
       currentPage: state.currentPage + 1
@@ -95,8 +101,6 @@ export class ArticleStore extends Store<ArticleState> {
       })
       .then(articles => this.sqlApi.insertAll(articles));
   }
-
-
 
   refresh(): Promise<Article[]> {
     return this.platform.ready()
@@ -119,21 +123,14 @@ export class ArticleStore extends Store<ArticleState> {
       })
   }
 
-  getById(id: string): Promise<Article> {
-    const existingArticle = this.currentState.articles
-      .get(this.currentState.currentCategory)
-      .find(item => item.id === id);
-      
-    return existingArticle
-      ? Promise.resolve(existingArticle)
-      : this.platform.ready().then(() => this.api.findOne(id))
-  }
-
-  search(query: string): Promise<Article[]> {
-    return this.platform.ready()
-      .then(() => this.api.findAll({
-        search: query,
-        filters: {}
-      }))
+  search(params: ApiFindAllOptions): Observable<Article[]> {
+    this.loading$.next(true);
+    return Observable.fromPromise(
+      this.platform.ready().then(() => {
+        return this.connectivity.currentState.isOnline
+          ? this.api.search(params)
+          : this.searchInState(params);
+      })
+    ).do(() => this.loading$.next(false));
   }
 }

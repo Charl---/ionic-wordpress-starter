@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {SearchPage} from '../search/search';
 
 
 @Component({
@@ -8,7 +7,5 @@ import {SearchPage} from '../search/search';
 })
 export class HomePage {
   Search: any;
-  constructor(private nav: NavController) {
-    this.Search = SearchPage;
-  }
+  constructor(private nav: NavController) {}
 }

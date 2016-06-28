@@ -2,9 +2,8 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {NavController, NavParams, Loading, Refresher, InfiniteScroll, Modal} from 'ionic-angular';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {Category, ArticleStore, Article} from '../../providers/store';
-import {SearchPage} from '../search/search';
 import {ArticlePage} from '../article/article';
-import {Config} from '../../providers/config';
+import {Config} from '../../config';
 import {Connectivity} from '../../providers/connectivity';
 
 @Component({
@@ -15,7 +14,6 @@ export class ListPage implements OnInit, OnDestroy{
   articles: Article[];
   articleSub: Subscription;
   connec$: Observable<boolean>;
-  Search: any;
 
   constructor(private nav: NavController,
               private navParams: NavParams,
@@ -25,7 +23,6 @@ export class ListPage implements OnInit, OnDestroy{
   ) {
     this.category = this.navParams.get('category');
     this.articles = [];
-    this.Search = SearchPage;
   }
 
   ngOnInit(): void {
@@ -54,12 +51,11 @@ export class ListPage implements OnInit, OnDestroy{
   }
 
   loadMore(infiniteScroll: InfiniteScroll): void {
-    const config = this.config.data$.getValue();
     this.articleStore
       .loadMore(this.category)
       .then((articles: Article[]) => {
         infiniteScroll.complete();
-        if(articles.length < config.articlePerPage)
+        if(articles.length < this.config.articlePerPage)
           infiniteScroll.enable(false);
       })
   }
