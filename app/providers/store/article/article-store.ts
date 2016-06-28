@@ -8,7 +8,6 @@ import {Category} from '../category';
 import {Connectivity} from '../../connectivity';
 import {Config} from '../../../config';
 import {ListFilter} from '../../list-filter';
-import {Api} from "../_api/api-http";
 
 const initialState: ArticleState = {
   currentCategory: null,

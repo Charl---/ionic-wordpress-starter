@@ -3,7 +3,7 @@ import { Http, Request, Response, URLSearchParams, RequestOptions } from '@angul
 
 export * from './api-common';
 
-export class Api {
+export class HttpApi {
   constructor(private http: Http) {}
 
   request(options: any): Observable<any> {

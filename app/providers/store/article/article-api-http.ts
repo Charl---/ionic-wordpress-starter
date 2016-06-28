@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, RequestMethod} from '@angular/http';
 import {Observable} from 'rxjs';
-import {Api, ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-http';
+import {HttpApi, ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-http';
 import {Article} from './index';
 import {User, UserStore} from '../user'
 import {CategoryStore, Category} from '../category';
@@ -12,7 +12,7 @@ const httpParams = {
 };
 
 @Injectable()
-export class ArticleHttpApi extends Api implements ApiCrudAdapter<Article>{
+export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article>{
   constructor(private config: Config,
               private categoryStore: CategoryStore,
               private userStore: UserStore,

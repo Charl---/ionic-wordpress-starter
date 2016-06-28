@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Http, RequestMethod} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
-import {Api, ApiCrudAdapter} from '../_api/api-http';
+import {HttpApi, ApiCrudAdapter} from '../_api/api-http';
 import {Category} from './index';
 import {Config} from '../../../config';
 
 @Injectable()
-export class CategoryHttpApi extends Api implements ApiCrudAdapter<Category>{
+export class CategoryHttpApi extends HttpApi implements ApiCrudAdapter<Category>{
   constructor(http: Http, private config: Config) {
     super(http);
   }
