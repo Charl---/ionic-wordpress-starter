@@ -12,6 +12,9 @@
         <ion-icon name="home" item-left></ion-icon>
         Home
       </button>
+      <div text-center *ngIf="categoryStore.loading$ | async">
+        <ion-spinner></ion-spinner>
+      </div>
       <button menuClose ion-item *ngFor="let category of categories$ | async" (click)="goToListPage(listPage, {category: category})">
         <ion-icon name="book" item-left></ion-icon>
         {{category.name}}

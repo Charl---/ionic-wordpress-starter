@@ -38,6 +38,10 @@ export class CategoryStore extends Store<CategoryState>{
     const categories = this.currentState.categories;
     return categories.length
       ? Promise.resolve(this.simpleUpdate(categories))
+          .then(categories => {
+            this.loading$.next(false);
+            return categories;
+          })
       : this.platform.ready()
         .then(() => this.api.findAll())
         .then(categories => this.simpleUpdate(categories))
