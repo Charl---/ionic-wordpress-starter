@@ -11,11 +11,8 @@ export class HtmlEscape {
     return String(source).replace(/[&<>"'\/]/g, s => entityMap[s]);
   }
   static unescape(source: string): string {
-    return String(source)
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, '\'')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&amp;/g, '&')
+    return new DOMParser()
+    .parseFromString(source, "text/html")
+    .documentElement.textContent;
   }
 }
