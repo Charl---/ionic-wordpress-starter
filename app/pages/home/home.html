@@ -6,8 +6,8 @@
     <ion-title>{{config.homeTitle}}</ion-title>
   </ion-navbar>
   <ion-slides [options]="config.sliderConfig">
-    <ion-slide *ngFor="let article of articles$ | async"
-                [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}">
+    <ion-slide *ngFor="let article of articles$ | async">
+      <div class="background" [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}"></div>
       <article class="home-slide">
         <!-- <user-widget [user]="article.author"></user-widget> -->
         <div></div>
