@@ -1,5 +1,6 @@
 import {provide, PLATFORM_DIRECTIVES, PLATFORM_PIPES} from '@angular/core';
 import {ionicBootstrap} from 'ionic-angular';
+import {Splashscreen} from 'ionic-native';
 
 import {WordpressApp} from './ionic-wordpress-app';
 import {Config, APP_CONFIG} from './config'

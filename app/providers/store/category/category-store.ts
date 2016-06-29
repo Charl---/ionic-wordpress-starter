@@ -25,11 +25,13 @@ export class CategoryStore extends Store<CategoryState>{
   ) {
     super(eventQueue, initialState);
     this.api = httpApi;
-    this.connectivity.state$.subscribe(state => {
-      this.api = state.isOnline ? httpApi : sqlApi;
-      if(state.isOnline && this.currentState.categories.length === 0)
-        this.load();
-    })
+    this.connectivity.state$
+      .skip(1)
+      .subscribe(state => {
+        this.api = state.isOnline ? httpApi : sqlApi;
+        if (this.currentState.categories.length === 0)
+          this.load();
+      })
   }
 
   private simpleUpdate(categories: Category[]): Category[] {

@@ -60,7 +60,7 @@ export class SearchWidget implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(data: any): void {
-    console.log(data.query.currentValue);
+    console.log(data);
   }
 
   ngOnDestroy(): void {

@@ -2,6 +2,7 @@ import {Component, ViewChild, OnInit} from '@angular/core';
 import {App, Platform, Nav, Modal, Loading, MenuController} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {Observable} from 'rxjs/Rx';
+import {Splashscreen} from 'ionic-native';
 
 import {Config} from './config'
 import {CategoryStore, Category, CategoryState, ArticleStore} from './providers/store';
@@ -55,6 +56,7 @@ export class WordpressApp implements OnInit{
             state.categories
               .map((category: Category) => this.articleStore.loadFromSql({filters: {category}}))
             )
+            // .then(() => Splashscreen.hide())
             .catch(err => console.error('error loading sql articles', err));
           return state.categories;
         })
