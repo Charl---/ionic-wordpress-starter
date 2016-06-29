@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {NavController, NavParams, Platform} from 'ionic-angular';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {NavController, NavParams, Platform, Slides} from 'ionic-angular';
 import {Observable} from 'rxjs/Rx';
 import {Config} from '../../config';
 import {ArticleStore, Article, CategoryStore, Category} from '../../providers/store'
@@ -9,7 +9,9 @@ import {ArticlePage} from '../article/article';
   templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage implements OnInit{
+  @ViewChild('homeSlider') slider: Slides;
   private category: Category;
+  private currentArticle: Article;
   articles$: Observable<Article[]>;
 
   constructor(
@@ -31,7 +33,9 @@ export class HomePage implements OnInit{
       .map(articles => articles.slice(0, this.config.homeArticleLength -1))
   }
 
-  goToArticlePage(article: Article): void {
+  goToArticlePage(): void {
+    const index = this.slider.getActiveIndex();
+    const article = this.articleStore.currentState.articles.get(this.category)[index];
     this.nav.push(ArticlePage, {
       article
     });

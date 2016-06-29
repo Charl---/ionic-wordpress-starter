@@ -5,19 +5,16 @@
     </button>
     <ion-title>{{config.homeTitle}}</ion-title>
   </ion-navbar>
-  <ion-slides [options]="config.sliderConfig">
+  <ion-slides #homeSlider [options]="config.sliderConfig">
     <ion-slide *ngFor="let article of articles$ | async">
       <div class="background" [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}"></div>
       <article class="home-slide">
         <!-- <user-widget [user]="article.author"></user-widget> -->
-        <div></div>
         <h1>{{article.title}}</h1>
-        <div class="read-button-container">
-          <button light (click)="goToArticlePage(article)">
-            <ion-icon name="book"></ion-icon>
-          </button>
-        </div>
       </article>
     </ion-slide>
   </ion-slides>
 </ion-content>
+<button clear fab fab-right fab-bottom class="home-fab" (click)="goToArticlePage()">
+  <ion-icon name="book"></ion-icon>
+</button>

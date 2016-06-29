@@ -13,10 +13,11 @@ import {HtmlEscape} from '../../../utils';
 
 @Injectable()
 export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article>{
-  constructor(platform: Platform,
-              private categoryStore: CategoryStore,
-              private userStore: UserStore,
-              private config: Config
+  constructor(
+    platform: Platform,
+    private categoryStore: CategoryStore,
+    private userStore: UserStore,
+    private config: Config
   ) {
     super(platform, 'CREATE TABLE IF NOT EXISTS article (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, body TEXT, picture TEXT, date TEXT, author INTEGER, category INTEGER, FOREIGN KEY(author) REFERENCES user(id), FOREIGN KEY(category) REFERENCES category(id))')
   }

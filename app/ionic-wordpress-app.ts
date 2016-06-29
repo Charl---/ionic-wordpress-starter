@@ -2,10 +2,9 @@ import {Component, ViewChild, OnInit} from '@angular/core';
 import {App, Platform, Nav, Modal, Loading, MenuController} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {Observable} from 'rxjs/Rx';
-import {Splashscreen} from 'ionic-native';
 
 import {Config} from './config'
-import {CategoryStore, Category, CategoryState, ArticleStore} from './providers/store';
+import {CategoryStore, Category, CategoryState, ArticleStore, Article} from './providers/store';
 import {HomePage} from './pages/home/home';
 import {ListPage} from './pages/list/list';
 import {SettingsPage} from './pages/settings/settings';
@@ -52,11 +51,10 @@ export class WordpressApp implements OnInit{
       this.categories$ = this.categoryStore
         .filter(state => state.categories.length > 0)
         .map(state => {
-          Promise.all(
-            state.categories
-              .map((category: Category) => this.articleStore.loadFromSql({filters: {category}}))
-            )
-            // .then(() => Splashscreen.hide())
+          const articlesFromSqlPromises: Promise<Article[]>[] = state.categories
+            .map(category => this.articleStore.loadFromSql({filters: {category}}));
+
+          Promise.all(articlesFromSqlPromises)
             .catch(err => console.error('error loading sql articles', err));
           return state.categories;
         })
