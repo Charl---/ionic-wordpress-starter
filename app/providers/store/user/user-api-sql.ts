@@ -8,7 +8,9 @@ import {HtmlEscape} from '../../../utils';
 
 @Injectable()
 export class UserSqlApi extends SqlApi implements ApiCrudAdapter<User> {
-  constructor(platform: Platform) {
+  constructor(
+    platform: Platform
+  ) {
     super(platform, 'CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, avatar TEXT, description TEXT, slug TEXT)')
   }
 

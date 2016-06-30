@@ -3,7 +3,6 @@ import {
   Input,
   Output,
   OnInit,
-  OnChanges,
   OnDestroy,
   EventEmitter,
   ElementRef,
@@ -23,7 +22,7 @@ export interface SearchWidgetOptions {
   templateUrl: 'build/providers/directives/search-widget/search-widget.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchWidget implements OnInit, OnChanges, OnDestroy {
+export class SearchWidget implements OnInit, OnDestroy {
   searchForm: ControlGroup;
   searchSub: Subscription;
   @Input() query: string;
@@ -57,10 +56,6 @@ export class SearchWidget implements OnInit, OnChanges, OnDestroy {
       if(this.options.placeholder)
         input.setAttribute('placeholder', this.options.placeholder);
     }
-  }
-
-  ngOnChanges(data: any): void {
-    console.log(data);
   }
 
   ngOnDestroy(): void {

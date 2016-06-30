@@ -2,14 +2,15 @@ import {Category} from '../category';
 import {User} from '../user';
 
 export class Article {
-  constructor(public id:string,
-              public title: string,
-              public body: string,
-              public picture: string,
-              public date: Date,
-              public author?: User,
-              public category?: Category,
-              defaultPicture?: string
+  constructor(
+    public id:string,
+    public title: string,
+    public body: string,
+    public picture: string,
+    public date: Date,
+    public author?: User,
+    public category?: Category,
+    defaultPicture?: string
   ) {
     if (!picture) {
       try {
@@ -27,6 +28,6 @@ export class Article {
 export interface ArticleState {
   currentCategory: Category;
   currentPage: number;
-  mostRecentDate: string;
+  mostRecentDate: Date;
   articles: Map<Category, Article[]>;
 }

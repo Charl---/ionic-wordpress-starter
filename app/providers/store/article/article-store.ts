@@ -21,14 +21,15 @@ export class ArticleStore extends Store<ArticleState> {
   private api: ApiCrudAdapter<Article>;
   loading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private config: Config,
-              private platform: Platform,
-              private connectivity: Connectivity,
-              private articlesFilter: ListFilter,
-              private categoryStore: CategoryStore,
-              private sqlApi: ArticleSqlApi,
-              httpApi: ArticleHttpApi,
-              eventQueue: EventQueue
+  constructor(
+    private config: Config,
+    private platform: Platform,
+    private connectivity: Connectivity,
+    private articlesFilter: ListFilter,
+    private categoryStore: CategoryStore,
+    private sqlApi: ArticleSqlApi,
+    httpApi: ArticleHttpApi,
+    eventQueue: EventQueue
   ) {
     super(new EventQueue, initialState);
     this.api = httpApi;
@@ -63,7 +64,8 @@ export class ArticleStore extends Store<ArticleState> {
     if(articles.length) {
       this.update(() => ({
         currentCategory: category,
-        currentPage: Math.round(articles.length / this.config.articlePerPage)
+        currentPage: Math.round(articles.length / this.config.articlePerPage),
+        mostRecentDate: articles[0].date
       }))
       return Promise.resolve(articles);
     } else {
@@ -76,7 +78,10 @@ export class ArticleStore extends Store<ArticleState> {
         .then((articles: Article[]) => {
           this.update((state: ArticleState) => {
             state.articles.set(category, articles);
-            return {}
+            return {
+              mostRecentDate: articles[0].date,
+              currentPage: state.currentPage + 1
+            }
           })
           return articles;
         })
@@ -91,9 +96,11 @@ export class ArticleStore extends Store<ArticleState> {
     return this.platform.ready()
       .then(() => this.api.findAll(this.findAllOptions(category)))
       .then(articles => {
-        this.update((state: ArticleState) => {
+        this.update(state => {
           state.articles.set(category, [...state.articles.get(category), ...articles]);
-          return {};
+          return {
+            currentPage: state.currentPage + 1
+          };
         })
         return articles;
       })
@@ -101,20 +108,21 @@ export class ArticleStore extends Store<ArticleState> {
   }
 
   refresh(): Promise<Article[]> {
+    console.log(this.currentState);
     return this.platform.ready()
       .then(() => this.api.findAll({
         filters: {
-          category: this.currentState.currentCategory.slug,
-          after: this.currentState.mostRecentDate,
-        }
+          category: this.currentState.currentCategory,
+        },
+        // after: this.currentState.mostRecentDate.toDateString(),
       }))
       .then((articles: Article[]) => {
         if(articles.length > 0)
-          this.update((state: ArticleState) => {
+          this.update(state => {
             const category = this.currentState.currentCategory;
             state.articles.set(category, [...articles, ...state.articles.get(category)]);
             return {
-              mostRecentDate: articles[0] ? articles[0].date : state.mostRecentDate
+              mostRecentDate: !!articles[0] ? articles[0].date : state.mostRecentDate
             }
           })
         return articles

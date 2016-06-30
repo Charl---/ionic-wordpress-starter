@@ -7,7 +7,9 @@ import {HtmlEscape} from '../../../utils';
 
 @Injectable()
 export class CategorySqlApi extends SqlApi implements ApiCrudAdapter<Category>{
-  constructor(protected platform: Platform) {
+  constructor(
+    platform: Platform
+  ) {
     super(platform, 'CREATE TABLE IF NOT EXISTS category (id INTEGER PRIMARY KEY, name TEXT, description TEXT, slug TEXT)')
   }
 

@@ -14,10 +14,11 @@ const httpParams = {
 
 @Injectable()
 export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article>{
-  constructor(private config: Config,
-              private categoryStore: CategoryStore,
-              private userStore: UserStore,
-              http: Http
+  constructor(
+    private config: Config,
+    private categoryStore: CategoryStore,
+    private userStore: UserStore,
+    http: Http
   ) {
     super(http);
   }

@@ -7,7 +7,10 @@ import {Config} from '../../../config';
 
 @Injectable()
 export class CategoryHttpApi extends HttpApi implements ApiCrudAdapter<Category>{
-  constructor(http: Http, private config: Config) {
+  constructor(
+    private config: Config,
+    http: Http
+  ) {
     super(http);
   }
 

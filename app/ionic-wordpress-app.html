@@ -4,10 +4,6 @@
       <ion-list-header>
         <search-widget [query]="query" [options]="searchWidgetOptions" (onSearch)="searchHandler($event)"></search-widget>
       </ion-list-header>
-      <!-- <button menuClose ion-item (click)="navigateTo(searchPage,null, true)">
-        <ion-icon name="search" item-left></ion-icon>
-        Search
-      </button> -->
       <button menuClose ion-item (click)="navigateTo(rootPage,null, true)">
         <ion-icon name="home" item-left></ion-icon>
         Home

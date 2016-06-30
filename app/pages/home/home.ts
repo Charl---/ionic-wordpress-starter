@@ -11,7 +11,6 @@ import {ArticlePage} from '../article/article';
 export class HomePage implements OnInit{
   @ViewChild('homeSlider') slider: Slides;
   private category: Category;
-  private currentArticle: Article;
   articles$: Observable<Article[]>;
 
   constructor(
