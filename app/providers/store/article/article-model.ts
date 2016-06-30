@@ -28,6 +28,6 @@ export class Article {
 export interface ArticleState {
   currentCategory: Category;
   currentPage: number;
-  mostRecentDate: Date;
+  mostRecentDate: string;
   articles: Map<Category, Article[]>;
 }

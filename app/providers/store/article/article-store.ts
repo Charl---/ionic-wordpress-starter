@@ -65,7 +65,7 @@ export class ArticleStore extends Store<ArticleState> {
       this.update(() => ({
         currentCategory: category,
         currentPage: Math.round(articles.length / this.config.articlePerPage),
-        mostRecentDate: articles[0].date
+        mostRecentDate: articles[0].date.toISOString()
       }))
       return Promise.resolve(articles);
     } else {
@@ -79,7 +79,7 @@ export class ArticleStore extends Store<ArticleState> {
           this.update((state: ArticleState) => {
             state.articles.set(category, articles);
             return {
-              mostRecentDate: articles[0].date,
+              mostRecentDate: articles[0].date.toISOString(),
               currentPage: state.currentPage + 1
             }
           })
@@ -108,13 +108,12 @@ export class ArticleStore extends Store<ArticleState> {
   }
 
   refresh(): Promise<Article[]> {
-    console.log(this.currentState);
     return this.platform.ready()
       .then(() => this.api.findAll({
         filters: {
           category: this.currentState.currentCategory,
         },
-        // after: this.currentState.mostRecentDate.toDateString(),
+        after: this.currentState.mostRecentDate,
       }))
       .then((articles: Article[]) => {
         if(articles.length > 0)
@@ -122,7 +121,7 @@ export class ArticleStore extends Store<ArticleState> {
             const category = this.currentState.currentCategory;
             state.articles.set(category, [...articles, ...state.articles.get(category)]);
             return {
-              mostRecentDate: !!articles[0] ? articles[0].date : state.mostRecentDate
+              mostRecentDate: !!articles[0] ? articles[0].date.toISOString() : state.mostRecentDate
             }
           })
         return articles
