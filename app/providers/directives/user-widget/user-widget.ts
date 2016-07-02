@@ -2,11 +2,8 @@ import {Component, Input, OnInit, ElementRef} from '@angular/core';
 import {User} from '../../store';
 
 export interface UserWidgetOptions {
-  avatarWidth?: number;
-  avatarHeight?: number;
   fontSize?: string;
   color?: string;
-  align?: string;
 }
 
 @Component({
@@ -22,19 +19,13 @@ export class UserWidget implements OnInit {
   ) {}
 
   ngOnInit() {
-    const meta = this.elementRef.nativeElement.querySelector('.user-widget__meta')
-    const avatar = this.elementRef.nativeElement.querySelector('.user-widget__avatar');
-
-    if(this.options.avatarWidth)
-      avatar.style.width = `${this.options.avatarWidth}px`;
-
-    if(this.options.avatarHeight)
-      avatar.style.height = `${this.options.avatarHeight}px`;
+    this.options = this.options ? this.options : {};
+    const name = this.elementRef.nativeElement.querySelector('.input-wrapper');
 
     if(this.options.fontSize)
-      meta.style.fontSize = this.options.fontSize;
+      name.style.fontSize = this.options.fontSize;
 
     if(this.options.color)
-      meta.style.color = this.options.color;
+      name.style.color = this.options.color;
   }
 }

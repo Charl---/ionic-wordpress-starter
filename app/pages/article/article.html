@@ -1,15 +1,6 @@
 <ion-navbar *navbar>
   <ion-title>{{article.title}}</ion-title>
 </ion-navbar>
-<ion-content padding>
-  <ion-row>
-    <ion-col>
-      <user-widget [user]="article.author" [options]="userWidgetOptions"></user-widget>
-    </ion-col>
-    <ion-col>
-      <span>Publish : </span>
-      <time>{{article.date | date}}</time>
-    </ion-col>
-  </ion-row>
-  <article [innerHtml]="article.body"></article>
+<ion-content>
+  <article-widget [article]="article" [options]="articleOptions"></article-widget>
 </ion-content>

@@ -12,8 +12,6 @@ export class SearchPage implements OnInit{
   articles: Article[] = [];
   query: string;
   userWidgetOptions: UserWidgetOptions = {
-    avatarWidth: 36,
-    avatarHeight: 36,
     fontSize: '1em',
     color: 'black'
   }

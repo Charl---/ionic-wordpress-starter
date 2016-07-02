@@ -1,7 +1,14 @@
-<div class="user-widget">
+<!-- <div class="user-widget">
   <img [src]="user?.avatar" class="user-widget__avatar"/>
   <div class="user-widget__meta">
     <span>{{user?.name}}</span>
   </div>
   <ng-content></ng-content>
-</div>
+</div> -->
+<ion-item>
+  <ion-avatar item-left>
+    <img [src]="user?.avatar">
+  </ion-avatar>
+  <h2>{{user?.name}}</h2>
+  <ng-content></ng-content>
+</ion-item>

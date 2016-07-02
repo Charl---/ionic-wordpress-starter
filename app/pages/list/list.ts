@@ -22,8 +22,6 @@ export class ListPage implements OnInit {
     placeholder: 'filter the articles...'
   }
   userWidgetOptions: UserWidgetOptions = {
-    avatarWidth: 26,
-    avatarHeight: 26,
     fontSize: '0.7em',
     color: 'grey'
   }

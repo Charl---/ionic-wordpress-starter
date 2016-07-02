@@ -32,7 +32,7 @@ export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article>{
     const user = a._embedded.author[0];
     const author = new User(user.id, user.name, /*user.avatar_urls[48]*/null , user.description, user.slug);
     this.userStore.insert(author);
-    return new Article(a.id, HtmlEscape.unescape(a.title.rendered), a.content.rendered, null, new Date(a.date), author, category, this.config.defaultPicture);
+    return new Article(a.id, HtmlEscape.unescape(a.title.rendered), a.content.rendered, a.excerpt.rendered, null, new Date(a.date), author, category, this.config.defaultPicture);
   }
 
   findAll(params: ApiFindAllOptions): Promise<Article[]> {
@@ -54,7 +54,8 @@ export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article>{
       method: RequestMethod.Get,
       url: `${this.config.baseUrl}posts`,
       params: httpParams
-    }).toPromise()
+    })
+      .toPromise()
       .then(articles => articles.map(article => this.transformArticle(article)))
       .catch(err => console.error(err));
   }
