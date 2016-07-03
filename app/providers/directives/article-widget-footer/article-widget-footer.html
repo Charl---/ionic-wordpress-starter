@@ -12,7 +12,7 @@
   <ion-col>
     <button primary clear block *ngIf="!!options.comments">
       <ion-icon name="text"></ion-icon>
-      <div>{{options.comments}}</div>
+      <div>{{commentLength$ | async}}</div>
     </button>
   </ion-col>
   <ion-col center text-center>

@@ -1,16 +1,17 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavParams} from 'ionic-angular';
-import {Article} from '../../providers/store'
+import {Article, CommentStore, Comment} from '../../providers/store'
 import {ArticleWidgetFooterOptions} from '../../providers/directives/article-widget-footer';
 
 @Component({
   templateUrl: 'build/pages/article/article.html',
 })
-export class ArticlePage {
+export class ArticlePage implements OnInit {
   article: Article;
   footerOptions: ArticleWidgetFooterOptions;
 
   constructor(
+    private commentStore: CommentStore,
     navParams: NavParams
   ) {
     this.article = navParams.get('article');
@@ -19,7 +20,7 @@ export class ArticlePage {
   ngOnInit() {
     this.footerOptions = {
       social: true,
-      comments: 5,
+      comments: true,
       article: this.article
     }
   }
