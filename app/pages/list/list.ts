@@ -39,12 +39,6 @@ export class ListPage implements OnInit {
       .map(state => state.isOnline);
   }
 
-  goToArticlePage(article: Article): void {
-    this.nav.push(ArticlePage, {
-      article
-    });
-  }
-
   loadMore(infiniteScroll: InfiniteScroll): void {
     this.articleStore
       .loadMore(this.category)

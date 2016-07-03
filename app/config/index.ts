@@ -7,6 +7,11 @@ export interface SliderConfig {
     speed?: number;
 }
 
+export interface SocialConfig {
+  message?: string;
+  subject?: string;
+}
+
 export class Config {
   baseUrl: string;
   articlePerPage: number;
@@ -15,6 +20,7 @@ export class Config {
   homeArticleLength: number;
   defaultPicture: string;
   sliderConfig: SliderConfig;
+  social: SocialConfig;
 }
 
 
@@ -30,5 +36,9 @@ export const APP_CONFIG: Config = {
   sliderConfig: {
     loop: true,
     autoplay: 6000
+  },
+  social: {
+    message: 'Yo look at this',
+    subject: 'some shit'
   }
 }

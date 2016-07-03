@@ -20,7 +20,7 @@ export class ArticlePage {
     this.footerOptions = {
       social: true,
       comments: 5,
-      date: this.article.date
+      article: this.article
     }
   }
 }

@@ -65,7 +65,7 @@ export class ArticleStore extends Store<ArticleState> {
     if(articles.length) {
       this.update(() => ({
         currentCategory: category,
-        currentPage: Math.round(articles.length / this.config.articlePerPage) + 2,
+        currentPage: Math.round(articles.length / this.config.articlePerPage),
         mostRecentDate: articles[0].date.toISOString()
       }))
       return Promise.resolve(articles);
@@ -80,8 +80,7 @@ export class ArticleStore extends Store<ArticleState> {
           this.update((state: ArticleState) => {
             state.articles.set(category, articles);
             return {
-              mostRecentDate: articles[0].date.toISOString(),
-              currentPage: state.currentPage + 1
+              mostRecentDate: articles[0].date.toISOString()
             }
           })
           return articles;
@@ -92,14 +91,13 @@ export class ArticleStore extends Store<ArticleState> {
 
   loadMore(category: Category): Promise<Article[]> {
     console.log(this.currentState.currentPage)
+    this.update(state => ({ currentPage: state.currentPage + 1 }))
     return this.platform.ready()
       .then(() => this.api.findAll(this.findAllOptions(category)))
       .then(articles => {
         this.update(state => {
           state.articles.set(category, [...state.articles.get(category), ...articles]);
-          return {
-            currentPage: state.currentPage + 1
-          };
+          return {};
         })
         return articles;
       })
