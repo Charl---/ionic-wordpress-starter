@@ -2,5 +2,7 @@
   <ion-title>{{article.title}}</ion-title>
 </ion-navbar>
 <ion-content>
-  <article-widget [article]="article" [options]="articleOptions"></article-widget>
+  <article-widget [article]="article" [options]="articleOptions">
+    <article-widget-footer [options]="footerOptions"></article-widget-footer>
+  </article-widget>
 </ion-content>

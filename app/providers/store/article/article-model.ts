@@ -19,6 +19,17 @@ export class Article {
           .createContextualFragment(body);
         const pictureElement = bodyFragment.querySelector('img');
 
+        const previewElement = document.createRange()
+          .createContextualFragment(preview);
+
+        const previewPicture = previewElement.querySelector('img');
+        if (previewPicture) {
+          previewElement.querySelector('img').remove();
+          this.preview = previewElement.textContent;
+        }
+
+
+
         if (pictureElement) {
           pictureElement.remove();
           this.body = bodyFragment.textContent;

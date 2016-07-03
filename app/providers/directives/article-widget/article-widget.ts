@@ -2,9 +2,8 @@ import {Component, Input, ChangeDetectionStrategy, OnInit} from '@angular/core';
 import {Article} from '../../store/article'
 import {UserWidgetOptions} from '../user-widget';
 
-export interface articleWidgetOptions {
+export interface ArticleWidgetOptions {
   preview?: boolean;
-  footer?: boolean;
 }
 
 @Component({
@@ -14,10 +13,9 @@ export interface articleWidgetOptions {
 })
 export class ArticleWidget implements OnInit{
   @Input() article: Article;
-  @Input() options: articleWidgetOptions;
+  @Input() options: ArticleWidgetOptions;
 
   ngOnInit() {
-    console.log(this);
     this.options = this.options ? this.options : [];
     this.article.body = this.options.preview ? this.article.preview : this.article.body;
   }

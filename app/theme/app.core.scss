@@ -8,6 +8,10 @@
 // App Shared Sass variables belong in app.variables.scss.
 @import "../../node_modules/animatewithsass/animate.scss";
 @import "../providers/directives/user-widget/user-widget";
+@import "../providers/directives/article-widget/article-widget";
+@import "../providers/directives/search-widget/search-widget";
+@import "../providers/directives/article-widget-footer/article-widget-footer";
+
 @import "../pages/home/home";
 @import "../pages/list/list";
 @import "../pages/article/article";

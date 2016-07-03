@@ -5,7 +5,6 @@ import {Category, ArticleStore, Article} from '../../providers/store';
 import {ArticlePage} from '../article/article';
 import {Config} from '../../config';
 import {Connectivity} from '../../providers/ionic';
-import {UserWidgetOptions} from '../../providers/directives/user-widget';
 import {SearchWidgetOptions} from '../../providers/directives/search-widget';
 
 @Component({
@@ -20,10 +19,6 @@ export class ListPage implements OnInit {
   searchWidgetOptions: SearchWidgetOptions = {
     class: 'list-filter',
     placeholder: 'filter the articles...'
-  }
-  userWidgetOptions: UserWidgetOptions = {
-    fontSize: '0.7em',
-    color: 'grey'
   }
 
   constructor(

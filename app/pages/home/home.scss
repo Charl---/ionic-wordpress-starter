@@ -3,7 +3,7 @@
   ion-navbar {
     position: absolute;
     .toolbar-background {
-      background: rgba(255,255,255,0.5);
+      background: $bgTitleColor;
     }
   }
   ion-slide {
@@ -23,24 +23,27 @@
       left: 0;
       right: 0;
       z-index: 9999;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      height:100%;
-      user-widget {
-        margin-top: 5.6rem;
+      // display: flex;
+      // justify-content: center;
+      // flex-direction: column;
+      height:400px;
+      padding: 100px 50px 100px 50px;
+      margin-top: 100px;
+      margin-left: 50px;
+      margin-right: 50px;
+      background: $bgTitleColor;
+      ion-card {
+        margin:0;
         width:100%;
-      }
-      h1 {
-        filter:blur(0px) !important;
-        background: rgba(255,255,255,0.5);
+        // filter:blur(0px) !important;
+        background: transparent;
       }
     }
   }
 }
 
 .home-fab {
-  background: rgba(255,255,255,0.3);
+  background: $bgTitleColor;
   color: black;
   z-index: 999999999
 }

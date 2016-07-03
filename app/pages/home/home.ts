@@ -12,6 +12,7 @@ export class HomePage implements OnInit{
   @ViewChild('homeSlider') slider: Slides;
   private category: Category;
   articles$: Observable<Article[]>;
+  title: string;
 
   constructor(
     private config: Config,
@@ -30,6 +31,7 @@ export class HomePage implements OnInit{
       .do(category => this.category = category)
       .mergeMap(category => Observable.fromPromise(this.articleStore.load(category)))
       .map(articles => articles.slice(0, this.config.homeArticleLength -1))
+      .do(articles => this.title = articles[0].title);
   }
 
   goToArticlePage(): void {
@@ -38,5 +40,10 @@ export class HomePage implements OnInit{
     this.nav.push(ArticlePage, {
       article
     });
+  }
+
+  onSlideChange(): void {
+    const index = this.slider.getActiveIndex();
+    this.title = this.articleStore.currentState.articles.get(this.category)[index].title;
   }
 }

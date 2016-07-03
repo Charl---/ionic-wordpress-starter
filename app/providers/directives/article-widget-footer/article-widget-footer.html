@@ -1,0 +1,20 @@
+<ion-row>
+  <ion-col *ngIf="options.social">
+    <button primary clear small>
+      <ion-icon name="share"></ion-icon>
+      <div>share</div>
+    </button>
+  </ion-col>
+  <ion-col>
+    <button primary clear small>
+      <ion-icon name="text"></ion-icon>
+      <div>{{options.comments}} Comments</div>
+    </button>
+  </ion-col>
+  <ion-col center text-center>
+    <ion-note>
+      <!-- <time [datetime]="article.date" pubdate>{{article.date | date}}</time> -->
+      {{options.date | date}}
+    </ion-note>
+  </ion-col>
+</ion-row>

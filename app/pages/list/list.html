@@ -21,31 +21,36 @@
       pullingText="Pull to refresh"
       refreshingSpinner="bubbles"
       refreshingText="Refreshing...">
-  </ion-refresher-content>
-</ion-refresher>
-<ion-list>
-  <ion-item *ngFor="let article of articles$ | async | listfilter : filter">
-    <ion-thumbnail item-left>
-      <ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
-    </ion-thumbnail>
-    <h2>{{article.title}}</h2>
-    <ion-row>
-      <ion-col>
-          <user-widget [user]="article.author" [options]="userWidgetOptions"></user-widget>
-      </ion-col>
-      <ion-col>
-        <time>{{article.date | date}}</time>
-      </ion-col>
-    </ion-row>
-    <button clear item-right (click)="goToArticlePage(article)">
-      View
-    </button>
-  </ion-item>
-</ion-list>
-<ion-infinite-scroll (ionInfinite)="loadMore($event)">
-  <ion-infinite-scroll-content
-  loadingSpinner="bubbles"
-  loadingText="Loading more data...">
-</ion-infinite-scroll-content>
-</ion-infinite-scroll>
+    </ion-refresher-content>
+  </ion-refresher>
+  <!-- <ion-list>
+    <ion-item-sliding *ngFor="let article of articles$ | async | listfilter : filter">
+      <ion-item>
+        <ion-thumbnail item-left>
+          <ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
+        </ion-thumbnail>
+        <h2>{{article.title}}</h2>
+      </ion-item>
+      <ion-item-options>
+        <button clear (click)="goToArticlePage(article)">
+          <ion-icon name="eye"></ion-icon>
+        </button>
+        <button >
+          <ion-icon name="share"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list> -->
+  <ion-card *ngFor="let article of articles$ | async | listfilter : filter">
+    <img [src]="article.picture"/>
+    <div class="card-title">{{article.title}}</div>
+    <article-widget-footer [options]="{social: true, comments: 4, date: article.date}"></article-widget-footer>
+  </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

@@ -39,6 +39,7 @@ export class ArticleStore extends Store<ArticleState> {
   }
 
   private findAllOptions(category: Category): ApiFindAllOptions {
+    console.log(this.currentState)
     return {
       page: this.currentState.currentPage,
       filters: {
@@ -64,7 +65,7 @@ export class ArticleStore extends Store<ArticleState> {
     if(articles.length) {
       this.update(() => ({
         currentCategory: category,
-        currentPage: Math.round(articles.length / this.config.articlePerPage),
+        currentPage: Math.round(articles.length / this.config.articlePerPage) + 2,
         mostRecentDate: articles[0].date.toISOString()
       }))
       return Promise.resolve(articles);
@@ -90,9 +91,7 @@ export class ArticleStore extends Store<ArticleState> {
   }
 
   loadMore(category: Category): Promise<Article[]> {
-    this.update((state: ArticleState) => ({
-      currentPage: state.currentPage + 1
-    }))
+    console.log(this.currentState.currentPage)
     return this.platform.ready()
       .then(() => this.api.findAll(this.findAllOptions(category)))
       .then(articles => {

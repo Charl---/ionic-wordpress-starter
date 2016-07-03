@@ -4,24 +4,5 @@
   <ion-card-content>
     <article [innerHtml]="article.body"></article>
   </ion-card-content>
-  <ion-row *ngIf="options?.footer">
-    <ion-col>
-      <button primary clear small>
-        <ion-icon name="share"></ion-icon>
-        <div>share</div>
-      </button>
-    </ion-col>
-    <ion-col>
-      <button primary clear small>
-        <ion-icon name="text"></ion-icon>
-        <div>4 Comments</div>
-      </button>
-    </ion-col>
-    <ion-col center text-center>
-      <ion-note>
-        <!-- <time [datetime]="article.date" pubdate>{{article.date | date}}</time> -->
-        {{article.date | date}}
-      </ion-note>
-    </ion-col>
-  </ion-row>
+  <ng-content></ng-content>
 </ion-card>
