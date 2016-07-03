@@ -40,7 +40,8 @@
     "ionic-plugin-keyboard",
     "cordova-sqlite-storage",
     "cordova-plugin-network-information",
-    "cordova-plugin-crosswalk-webview"
+    "cordova-plugin-crosswalk-webview",
+    "cordova-plugin-inappbrowser"
   ],
   "cordovaPlatforms": [
     "android"
