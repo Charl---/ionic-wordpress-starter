@@ -42,7 +42,7 @@ export class CategoryStore extends Store<CategoryState>{
   load(): Promise<Category[]> {
     this.loading$.next(true);
     const categories = this.currentState.categories;
-    return categories.length
+    return categories.length > 0
       ? Promise.resolve(this.simpleUpdate(categories))
           .then(categories => {
             this.loading$.next(false);

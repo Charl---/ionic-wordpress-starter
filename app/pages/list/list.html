@@ -23,24 +23,6 @@
       refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
-  <!-- <ion-list>
-    <ion-item-sliding *ngFor="let article of articles$ | async | listfilter : filter">
-      <ion-item>
-        <ion-thumbnail item-left>
-          <ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
-        </ion-thumbnail>
-        <h2>{{article.title}}</h2>
-      </ion-item>
-      <ion-item-options>
-        <button clear (click)="goToArticlePage(article)">
-          <ion-icon name="eye"></ion-icon>
-        </button>
-        <button >
-          <ion-icon name="share"></ion-icon>
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list> -->
   <ion-card *ngFor="let article of articles$ | async | listfilter : filter">
     <img [src]="article.picture"/>
     <div class="card-title">{{article.title}}</div>

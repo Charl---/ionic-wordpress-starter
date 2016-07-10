@@ -48,7 +48,7 @@ export class ArticleStore extends Store<ArticleState> {
     }
   }
 
-  loadFromSql(options: ApiFindAllOptions): Promise<any> {
+  initialLoad(options: ApiFindAllOptions): Promise<any> {
     return this.platform.ready()
       .then(() => this.sqlApi.findAll(options))
       .then((articles: Article[]) => {
@@ -63,9 +63,10 @@ export class ArticleStore extends Store<ArticleState> {
     let articles = this.currentState.articles.get(category);
     articles = articles ? articles : [];
     if(articles.length) {
+      console.log(articles.length, '/', this.config.articlePerPage, '=', Math.ceil(articles.length / this.config.articlePerPage))
       this.update(() => ({
         currentCategory: category,
-        currentPage: Math.round(articles.length / this.config.articlePerPage),
+        currentPage: Math.ceil(articles.length / this.config.articlePerPage) + 1,
         mostRecentDate: articles[0].date.toISOString()
       }))
       return Promise.resolve(articles);
@@ -90,8 +91,7 @@ export class ArticleStore extends Store<ArticleState> {
   }
 
   loadMore(category: Category): Promise<Article[]> {
-    console.log(this.currentState.currentPage)
-    this.update(state => ({ currentPage: state.currentPage + 1 }))
+    // this.update(state => ({ currentPage: state.currentPage + 1 }))
     return this.platform.ready()
       .then(() => this.api.findAll(this.findAllOptions(category)))
       .then(articles => {

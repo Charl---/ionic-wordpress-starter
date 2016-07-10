@@ -52,7 +52,7 @@ export class WordpressApp implements OnInit{
         .filter(state => state.categories.length > 0)
         .map(state => {
           const articlesFromSqlPromises: Promise<Article[]>[] = state.categories
-            .map(category => this.articleStore.loadFromSql({filters: {category}}));
+            .map(category => this.articleStore.initialLoad({filters: {category}}));
 
           Promise.all(articlesFromSqlPromises)
             .catch(err => console.error('error loading sql articles', err));
