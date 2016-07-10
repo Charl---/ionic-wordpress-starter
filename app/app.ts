@@ -6,14 +6,14 @@ import {WordpressApp} from './ionic-wordpress-app';
 import {Config, APP_CONFIG} from './config'
 import {APP_DIRECTIVES, APP_PROVIDERS, APP_PIPES} from './providers'
 
-
+console.log(APP_PROVIDERS)
 ionicBootstrap(WordpressApp, [
   ...APP_PROVIDERS,
   provide(Config, {useValue: APP_CONFIG}),
   provide(PLATFORM_DIRECTIVES, {useValue: APP_DIRECTIVES, multi: true}),
   provide(PLATFORM_PIPES, {useValue: APP_PIPES, multi: true})
 ], {
-  prodMode: false,
+  prodMode: true,
   activator: 'ripple',
   menuType: 'overlay',
   spinner: 'bubbles'
