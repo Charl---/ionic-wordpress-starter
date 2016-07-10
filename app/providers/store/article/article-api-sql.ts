@@ -33,6 +33,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
       categoryId.push(item.category);
       usersId.push(item.author);
     }
+    console.log('data', usersId, categoryId);
 
     const userPromises = usersId
       .filter((value: string, index: number, self: string[]) => self.indexOf(value) === index)
@@ -54,10 +55,10 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
     return data[0].map((articleProp: any[]) => {
       let article = new Article(articleProp[0], articleProp[1], articleProp[2], articleProp[3], articleProp[4], new Date(articleProp[5]),null, null, this.config.defaultPicture);
       article.author = data[1].find((author: User) => {
-        return articleProp[5] === author.id
+        return articleProp[6] === author.id
       });
       article.category = data[2].find((category: Category) => {
-        return articleProp[6] === category.id
+        return articleProp[7] === category.id
       });
       return article;
     })
