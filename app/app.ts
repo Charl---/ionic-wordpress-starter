@@ -6,7 +6,6 @@ import {WordpressApp} from './ionic-wordpress-app';
 import {Config, APP_CONFIG} from './config'
 import {APP_DIRECTIVES, APP_PROVIDERS, APP_PIPES} from './providers'
 
-console.log(APP_PROVIDERS)
 ionicBootstrap(WordpressApp, [
   ...APP_PROVIDERS,
   provide(Config, {useValue: APP_CONFIG}),

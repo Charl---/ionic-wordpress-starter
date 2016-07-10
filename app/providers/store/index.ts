@@ -9,12 +9,10 @@ export * from './category';
 export * from './user';
 export * from './comment';
 
-console.log(COMMENT_PROVIDERS);
-
 export const STORE_PROVIDERS = [
   EventQueue,
-  ...COMMENT_PROVIDERS,
   ...ARTICLE_PROVIDERS,
   ...CATEGORY_PROVIDERS,
-  ...USER_PROVIDER
+  ...USER_PROVIDER,
+  ...COMMENT_PROVIDERS
 ]
