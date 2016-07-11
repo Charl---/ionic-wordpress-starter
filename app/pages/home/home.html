@@ -8,20 +8,16 @@
   <ion-slides #homeSlider [options]="config.sliderConfig" (ionDidChange)="onSlideChange()">
     <ion-slide *ngFor="let article of articles$ | async">
       <div class="background" [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}"></div>
-      <ion-scroll scrollY="true" zoom="true" class="home-slide">
-        <ion-card padding>
-          <ion-card-header>
-            <h2>{{article.category.name}} publish on {{article.date | date}}</h2>
-          </ion-card-header>
-          <ion-card-content [innerHTML]="article.preview"></ion-card-content>
-        </ion-card>
-      </ion-scroll>
+      <ion-card class="home-slide">
+        <article-widget [article]="article"></article-widget>
+        <article class="article-preview" [innerHTML]="article.preview"></article>
+      </ion-card>
     </ion-slide>
   </ion-slides>
 </ion-content>
-<button primary fab fab-left fab-bottom class="home-fab">
+<!-- <button primary fab fab-left fab-bottom class="home-fab">
   <ion-icon name="share"></ion-icon>
-</button>
+</button> -->
 <button clear fab fab-right fab-bottom class="home-fab" (click)="goToArticlePage()">
   <ion-icon name="book"></ion-icon>
 </button>

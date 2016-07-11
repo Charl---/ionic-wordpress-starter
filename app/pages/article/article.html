@@ -2,7 +2,12 @@
   <ion-title>{{article.title}}</ion-title>
 </ion-navbar>
 <ion-content>
-  <article-widget [article]="article" [options]="articleOptions">
+  <ion-card>
+    <user-widget [user]="article.author"></user-widget>
+    <img [src]="article.picture">
+    <ion-card-content>
+      <article [innerHtml]="article.body"></article>
+    </ion-card-content>
     <article-widget-footer [options]="footerOptions"></article-widget-footer>
-  </article-widget>
+  </ion-card>
 </ion-content>

@@ -1,8 +1,5 @@
 <ion-card>
-  <user-widget [user]="article.author"></user-widget>
-  <img [src]="article.picture">
-  <ion-card-content>
-    <article [innerHtml]="article.body"></article>
-  </ion-card-content>
+  <img [src]="article.picture"/>
+  <div class="card-title">{{article.title}}</div>
   <ng-content></ng-content>
 </ion-card>

@@ -23,20 +23,18 @@
       left: 0;
       right: 0;
       z-index: 9999;
-      // display: flex;
-      // justify-content: center;
-      // flex-direction: column;
-      height:400px;
-      padding: 100px 50px 100px 50px;
-      margin-top: 100px;
-      margin-left: 50px;
-      margin-right: 50px;
+      margin-top: 75px;
       background: $bgTitleColor;
       ion-card {
         margin:0;
         width:100%;
-        // filter:blur(0px) !important;
         background: transparent;
+      }
+      article {
+        text-align: justify;
+        padding: 5px 15px 5px 15px;
+        max-height: 230px;
+        font-size: 1.5em;
       }
     }
   }
