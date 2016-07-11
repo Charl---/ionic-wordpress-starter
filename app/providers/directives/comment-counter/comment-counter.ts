@@ -24,7 +24,6 @@ export class CommentCounter {
 
     this.commentLength$ = this.commentStore
       .map(state => state.comments.get(this.article))
-      .do(() => console.log('lolooo'))
       .do(() => this.isLoading = false)
       .filter(comments => !!comments)
       .map(comments => comments.length)
