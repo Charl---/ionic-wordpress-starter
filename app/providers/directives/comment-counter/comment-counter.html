@@ -1,0 +1,5 @@
+<button primary clear block>
+  <ion-spinner *ngIf="isLoading"></ion-spinner>
+  <ion-icon name="text"></ion-icon>
+  <div>{{commentLength$ | async}}</div>
+</button>

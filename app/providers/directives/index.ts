@@ -1,15 +1,17 @@
+import {FORM_DIRECTIVES} from '@angular/common'
+
 export * from './user-widget';
 export * from './search-widget';
 export * from './article-widget';
 export * from './article-widget-footer';
-
-import {FORM_DIRECTIVES} from '@angular/common'
+export * from './comment-counter'
 
 import {
   UserWidget,
   SearchWidget,
   ArticleWidget,
-  ArticleWidgetFooter
+  ArticleWidgetFooter,
+  CommentCounter
 } from './';
 
 export const APP_DIRECTIVES = [
@@ -17,5 +19,6 @@ export const APP_DIRECTIVES = [
   UserWidget,
   SearchWidget,
   ArticleWidget,
-  ArticleWidgetFooter
+  ArticleWidgetFooter,
+  CommentCounter
 ]

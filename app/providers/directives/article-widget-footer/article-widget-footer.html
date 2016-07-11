@@ -9,16 +9,13 @@
       <ion-icon name="eye"></ion-icon>
     </button>
   </ion-col>
-  <ion-col>
-    <button primary clear block *ngIf="!!options.comments">
-      <ion-icon name="text"></ion-icon>
-      <div>{{commentLength$ | async}}</div>
-    </button>
+  <ion-col *ngIf="!!options.comments">
+    <comment-counter [article]="options.article"></comment-counter>
   </ion-col>
   <ion-col center text-center>
     <ion-note>
       <!-- <time [datetime]="article.date" pubdate>{{article.date | date}}</time> -->
-      {{options.article.date | date}}
+      {{options.article.date | date: 'dd/MM/yyyy'}}
     </ion-note>
   </ion-col>
 </ion-row>
