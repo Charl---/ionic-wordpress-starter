@@ -1,5 +1,5 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
+import {Observable, Subject} from 'rxjs/Rx';
 import {Article, CommentStore} from '../../store'
 import {Config} from '../../../config';
 
@@ -10,7 +10,7 @@ import {Config} from '../../../config';
 })
 export class CommentCounter {
   commentLength$: Observable<number>;
-  isLoading: boolean = true;
+  isLoading: boolean;
   @Input() article: Article;
 
   constructor(
@@ -19,12 +19,15 @@ export class CommentCounter {
   ) {}
 
   ngOnInit() {
+    this.isLoading = true;
     this.commentStore.findByArticle(this.article);
+
     this.commentLength$ = this.commentStore
       .map(state => state.comments.get(this.article))
+      .do(() => console.log('lolooo'))
+      .do(() => this.isLoading = false)
       .filter(comments => !!comments)
       .map(comments => comments.length)
-      .do(() => this.isLoading = false)
 
   }
 }
