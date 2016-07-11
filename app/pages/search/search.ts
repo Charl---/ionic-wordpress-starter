@@ -27,11 +27,10 @@ export class SearchPage implements OnInit{
   ) {}
 
   private displayToast(message): void {
-    const toast = Toast.create({
+    this.nav.present(Toast.create({
       message: message,
       duration: 3000
-    });
-    this.nav.present(toast);
+    }));
   }
 
   ngOnInit(): void {
@@ -40,17 +39,14 @@ export class SearchPage implements OnInit{
   }
 
   searchHandler(query: string): void {
-    if(query.length > 2)
-      this.articleStore.search({ search: query })
-        .do(articles => articles.length === 0 ? this.displayToast('no results :(') : null)
-        .toPromise()
-        .then(articles => this.articles = articles)
-        .catch(err => this.displayToast('something wrong happen'));
+    this.articleStore.search({ search: query })
+      .do(articles => articles.length === 0 ? this.displayToast('no results :(') : null)
+      .toPromise()
+      .then(articles => this.articles = articles)
+      .catch(err => this.displayToast('something wrong happen'));
   }
 
   goToArticlePage(article: Article): void {
-    this.nav.push(ArticlePage, {
-      article
-    });
+    this.nav.push(ArticlePage, { article });
   }
 }

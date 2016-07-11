@@ -9,22 +9,22 @@
       <ion-spinner></ion-spinner>
     </div>
     <ion-list [virtualScroll]="articles" *ngIf="articles">
-      <ion-item *virtualItem="let article">
-        <ion-thumbnail item-left>
-          <ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
-        </ion-thumbnail>
-        <h2>{{article.title}}</h2>
-        <ion-row>
-          <ion-col>
-              <user-widget [user]="article.author" [options]="userWidgetOptions"></user-widget>
-          </ion-col>
-          <ion-col>
-            <time>{{article.date | date}}</time>
-          </ion-col>
-        </ion-row>
-        <button clear item-right (click)="goToArticlePage(article)">
-          View
-        </button>
-      </ion-item>
+       <ion-item-sliding *virtualItem="let article">
+         <ion-item >
+           <ion-thumbnail item-left>
+             <ion-img [src]="article.picture" width="96" height="96" alt=""></ion-img>
+           </ion-thumbnail>
+           <h2 [innerHTML]="article.title"></h2>
+         </ion-item>
+         <ion-item-options>
+           <button primary item-right (click)="goToArticlePage(article)">
+             <ion-icon name="eye"></ion-icon>
+           </button>
+           <button clear item-left>
+             <ion-icon name="share"></ion-icon>
+           </button>
+         </ion-item-options>
+       </ion-item-sliding>
+
     </ion-list>
 </ion-content>

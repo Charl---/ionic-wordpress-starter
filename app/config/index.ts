@@ -38,7 +38,7 @@ export const APP_CONFIG: Config = {
     autoplay: 6000
   },
   social: {
-    message: 'Yo look at this',
-    subject: 'some shit'
+    message: 'Regarde ca !',
+    subject: 'Touriscopie'
   }
 }

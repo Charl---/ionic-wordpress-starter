@@ -128,11 +128,7 @@ export class ArticleStore extends Store<ArticleState> {
   search(params: ApiFindAllOptions): Observable<Article[]> {
     this.loading$.next(true);
     return Observable.fromPromise(
-      this.platform.ready().then(() => {
-        return this.connectivity.currentState.isOnline
-          ? this.api.search(params)
-          : this.articlesFilter.transform(this.currentState.articles.values().next().value, params.search);
-      })
+      this.platform.ready().then(() => this.api.search(params))
     ).do(() => this.loading$.next(false));
   }
 
