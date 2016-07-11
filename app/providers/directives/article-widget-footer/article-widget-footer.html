@@ -1,8 +1,6 @@
 <ion-row>
   <ion-col *ngIf="options.social">
-    <button primary clear block (click)="shareArticle(options.article)">
-      <ion-icon name="share"></ion-icon>
-    </button>
+    <article-share-button [article]="options.article"></article-share-button>
   </ion-col>
   <ion-col *ngIf="options.navigate">
     <button primary clear block (click)="goToArticlePage(options.article)">
