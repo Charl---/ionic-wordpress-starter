@@ -48,6 +48,7 @@ export class WordpressApp implements OnInit{
   ngOnInit(): void {
     this.platform.ready().then(() => {
       StatusBar.styleDefault();
+      this.categoryStore.initialLoad();
       this.categories$ = this.categoryStore
         .filter(state => state.categories.length > 0)
         .map(state => {

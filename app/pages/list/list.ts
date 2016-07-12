@@ -33,7 +33,7 @@ export class ListPage implements OnInit {
 
   ngOnInit(): void {
     this.articles$ = this.articleStore
-      .map(state => state.articles.get(this.category))
+      .map(state => state.articles.get(this.category.name))
 
     this.connec$ = this.connectivity
       .map(state => state.isOnline);

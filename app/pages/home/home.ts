@@ -12,7 +12,6 @@ export class HomePage implements OnInit{
   @ViewChild('homeSlider') slider: Slides;
   private category: Category;
   articles$: Observable<Article[]>;
-  title: string;
 
   constructor(
     private config: Config,
@@ -24,26 +23,19 @@ export class HomePage implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.articles$ = Observable.fromPromise(this.platform.ready())
-      .mergeMap(() => this.categoryStore.state$)
-      .filter(state => !!state.categories.length)
-      .map(state => state.categories.find(cat => cat.name === this.config.homeCategory))
-      .do(category => this.category = category)
-      .mergeMap(category => Observable.fromPromise(this.articleStore.load(category)))
-      .map(articles => articles.slice(0, this.config.homeArticleLength -1))
-      .do(articles => this.title = articles[0].title);
+    this.articles$ = this.articleStore.state$
+      .filter(() => this.categoryStore.currentState.categories.length > 0)
+      .do(() => this.category = this.categoryStore.currentState.categories.find(cat => cat.name === this.config.homeCategory))
+      .do(state => console.log(state))
+      .map(state => state.articles.get(this.category.name))
+      // .filter(articles => !!articles)
   }
 
   goToArticlePage(): void {
     const index = this.slider.getActiveIndex();
-    const article = this.articleStore.currentState.articles.get(this.category)[index];
+    const article = this.articleStore.currentState.articles.get(this.category.name)[index];
     this.nav.push(ArticlePage, {
       article
     });
-  }
-
-  onSlideChange(): void {
-    const index = this.slider.getActiveIndex();
-    this.title = this.articleStore.currentState.articles.get(this.category)[index].title;
   }
 }

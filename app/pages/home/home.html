@@ -3,9 +3,10 @@
     <button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{title}}</ion-title>
+    <!-- <ion-title>{{title}}</ion-title> -->
+    
   </ion-navbar>
-  <ion-slides #homeSlider [options]="config.sliderConfig" (ionDidChange)="onSlideChange()">
+  <ion-slides #homeSlider [options]="config.sliderConfig">
     <ion-slide *ngFor="let article of articles$ | async">
       <div class="background" [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}"></div>
       <ion-card class="home-slide">
@@ -15,9 +16,7 @@
     </ion-slide>
   </ion-slides>
 </ion-content>
-<!-- <button primary fab fab-left fab-bottom class="home-fab">
-  <ion-icon name="share"></ion-icon>
-</button> -->
+
 <button clear fab fab-right fab-bottom class="home-fab" (click)="goToArticlePage()">
   <ion-icon name="book"></ion-icon>
 </button>

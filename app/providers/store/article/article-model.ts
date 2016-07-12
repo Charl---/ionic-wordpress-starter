@@ -47,5 +47,5 @@ export interface ArticleState {
   currentCategory: Category;
   currentPage: number;
   mostRecentDate: string;
-  articles: Map<Category, Article[]>;
+  articles: Map<string, Article[]>;
 }

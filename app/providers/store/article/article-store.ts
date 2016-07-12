@@ -13,7 +13,7 @@ const initialState: ArticleState = {
   currentCategory: null,
   currentPage: 1,
   mostRecentDate: null,
-  articles: new Map<Category, Article[]>()
+  articles: new Map<string, Article[]>()
 }
 
 @Injectable()
@@ -39,7 +39,6 @@ export class ArticleStore extends Store<ArticleState> {
   }
 
   private findAllOptions(category: Category): ApiFindAllOptions {
-    console.log(this.currentState)
     return {
       page: this.currentState.currentPage,
       filters: {
@@ -52,18 +51,18 @@ export class ArticleStore extends Store<ArticleState> {
     return this.platform.ready()
       .then(() => this.sqlApi.findAll(options))
       .then((articles: Article[]) => {
-        this.update((state: ArticleState) => {
-          state.articles.set(options.filters.category, articles);
+        this.update(state => {
+          state.articles.set(options.filters.category.name, articles);
           return {};
         })
       })
   }
 
   load(category: Category): Promise<Article[]> {
-    let articles = this.currentState.articles.get(category);
+    let articles = this.currentState.articles.get(category.name);
     articles = articles ? articles : [];
     if(articles.length) {
-      console.log(articles.length, '/', this.config.articlePerPage, '=', Math.ceil(articles.length / this.config.articlePerPage))
+      console.log(articles[0])
       this.update(() => ({
         currentCategory: category,
         currentPage: Math.ceil(articles.length / this.config.articlePerPage) + 1,
@@ -79,9 +78,10 @@ export class ArticleStore extends Store<ArticleState> {
         .then(() => this.api.findAll(this.findAllOptions(category)))
         .then((articles: Article[]) => {
           this.update((state: ArticleState) => {
-            state.articles.set(category, articles);
+            state.articles.set(category.name, articles);
             return {
-              mostRecentDate: articles[0].date.toISOString()
+              mostRecentDate: articles[0].date.toISOString(),
+              currentPage: state.currentPage + 1
             }
           })
           return articles;
@@ -96,8 +96,10 @@ export class ArticleStore extends Store<ArticleState> {
       .then(() => this.api.findAll(this.findAllOptions(category)))
       .then(articles => {
         this.update(state => {
-          state.articles.set(category, [...state.articles.get(category), ...articles]);
-          return {};
+          state.articles.set(category.name, [...state.articles.get(category.name), ...articles]);
+          return {
+            currentPage: state.currentPage + 1
+          };
         })
         return articles;
       })
@@ -116,7 +118,7 @@ export class ArticleStore extends Store<ArticleState> {
         if(articles.length > 0)
           this.update(state => {
             const category = this.currentState.currentCategory;
-            state.articles.set(category, [...articles, ...state.articles.get(category)]);
+            state.articles.set(category.name, [...articles, ...state.articles.get(category.name)]);
             return {
               mostRecentDate: !!articles[0] ? articles[0].date.toISOString() : state.mostRecentDate
             }
@@ -137,7 +139,7 @@ export class ArticleStore extends Store<ArticleState> {
     return this.sqlApi.destroyAll()
       .then(() => {
         this.update(state => {
-          this.categoryStore.currentState.categories.forEach(cat => this.currentState.articles.set(cat, []))
+          this.categoryStore.currentState.categories.forEach(cat => this.currentState.articles.set(cat.name, []))
           return {};
         })
       })

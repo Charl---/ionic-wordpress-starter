@@ -18,7 +18,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
     private userStore: UserStore,
     private config: Config
   ) {
-    super(platform, 'CREATE TABLE IF NOT EXISTS article (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, body TEXT, preview TEXT, picture TEXT, date TEXT, author INTEGER, category INTEGER, FOREIGN KEY(author) REFERENCES user(id), FOREIGN KEY(category) REFERENCES category(id))')
+    super(platform, 'CREATE TABLE IF NOT EXISTS article (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, body TEXT, preview TEXT, picture TEXT, date INTEGER, author INTEGER, category INTEGER, FOREIGN KEY(author) REFERENCES user(id), FOREIGN KEY(category) REFERENCES category(id))')
   }
 
 
@@ -33,7 +33,6 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
       categoryId.push(item.category);
       usersId.push(item.author);
     }
-    console.log('data', usersId, categoryId);
 
     const userPromises = usersId
       .filter((value: string, index: number, self: string[]) => self.indexOf(value) === index)
@@ -53,7 +52,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
 
   private buildArticle(data: any): Article[] {
     return data[0].map((articleProp: any[]) => {
-      let article = new Article(articleProp[0], articleProp[1], articleProp[2], articleProp[3], articleProp[4], new Date(articleProp[5]),null, null, this.config.defaultPicture);
+      let article = new Article(articleProp[0], articleProp[1], articleProp[2], articleProp[3], articleProp[4], new Date(articleProp[5] * 1000),null, null, this.config.defaultPicture);
       article.author = data[1].find((author: User) => {
         return articleProp[6] === author.id
       });
@@ -82,7 +81,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
   }
 
   insert(article: Article): Promise<Article> {
-    return this.storage.query(`INSERT OR REPLACE INTO article (id, title, body, preview, picture, date, author, category) VALUES ('${article.id}', '${HtmlEscape.escape(article.title)}', '${HtmlEscape.escape(article.body)}', '${HtmlEscape.escape(article.preview)}', '${article.picture}', '${article.date.toDateString()}', '${article.author.id}', '${article.category.id}')`)
+    return this.storage.query(`INSERT OR REPLACE INTO article (id, title, body, preview, picture, date, author, category) VALUES ('${article.id}', '${HtmlEscape.escape(article.title)}', '${HtmlEscape.escape(article.body)}', '${HtmlEscape.escape(article.preview)}', '${article.picture}', '${(article.date.getTime() / 1000).toFixed(0)}', '${article.author.id}', '${article.category.id}')`)
       .then(() => article)
       .catch(err => console.error(err));
   }

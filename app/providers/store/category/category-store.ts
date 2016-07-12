@@ -35,8 +35,18 @@ export class CategoryStore extends Store<CategoryState>{
   }
 
   private simpleUpdate(categories: Category[]): Category[] {
-    this.update((state: CategoryState) => ({categories}));
+    this.update(state => ({
+      categories: [...state.categories, ...categories.slice(state.categories.length)]
+    }));
     return categories;
+  }
+
+  initialLoad(): Promise<any> {
+    return this.platform.ready()
+      .then(() => this.sqlApi.findAll())
+      .then((categories: Category[]) => {
+        this.update(state => ({ categories }))
+      })
   }
 
   load(): Promise<Category[]> {
