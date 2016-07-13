@@ -9,7 +9,7 @@ import {ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-common';
 import {Article} from '../article';
 
 const initialState: CommentState = {
-  comments: new Map<Article, Comment[]>()
+  comments: new Map<string, Comment[]>()
 }
 
 @Injectable()
@@ -34,11 +34,11 @@ export class CommentStore extends Store<CommentState> {
 
   findByArticle(article: Article): Promise<Comment[]> {
     this.loading$.next(true);
-    let comments: Comment[] = this.currentState.comments.get(article);
+    let comments: Comment[] = this.currentState.comments.get(article.title);
     comments = comments ? comments : [];
     if (comments.length > 0) {
       this.update(state => {
-        state.comments.set(article, comments);
+        state.comments.set(article.title, comments);
         return {};
       })
       this.loading$.next(false);
@@ -50,7 +50,7 @@ export class CommentStore extends Store<CommentState> {
         }
       }).then(comments => {
         this.update(state => {
-          state.comments.set(article, comments);
+          state.comments.set(article.title, comments);
           return {};
         })
         this.loading$.next(false);

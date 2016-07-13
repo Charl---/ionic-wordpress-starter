@@ -27,7 +27,7 @@ export class CommentSqlApi extends SqlApi implements ApiCrudAdapter<Comment>{
         const comments = [];
         for (let i = 0; i < data.res.rows.length; i++) {
           const item = data.res.rows.item(i);
-          comments.push(new Comment(item.id, item.postId, HtmlEscape.unescape(item.content), item.authorName, item.authorUrl, new Date(item.date)))
+          comments.push(new Comment(item.id, item.postId, HtmlEscape.unescape(item.content), item.authorName, item.authorUrl, null, new Date(item.date)))
         }
         return comments;
       })

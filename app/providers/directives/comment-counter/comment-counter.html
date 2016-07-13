@@ -1,4 +1,4 @@
-<button primary clear block>
+<button primary clear block (click)="clickHandler()">
   <ion-spinner *ngIf="isLoading"></ion-spinner>
   <ion-icon name="text" *ngIf="!isLoading"></ion-icon>
   <div>{{commentLength$ | async}}</div>

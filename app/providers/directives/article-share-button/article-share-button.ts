@@ -20,7 +20,7 @@ export class ArticleShareButton {
     SocialSharing.share(
       this.config.social.message,
       this.config.social.subject,
-      article.picture,
+      this.article.picture,
       'http://www.google.com'
     );
   }

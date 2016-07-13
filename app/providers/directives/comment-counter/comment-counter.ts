@@ -1,6 +1,6 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {Observable, Subject} from 'rxjs/Rx';
-import {Article, CommentStore} from '../../store'
+import {Article, Comment, CommentStore} from '../../store'
 import {Config} from '../../../config';
 
 @Component({
@@ -12,6 +12,7 @@ export class CommentCounter {
   commentLength$: Observable<number>;
   isLoading: boolean;
   @Input() article: Article;
+  @Output() onCommentLoaded: EventEmitter<Comment[]> = new EventEmitter<Comment[]>();
 
   constructor(
     private config: Config,
@@ -23,10 +24,14 @@ export class CommentCounter {
     this.commentStore.findByArticle(this.article);
 
     this.commentLength$ = this.commentStore
-      .map(state => state.comments.get(this.article))
+      .map(state => state.comments.get(this.article.title))
       .do(() => this.isLoading = false)
       .filter(comments => !!comments)
       .map(comments => comments.length)
 
+  }
+
+  clickHandler() {
+    this.onCommentLoaded.emit(this.commentStore.currentState.comments.get(this.article.title));
   }
 }

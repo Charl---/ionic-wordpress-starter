@@ -12,6 +12,7 @@ export class HomePage implements OnInit{
   @ViewChild('homeSlider') slider: Slides;
   private category: Category;
   articles$: Observable<Article[]>;
+  article: Article;
 
   constructor(
     private config: Config,
@@ -28,7 +29,12 @@ export class HomePage implements OnInit{
       .do(() => this.category = this.categoryStore.currentState.categories.find(cat => cat.name === this.config.homeCategory))
       .do(state => console.log(state))
       .map(state => state.articles.get(this.category.name))
-      // .filter(articles => !!articles)
+      .do((articles) => this.article = articles[0]);
+  }
+
+  onSlideChanged() {
+    this.article = this.articleStore.currentState
+      .articles.get(this.config.homeCategory)[this.slider.getActiveIndex()]
   }
 
   goToArticlePage(): void {

@@ -26,6 +26,7 @@ export class CommentHttpApi extends HttpApi implements ApiCrudAdapter<Comment>{
       HtmlEscape.unescape(c.content.rendered),
       c.author_name,
       c.author_url,
+      null,
       new Date(c.date)
     );
   }

@@ -4,10 +4,12 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <!-- <ion-title>{{title}}</ion-title> -->
-    
+    <ion-buttons end>
+      <article-share-button [article]="article"></article-share-button>
+    </ion-buttons>
   </ion-navbar>
   <ion-slides #homeSlider [options]="config.sliderConfig">
-    <ion-slide *ngFor="let article of articles$ | async">
+    <ion-slide *ngFor="let article of articles$ | async" (ionDidChange)="onSlideChanged()">
       <div class="background" [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}"></div>
       <ion-card class="home-slide">
         <article-widget [article]="article"></article-widget>

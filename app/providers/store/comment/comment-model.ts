@@ -7,10 +7,13 @@ export class Comment {
     public content: string,
     public authorName: string,
     public authorUrl: string,
+    public authorAvatar: string,
     public date: Date
-  ) {}
+  ) {
+    this.authorAvatar = authorAvatar ? authorAvatar : 'img/avatar.png';
+  }
 }
 
 export interface CommentState {
-  comments:  Map<Article, Comment[]>
+  comments:  Map<string, Comment[]>
 }

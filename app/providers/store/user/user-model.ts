@@ -7,7 +7,7 @@ export class User {
     public slug: string
   )
   {
-      this.avatar = avatar ? avatar : 'img/avatar.png'
+      this.avatar = avatar ? avatar : 'img/avatar.png';
   }
 }
 

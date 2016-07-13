@@ -5,6 +5,7 @@ export * from './search-widget';
 export * from './article-widget';
 export * from './article-widget-footer';
 export * from './comment-counter'
+export * from './comment-widget';
 export * from './article-share-button'
 
 import {
@@ -13,7 +14,8 @@ import {
   ArticleWidget,
   ArticleWidgetFooter,
   CommentCounter,
-  ArticleShareButton
+  ArticleShareButton,
+  CommentWidget
 } from './';
 
 export const APP_DIRECTIVES = [
@@ -23,5 +25,6 @@ export const APP_DIRECTIVES = [
   ArticleWidget,
   ArticleWidgetFooter,
   CommentCounter,
+  CommentWidget,
   ArticleShareButton
 ]

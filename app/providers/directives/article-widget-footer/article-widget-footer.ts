@@ -1,6 +1,6 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {Article} from '../../store';
+import {Article, Comment} from '../../store';
 import {ArticlePage} from '../../../pages/article/article';
 
 export interface ArticleWidgetFooterOptions {
@@ -17,6 +17,7 @@ export interface ArticleWidgetFooterOptions {
 })
 export class ArticleWidgetFooter {
   @Input() options: ArticleWidgetFooterOptions;
+  comments: Comment[] = [];
 
   constructor(
     private nav: NavController
@@ -26,5 +27,9 @@ export class ArticleWidgetFooter {
     this.nav.push(ArticlePage, {
       article
     });
+  }
+
+  commentsLoadHandler(comments): void {
+    this.comments = comments;
   }
 }
