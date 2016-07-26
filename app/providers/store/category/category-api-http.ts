@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Http, RequestMethod} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {HttpApi, ApiCrudAdapter} from '../_api/api-http';
-import {Category} from './index';
-import {Config} from '../../../config';
+import { Injectable } from '@angular/core';
+import { Http, RequestMethod } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+import { HttpApi, ApiCrudAdapter } from '../_api/api-http';
+import { Category } from './index';
+import { Config } from '../../../config';
 
 @Injectable()
 export class CategoryHttpApi extends HttpApi implements ApiCrudAdapter<Category>{
@@ -14,7 +14,7 @@ export class CategoryHttpApi extends HttpApi implements ApiCrudAdapter<Category>
     super(http);
   }
 
-  findAll(params?:any): Promise<Category[]> {
+  findAll(params?: any): Promise<Category[]> {
     return this.request({
       method: RequestMethod.Get,
       url: `${this.config.baseUrl}categories`,

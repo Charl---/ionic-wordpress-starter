@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Platform} from 'ionic-angular';
-import {Network} from 'ionic-native';
-import {BehaviorSubject, Observable, Subject} from 'rxjs/Rx';
-import {Store, EventQueue} from 'sparix';
+import { Injectable } from '@angular/core';
+import { Platform } from 'ionic-angular';
+import { Network } from 'ionic-native';
+import { BehaviorSubject, Observable, Subject } from 'rxjs/Rx';
+import { Store, EventQueue } from 'sparix';
 
 interface ConnectivityState {
   isOnline: boolean;
@@ -13,7 +13,7 @@ const initialState: ConnectivityState = {
 }
 
 @Injectable()
-export class Connectivity extends Store<ConnectivityState>{
+export class Connectivity extends Store<ConnectivityState> {
   constructor(
     platform: Platform,
     eventQueue: EventQueue

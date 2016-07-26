@@ -1,6 +1,6 @@
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
-export interface ApiFindAllOptions{
+export interface ApiFindAllOptions {
   page?: number;
   search?: string;
   after?: string;

@@ -1,14 +1,21 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {Observable, Subject} from 'rxjs/Rx';
-import {Article, Comment, CommentStore} from '../../store'
-import {Config} from '../../../config';
+import {
+  Component,
+  Input,
+  Output,
+  OnInit,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
+import { Observable, Subject } from 'rxjs/Rx';
+import { Article, Comment, CommentStore } from '../../store'
+import { Config } from '../../../config';
 
 @Component({
-  selector: 'comment-counter',
+  selector: 'wp-comment-counter',
   templateUrl: 'build/providers/directives/comment-counter/comment-counter.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommentCounter {
+export class CommentCounterComponent implements OnInit {
   commentLength$: Observable<number>;
   isLoading: boolean;
   @Input() article: Article;
@@ -17,9 +24,9 @@ export class CommentCounter {
   constructor(
     private config: Config,
     private commentStore: CommentStore
-  ) {}
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoading = true;
     this.commentStore.findByArticle(this.article);
 
@@ -31,7 +38,7 @@ export class CommentCounter {
 
   }
 
-  clickHandler() {
+  clickHandler(): void {
     this.onCommentLoaded.emit(this.commentStore.currentState.comments.get(this.article.title));
   }
 }

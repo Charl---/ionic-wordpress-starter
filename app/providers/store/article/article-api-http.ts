@@ -1,19 +1,19 @@
-import {Injectable} from '@angular/core';
-import {Http, RequestMethod} from '@angular/http';
-import {Observable} from 'rxjs';
-import {HttpApi, ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-http';
-import {Article} from './index';
-import {User, UserStore} from '../user'
-import {CategoryStore, Category} from '../category';
-import {Config} from '../../../config';
-import {HtmlEscape} from '../../../utils';
+import { Injectable } from '@angular/core';
+import { Http, RequestMethod } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpApi, ApiFindAllOptions, ApiCrudAdapter } from '../_api/api-http';
+import { Article } from './index';
+import { User, UserStore } from '../user'
+import { CategoryStore, Category } from '../category';
+import { Config } from '../../../config';
+import { HtmlEscape } from '../../../utils';
 
 const httpParams = {
   _embed: true
 };
 
 @Injectable()
-export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article>{
+export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article> {
   constructor(
     private config: Config,
     private categoryStore: CategoryStore,

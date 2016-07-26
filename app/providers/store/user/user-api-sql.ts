@@ -1,10 +1,9 @@
-import {Injectable} from '@angular/core'
-import {Storage, SqlStorage, Platform} from 'ionic-angular'
-import {Observable} from 'rxjs/Rx';
-import {fromPromise} from 'rxjs/observable/fromPromise'
-import {SqlApi, ApiCrudAdapter} from '../_api/api-sql';
-import {User} from './index';
-import {HtmlEscape} from '../../../utils';
+import { Injectable } from '@angular/core'
+import { Storage, SqlStorage, Platform } from 'ionic-angular'
+import { Observable } from 'rxjs/Rx';
+import { SqlApi, ApiCrudAdapter } from '../_api/api-sql';
+import { User } from './index';
+import { HtmlEscape } from '../../../utils';
 
 @Injectable()
 export class UserSqlApi extends SqlApi implements ApiCrudAdapter<User> {

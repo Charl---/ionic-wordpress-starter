@@ -1,6 +1,6 @@
 <ion-row>
   <ion-col *ngIf="options.social">
-    <article-share-button [article]="options.article"></article-share-button>
+    <wp-article-share-button [article]="options.article"></wp-article-share-button>
   </ion-col>
   <ion-col *ngIf="options.navigate">
     <button primary clear block (click)="goToArticlePage(options.article)">
@@ -8,7 +8,7 @@
     </button>
   </ion-col>
   <ion-col *ngIf="!!options.comments">
-    <comment-counter [article]="options.article" (onCommentLoaded)="commentsLoadHandler($event)"></comment-counter>
+    <wp-comment-counter [article]="options.article" (onCommentLoaded)="commentsLoadHandler($event)"></wp-comment-counter>
   </ion-col>
   <ion-col center text-center>
     <ion-note>
@@ -17,5 +17,5 @@
   </ion-col>
 </ion-row>
 <ion-list>
-  <comment-widget *ngFor="let comment of comments" [comment]="comment"></comment-widget>
+  <wp-comment-widget *ngFor="let comment of comments" [comment]="comment"></wp-comment-widget>
 </ion-list>

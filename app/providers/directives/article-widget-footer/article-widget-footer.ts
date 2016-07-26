@@ -1,7 +1,7 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {Article, Comment} from '../../store';
-import {ArticlePage} from '../../../pages/article/article';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { Article, Comment } from '../../store';
+import { ArticlePageComponent } from '../../../pages/article/article';
 
 export interface ArticleWidgetFooterOptions {
   comments?: boolean;
@@ -11,20 +11,20 @@ export interface ArticleWidgetFooterOptions {
 }
 
 @Component({
-  selector: 'article-widget-footer',
+  selector: 'wp-article-widget-footer',
   templateUrl: 'build/providers/directives/article-widget-footer/article-widget-footer.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArticleWidgetFooter {
+export class ArticleWidgetFooterComponent {
   @Input() options: ArticleWidgetFooterOptions;
   comments: Comment[] = [];
 
   constructor(
     private nav: NavController
-  ) {}
+  ) { }
 
   goToArticlePage(article: Article): void {
-    this.nav.push(ArticlePage, {
+    this.nav.push(ArticlePageComponent, {
       article
     });
   }

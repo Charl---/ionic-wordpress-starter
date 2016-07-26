@@ -1,18 +1,18 @@
-import {Injectable } from '@angular/core';
-import {Platform} from 'ionic-angular';
-import {Network} from 'ionic-native';
-import {BehaviorSubject, Observable} from 'rxjs/Rx';
-import {Store, EventQueue} from 'sparix';
-import {CategoryHttpApi, CategorySqlApi, CategoryState, Category} from './index';
-import {ApiCrudAdapter} from '../_api/api-common'
-import {Connectivity} from '../../ionic'
+import { Injectable } from '@angular/core';
+import { Platform } from 'ionic-angular';
+import { Network } from 'ionic-native';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { Store, EventQueue } from 'sparix';
+import { CategoryHttpApi, CategorySqlApi, CategoryState, Category } from './index';
+import { ApiCrudAdapter } from '../_api/api-common'
+import { Connectivity } from '../../ionic'
 
 const initialState: CategoryState = {
   categories: []
 }
 
 @Injectable()
-export class CategoryStore extends Store<CategoryState>{
+export class CategoryStore extends Store<CategoryState> {
   private api: ApiCrudAdapter<Category>;
   loading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -56,10 +56,10 @@ export class CategoryStore extends Store<CategoryState>{
 
     return categories.length > 0
       ? Promise.resolve(this.simpleUpdate(categories))
-          .then(categories => {
-            this.loading$.next(false);
-            return categories;
-          })
+        .then(categories => {
+          this.loading$.next(false);
+          return categories;
+        })
       : this.platform.ready()
         .then(() => this.api.findAll())
         .then(categories => {

@@ -1,14 +1,14 @@
-import {provide, PLATFORM_DIRECTIVES, PLATFORM_PIPES, enableProdMode} from '@angular/core';
-import {ionicBootstrap} from 'ionic-angular';
-import {Splashscreen} from 'ionic-native';
+import { provide, PLATFORM_DIRECTIVES, PLATFORM_PIPES, enableProdMode } from '@angular/core';
+import { ionicBootstrap } from 'ionic-angular';
+import { Splashscreen } from 'ionic-native';
 
-import {WordpressApp} from './ionic-wordpress-app';
-import {Config, APP_CONFIG} from './config'
-import {APP_DIRECTIVES, APP_PROVIDERS, APP_PIPES} from './providers'
+import { WordpressAppComponent } from './ionic-wordpress-app';
+import { Config, APP_CONFIG } from './config'
+import { APP_DIRECTIVES, APP_PROVIDERS, APP_PIPES } from './providers'
 
 // enableProdMode();
 
-ionicBootstrap(WordpressApp, [
+ionicBootstrap(WordpressAppComponent, [
   ...APP_PROVIDERS,
   provide(Config, { useValue: APP_CONFIG }),
   provide(PLATFORM_DIRECTIVES, { useValue: APP_DIRECTIVES, multi: true }),

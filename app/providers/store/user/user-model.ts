@@ -5,9 +5,8 @@ export class User {
     public avatar: string,
     public description: string,
     public slug: string
-  )
-  {
-      this.avatar = avatar ? avatar : 'img/avatar.png';
+  ) {
+    this.avatar = avatar ? avatar : 'img/avatar.png';
   }
 }
 

@@ -1,26 +1,26 @@
-import {Component, ViewChild, OnInit} from '@angular/core';
-import {App, Platform, Nav, Modal, Loading, MenuController} from 'ionic-angular';
-import {StatusBar} from 'ionic-native';
-import {Observable} from 'rxjs/Rx';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { App, Platform, Nav, Modal, Loading, MenuController } from 'ionic-angular';
+import { StatusBar } from 'ionic-native';
+import { Observable } from 'rxjs/Rx';
 
-import {Config} from './config'
-import {CategoryStore, Category, CategoryState, ArticleStore, Article} from './providers/store';
-import {HomePage} from './pages/home/home';
-import {ListPage} from './pages/list/list';
-import {SettingsPage} from './pages/settings/settings';
-import {SearchPage} from './pages/search/search';
-import {Connectivity} from './providers/ionic'
-import {SearchWidgetOptions} from './providers/directives/search-widget';
+import { Config } from './config'
+import { CategoryStore, Category, CategoryState, ArticleStore, Article } from './providers/store';
+import { HomePageComponent } from './pages/home/home';
+import { ListPageComponent } from './pages/list/list';
+import { SettingsPageComponent } from './pages/settings/settings';
+import { SearchPageComponent } from './pages/search/search';
+import { Connectivity } from './providers/ionic'
+import { SearchWidgetOptions } from './providers/directives/search-widget';
 
 @Component({
   templateUrl: 'build/ionic-wordpress-app.html'
 })
-export class WordpressApp implements OnInit{
+export class WordpressAppComponent implements OnInit {
   @ViewChild(Nav) nav: Nav;
-  rootPage: any = HomePage;
-  listPage: any = ListPage;
-  settingsPage: any = SettingsPage;
-  searchPage: any = SearchPage;
+  rootPage: any = HomePageComponent;
+  listPage: any = ListPageComponent;
+  settingsPage: any = SettingsPageComponent;
+  searchPage: any = SearchPageComponent;
   categories$: Observable<Category[]>;
   query: string;
   searchWidgetOptions: SearchWidgetOptions = {
@@ -35,7 +35,7 @@ export class WordpressApp implements OnInit{
     public menu: MenuController,
     public categoryStore: CategoryStore,
     private connec: Connectivity
-  ) {}
+  ) { }
 
   private loading(): Loading {
     const loading = Loading.create({
@@ -53,7 +53,7 @@ export class WordpressApp implements OnInit{
         .filter(state => state.categories.length > 0)
         .map(state => {
           const articlesFromSqlPromises: Promise<Article[]>[] = state.categories
-            .map(category => this.articleStore.initialLoad({filters: {category}}));
+            .map(category => this.articleStore.initialLoad({ filters: { category } }));
 
           Promise.all(articlesFromSqlPromises)
             .catch(err => console.error('error loading sql articles', err));
@@ -76,9 +76,9 @@ export class WordpressApp implements OnInit{
   }
 
   searchHandler(query: string): void {
-    if(query.length > 2) {
+    if (query.length > 2) {
       this.query = '';
-      this.navigateTo(SearchPage, {query}, true);
+      this.navigateTo(SearchPageComponent, { query }, true);
       this.menu.close();
     }
   }

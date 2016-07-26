@@ -1,9 +1,9 @@
-import {Category} from '../category';
-import {User} from '../user';
+import { Category } from '../category';
+import { User } from '../user';
 
 export class Article {
   constructor(
-    public id:string,
+    public id: string,
     public title: string,
     public body: string,
     public preview: string,
@@ -35,7 +35,7 @@ export class Article {
           this.body = bodyFragment.textContent;
         }
         this.picture = pictureElement ? pictureElement.getAttribute('src') : defaultPicture;
-      } catch(err) {
+      } catch (err) {
         console.error(err);
         this.picture = '';
       }

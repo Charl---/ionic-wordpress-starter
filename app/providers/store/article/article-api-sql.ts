@@ -1,14 +1,13 @@
-import {Injectable} from '@angular/core';
-import {SqlStorage, Platform} from 'ionic-angular';
-import {fromPromise} from 'rxjs/observable/fromPromise'
-import {Observable} from 'rxjs/Rx';
+import { Injectable} from '@angular/core';
+import { SqlStorage, Platform} from 'ionic-angular';
+import { Observable } from 'rxjs/Rx';
 
-import {Article} from './index';
-import {CategoryStore,Category} from '../category';
-import {UserStore, User} from '../user';
-import {SqlApi, ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-sql';
-import {Config} from '../../../config';
-import {HtmlEscape} from '../../../utils';
+import { Article } from './index';
+import { CategoryStore, Category } from '../category';
+import { UserStore, User } from '../user';
+import { SqlApi, ApiFindAllOptions, ApiCrudAdapter } from '../_api/api-sql';
+import { Config } from '../../../config';
+import { HtmlEscape } from '../../../utils';
 
 @Injectable()
 export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
@@ -20,7 +19,6 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
   ) {
     super(platform, 'CREATE TABLE IF NOT EXISTS article (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, body TEXT, preview TEXT, picture TEXT, date INTEGER, author INTEGER, category INTEGER, FOREIGN KEY(author) REFERENCES user(id), FOREIGN KEY(category) REFERENCES category(id))')
   }
-
 
   //todo refactor the end ...... jointures
   private formatData(data: any): Promise<any> {
@@ -52,7 +50,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
 
   private buildArticle(data: any): Article[] {
     return data[0].map((articleProp: any[]) => {
-      let article = new Article(articleProp[0], articleProp[1], articleProp[2], articleProp[3], articleProp[4], new Date(articleProp[5] * 1000),null, null, this.config.defaultPicture);
+      let article = new Article(articleProp[0], articleProp[1], articleProp[2], articleProp[3], articleProp[4], new Date(articleProp[5] * 1000), null, null, this.config.defaultPicture);
       article.author = data[1].find((author: User) => {
         return articleProp[6] === author.id
       });
@@ -68,7 +66,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
     let query = `SELECT * FROM article WHERE category = ${params.filters.category.id} ORDER BY date DESC`;
     if (params.page) {
       const articleParPage = this.config.articlePerPage;
-      query += ` LIMIT ${articleParPage} OFFSET ${articleParPage * (params.page -1)}`;
+      query += ` LIMIT ${articleParPage} OFFSET ${articleParPage * (params.page - 1)}`;
     }
     return this.storage.query(query)
       .then(data => this.formatData(data))
@@ -87,7 +85,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
       .catch(err => console.error(err));
   }
 
-  insertAll(articles: Article[]): Promise<Article[]>{
+  insertAll(articles: Article[]): Promise<Article[]> {
     return Promise.all(articles.map(article => this.insert(article)))
       .then(() => articles)
       .catch(err => console.error(err));

@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Storage, SqlStorage, Platform} from 'ionic-angular';
-import {Observable} from "rxjs/Rx";
-import {Comment} from "./index";
-import {SqlApi, ApiCrudAdapter} from '../_api/api-sql';
-import {HtmlEscape} from '../../../utils';
+import { Injectable } from '@angular/core';
+import { Storage, SqlStorage, Platform } from 'ionic-angular';
+import { Observable } from "rxjs/Rx";
+import { Comment } from "./index";
+import { SqlApi, ApiCrudAdapter } from '../_api/api-sql';
+import { HtmlEscape } from '../../../utils';
 
 @Injectable()
 export class CommentSqlApi extends SqlApi implements ApiCrudAdapter<Comment>{
@@ -22,7 +22,7 @@ export class CommentSqlApi extends SqlApi implements ApiCrudAdapter<Comment>{
 
   findAll(): Promise<Comment[]> {
     return this.storage.query('SELECT * FROM comment')
-      .then((data: any) =>{
+      .then((data: any) => {
         //todo use Array.prototype.map() (data.res.rows is no fucking array)
         const comments = [];
         for (let i = 0; i < data.res.rows.length; i++) {
@@ -39,7 +39,7 @@ export class CommentSqlApi extends SqlApi implements ApiCrudAdapter<Comment>{
       .catch(err => console.error(err));
   }
 
-  insertAll(comments: Comment[]): Promise<Comment[]>{
+  insertAll(comments: Comment[]): Promise<Comment[]> {
     return Promise.all(comments.map(comment => this.insert(comment)))
       .then(() => comments)
       .catch(err => console.error(err));

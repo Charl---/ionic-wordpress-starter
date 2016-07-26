@@ -1,4 +1,4 @@
-import {FORM_DIRECTIVES} from '@angular/common'
+import { FORM_DIRECTIVES } from '@angular/common'
 
 export * from './user-widget';
 export * from './search-widget';
@@ -9,22 +9,22 @@ export * from './comment-widget';
 export * from './article-share-button'
 
 import {
-  UserWidget,
-  SearchWidget,
-  ArticleWidget,
-  ArticleWidgetFooter,
-  CommentCounter,
-  ArticleShareButton,
-  CommentWidget
+  UserWidgetComponent,
+  SearchWidgetComponent,
+  ArticleWidgetComponent,
+  ArticleWidgetFooterComponent,
+  CommentCounterComponent,
+  ArticleShareButtonComponent,
+  CommentWidgetComponent
 } from './';
 
 export const APP_DIRECTIVES = [
   FORM_DIRECTIVES,
-  UserWidget,
-  SearchWidget,
-  ArticleWidget,
-  ArticleWidgetFooter,
-  CommentCounter,
-  CommentWidget,
-  ArticleShareButton
+  UserWidgetComponent,
+  SearchWidgetComponent,
+  ArticleWidgetComponent,
+  ArticleWidgetFooterComponent,
+  CommentCounterComponent,
+  CommentWidgetComponent,
+  ArticleShareButtonComponent
 ]

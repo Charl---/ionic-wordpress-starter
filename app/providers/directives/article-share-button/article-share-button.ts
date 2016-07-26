@@ -1,19 +1,19 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {SocialSharing} from 'ionic-native';
-import {Article} from '../../store'
-import {Config} from '../../../config';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { SocialSharing } from 'ionic-native';
+import { Article } from '../../store'
+import { Config } from '../../../config';
 
 @Component({
-  selector: 'article-share-button',
+  selector: 'wp-article-share-button',
   templateUrl: 'build/providers/directives/article-share-button/article-share-button.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArticleShareButton {
+export class ArticleShareButtonComponent {
   @Input() article: Article;
 
   constructor(
     private config: Config
-  ) {}
+  ) { }
 
 
   shareArticle(article?: Article) {

@@ -5,14 +5,14 @@
     </button>
     <!-- <ion-title>{{title}}</ion-title> -->
     <ion-buttons end>
-      <article-share-button [article]="article"></article-share-button>
+      <wp-article-share-button [article]="article"></wp-article-share-button>
     </ion-buttons>
   </ion-navbar>
   <ion-slides #homeSlider [options]="config.sliderConfig">
     <ion-slide *ngFor="let article of articles$ | async" (ionDidChange)="onSlideChanged()">
       <div class="background" [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}"></div>
       <ion-card class="home-slide">
-        <article-widget [article]="article"></article-widget>
+        <wp-article-widget [article]="article"></wp-article-widget>
         <article class="article-preview" [innerHTML]="article.preview"></article>
       </ion-card>
     </ion-slide>

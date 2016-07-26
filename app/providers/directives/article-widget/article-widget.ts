@@ -1,17 +1,17 @@
-import {Component, Input, ChangeDetectionStrategy, OnInit} from '@angular/core';
-import {Article} from '../../store/article'
-import {UserWidgetOptions} from '../user-widget';
+import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Article } from '../../store/article'
+import { UserWidgetOptions } from '../user-widget';
 
 export interface ArticleWidgetOptions {
   preview?: boolean;
 }
 
 @Component({
-  selector: 'article-widget',
+  selector: 'wp-article-widget',
   templateUrl: 'build/providers/directives/article-widget/article-widget.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArticleWidget implements OnInit{
+export class ArticleWidgetComponent implements OnInit {
   @Input() article: Article;
   @Input() options: ArticleWidgetOptions;
 

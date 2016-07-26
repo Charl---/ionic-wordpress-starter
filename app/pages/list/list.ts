@@ -1,16 +1,15 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {NavController, NavParams, Loading, Refresher, InfiniteScroll, Modal} from 'ionic-angular';
-import {Observable, Subscription} from 'rxjs/Rx';
-import {Category, ArticleStore, Article} from '../../providers/store';
-import {ArticlePage} from '../article/article';
-import {Config} from '../../config';
-import {Connectivity} from '../../providers/ionic';
-import {SearchWidgetOptions} from '../../providers/directives/search-widget';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NavController, NavParams, Loading, Refresher, InfiniteScroll } from 'ionic-angular';
+import { Observable, Subscription } from 'rxjs/Rx';
+import { Category, ArticleStore, Article } from '../../providers/store';
+import { Config } from '../../config';
+import { Connectivity } from '../../providers/ionic';
+import { SearchWidgetOptions } from '../../providers/directives/search-widget';
 
 @Component({
   templateUrl: 'build/pages/list/list.html'
 })
-export class ListPage implements OnInit {
+export class ListPageComponent implements OnInit {
   category: Category;
   articles$: Observable<Article[]>;
   connec$: Observable<boolean>;
@@ -44,7 +43,7 @@ export class ListPage implements OnInit {
       .loadMore(this.category)
       .then((articles: Article[]) => {
         infiniteScroll.complete();
-        if(articles.length < this.config.articlePerPage)
+        if (articles.length < this.config.articlePerPage)
           infiniteScroll.enable(false);
       })
   }

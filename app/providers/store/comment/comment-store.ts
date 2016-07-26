@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/Rx';
-import {Store, EventQueue} from 'sparix';
-import {CommentSqlApi} from './comment-api-sql';
-import {CommentHttpApi} from './comment-api-http';
-import {Comment, CommentState} from './index';
-import {Connectivity} from '../../ionic';
-import {ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-common';
-import {Article} from '../article';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/Rx';
+import { Store, EventQueue } from 'sparix';
+import { CommentSqlApi } from './comment-api-sql';
+import { CommentHttpApi } from './comment-api-http';
+import { Comment, CommentState } from './index';
+import { Connectivity } from '../../ionic';
+import { ApiFindAllOptions, ApiCrudAdapter } from '../_api/api-common';
+import { Article } from '../article';
 
 const initialState: CommentState = {
   comments: new Map<string, Comment[]>()
@@ -56,7 +56,7 @@ export class CommentStore extends Store<CommentState> {
         this.loading$.next(false);
         return comments
       })
-      .then(comments => this.sqlApi.insertAll(comments))
+        .then(comments => this.sqlApi.insertAll(comments))
     }
   }
 

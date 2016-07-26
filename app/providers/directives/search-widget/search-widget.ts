@@ -8,8 +8,8 @@ import {
   ElementRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import {ControlGroup, FormBuilder} from '@angular/common';
-import {Subscription} from 'rxjs/Rx';
+import { ControlGroup, FormBuilder } from '@angular/common';
+import { Subscription } from 'rxjs/Rx';
 
 export interface SearchWidgetOptions {
   class?: string;
@@ -18,11 +18,11 @@ export interface SearchWidgetOptions {
 }
 
 @Component({
-  selector: 'search-widget',
+  selector: 'wp-search-widget',
   templateUrl: 'build/providers/directives/search-widget/search-widget.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchWidget implements OnInit, OnDestroy {
+export class SearchWidgetComponent implements OnInit, OnDestroy {
   searchForm: ControlGroup;
   searchSub: Subscription;
   @Input() query: string;
@@ -32,7 +32,7 @@ export class SearchWidget implements OnInit, OnDestroy {
   constructor(
     private elementRef: ElementRef,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   private buildForm(value = ''): ControlGroup {
     return this.formBuilder.group({
@@ -53,7 +53,7 @@ export class SearchWidget implements OnInit, OnDestroy {
       const input = form.querySelector('ion-input');
       input.setAttribute('autofocus', this.options.autofocus);
       form.classList.add(this.options.class);
-      if(this.options.placeholder)
+      if (this.options.placeholder)
         input.setAttribute('placeholder', this.options.placeholder);
     }
   }

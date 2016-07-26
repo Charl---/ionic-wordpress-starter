@@ -1,8 +1,8 @@
-import {Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs/Rx';
-import {Platform} from 'ionic-angular';
-import {Store, EventQueue} from 'sparix';
-import {UserSqlApi, UserState, User} from './index';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/Rx';
+import { Platform } from 'ionic-angular';
+import { Store, EventQueue } from 'sparix';
+import { UserSqlApi, UserState, User } from './index';
 
 const initialState: UserState = {
   users: []
@@ -13,8 +13,8 @@ export class UserStore extends Store<UserState> {
   loading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
-    private sqlApi:UserSqlApi,
-    private platform:Platform,
+    private sqlApi: UserSqlApi,
+    private platform: Platform,
     eventQueue: EventQueue
   ) {
     super(eventQueue, initialState);
@@ -25,12 +25,12 @@ export class UserStore extends Store<UserState> {
       .then(() => this.sqlApi.insert(user))
       .then(() => {
         const existingUser = this.currentState.users.find((item: User) => item.id === user.id);
-        if(existingUser) {
+        if (existingUser) {
           return existingUser;
         } else {
           this.update((state: UserState) => ({
-              users: [...state.users, user]
-            })
+            users: [...state.users, user]
+          })
           )
           return user;
         }

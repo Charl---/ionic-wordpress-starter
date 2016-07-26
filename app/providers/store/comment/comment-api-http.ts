@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {Http, RequestMethod} from '@angular/http';
-import {Observable} from 'rxjs';
-import {HttpApi, ApiFindAllOptions, ApiCrudAdapter} from '../_api/api-http';
-import {Comment} from './index';
-import {User, UserStore} from '../user'
-import {Article} from '../article';
-import {Config} from '../../../config';
-import {HtmlEscape} from '../../../utils';
+import { Injectable } from '@angular/core';
+import { Http, RequestMethod } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpApi, ApiFindAllOptions, ApiCrudAdapter } from '../_api/api-http';
+import { Comment } from './index';
+import { User, UserStore } from '../user'
+import { Article } from '../article';
+import { Config } from '../../../config';
+import { HtmlEscape } from '../../../utils';
 
 const httpParams = {};
 
 @Injectable()
-export class CommentHttpApi extends HttpApi implements ApiCrudAdapter<Comment>{
+export class CommentHttpApi extends HttpApi implements ApiCrudAdapter<Comment> {
   constructor(
     private config: Config,
     http: Http
@@ -32,7 +32,7 @@ export class CommentHttpApi extends HttpApi implements ApiCrudAdapter<Comment>{
   }
 
   findAll(params: ApiFindAllOptions): Promise<Comment[]> {
-    if(params.filters.article)
+    if (params.filters.article)
       httpParams['post'] = params.filters.article.id;
 
     return this.request({

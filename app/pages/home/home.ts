@@ -1,14 +1,14 @@
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import {NavController, NavParams, Platform, Slides} from 'ionic-angular';
-import {Observable, Subscription} from 'rxjs/Rx';
-import {Config} from '../../config';
-import {ArticleStore, Article, CategoryStore, Category} from '../../providers/store'
-import {ArticlePage} from '../article/article';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { NavController, NavParams, Platform, Slides } from 'ionic-angular';
+import { Observable, Subscription } from 'rxjs/Rx';
+import { Config } from '../../config';
+import { ArticleStore, Article, CategoryStore, Category } from '../../providers/store'
+import { ArticlePageComponent } from '../article/article';
 
 @Component({
   templateUrl: 'build/pages/home/home.html'
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePageComponent implements OnInit, OnDestroy {
   @ViewChild('homeSlider') slider: Slides;
   private category: Category;
   private categorySub: Subscription;
@@ -56,7 +56,7 @@ export class HomePage implements OnInit, OnDestroy {
     const article = this.articleStore.currentState.articles
       .get(this.category.name)[index];
 
-    this.nav.push(ArticlePage, {
+    this.nav.push(ArticlePageComponent, {
       article
     });
   }

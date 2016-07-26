@@ -1,19 +1,19 @@
-import {Component} from '@angular/core';
-import {NavController, Alert} from 'ionic-angular';
-import {ArticleStore, CategoryStore, UserStore} from '../../providers/store';
+import { Component } from '@angular/core';
+import { NavController, Alert } from 'ionic-angular';
+import { ArticleStore, CategoryStore, UserStore } from '../../providers/store';
 
 
 @Component({
   templateUrl: 'build/pages/settings/settings.html',
 })
-export class SettingsPage {
+export class SettingsPageComponent {
   isLoading: boolean = false;
   constructor(
     private articleStore: ArticleStore,
     private categoryStore: CategoryStore,
     private userStore: UserStore,
     private nav: NavController
-  ) {}
+  ) { }
 
   resetLocalDb(): void {
     this.isLoading = true;

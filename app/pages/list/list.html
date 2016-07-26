@@ -9,14 +9,14 @@
         <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
-  </ion-navbar>  
+  </ion-navbar>
 </ion-header>
 <ion-content class="list">
-  <search-widget
+  <wp-search-widget
     *ngIf="displayFilter"
     [options]="searchWidgetOptions"
     (onSearch)="filter = $event">
-  </search-widget>
+  </wp-search-widget>
   <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="connec$ | async">
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
@@ -25,11 +25,11 @@
       refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
-  <article-widget
+  <wp-article-widget
     *ngFor="let article of articles$ | async | listfilter : filter"
     [article]="article">
-    <article-widget-footer [options]="{social: true, navigate: true, comments: false, article: article}"></article-widget-footer>
-  </article-widget>
+    <wp-article-widget-footer [options]="{social: true, navigate: true, comments: false, article: article}"></wp-article-widget-footer>
+  </wp-article-widget>
   <ion-infinite-scroll (ionInfinite)="loadMore($event)">
     <ion-infinite-scroll-content
     loadingSpinner="bubbles"

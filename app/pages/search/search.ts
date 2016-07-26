@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Loading, NavController, NavParams, Toast} from 'ionic-angular';
-import {ArticleStore, Article, ArticleState} from '../../providers/store';
-import {ArticlePage} from '../article/article';
-import {UserWidgetOptions} from '../../providers/directives/user-widget';
-import {SearchWidgetOptions} from '../../providers/directives/search-widget';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Loading, NavController, NavParams, Toast } from 'ionic-angular';
+import { ArticleStore, Article, ArticleState } from '../../providers/store';
+import { ArticlePageComponent } from '../article/article';
+import { UserWidgetOptions } from '../../providers/directives/user-widget';
+import { SearchWidgetOptions } from '../../providers/directives/search-widget';
 
 @Component({
   templateUrl: 'build/pages/search/search.html'
 })
-export class SearchPage implements OnInit{
+export class SearchPageComponent implements OnInit {
   articles: Article[] = [];
   query: string;
   userWidgetOptions: UserWidgetOptions = {
@@ -24,7 +24,7 @@ export class SearchPage implements OnInit{
     public articleStore: ArticleStore,
     private nav: NavController,
     private navParams: NavParams
-  ) {}
+  ) { }
 
   private displayToast(message): void {
     this.nav.present(Toast.create({
@@ -47,6 +47,6 @@ export class SearchPage implements OnInit{
   }
 
   goToArticlePage(article: Article): void {
-    this.nav.push(ArticlePage, { article });
+    this.nav.push(ArticlePageComponent, { article });
   }
 }

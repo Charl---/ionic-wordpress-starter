@@ -5,11 +5,11 @@
 </ion-header>
 <ion-content>
   <ion-card>
-    <user-widget [user]="article.author"></user-widget>
+    <wp-user-widget [user]="article.author"></wp-user-widget>
     <img [src]="article.picture">
     <ion-card-content>
       <article class="article" [innerHtml]="article.body | linky"></article>
     </ion-card-content>
-    <article-widget-footer [options]="footerOptions"></article-widget-footer>
+    <wp-article-widget-footer [options]="footerOptions"></wp-article-widget-footer>
   </ion-card>
 </ion-content>

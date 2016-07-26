@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Storage, SqlStorage, Platform} from 'ionic-angular';
-import {Observable} from "rxjs/Rx";
-import {Category} from "./index";
-import {SqlApi, ApiCrudAdapter} from '../_api/api-sql';
-import {HtmlEscape} from '../../../utils';
+import { Injectable } from '@angular/core';
+import { Storage, SqlStorage, Platform } from 'ionic-angular';
+import { Observable } from "rxjs/Rx";
+import { Category } from "./index";
+import { SqlApi, ApiCrudAdapter } from '../_api/api-sql';
+import { HtmlEscape } from '../../../utils';
 
 @Injectable()
-export class CategorySqlApi extends SqlApi implements ApiCrudAdapter<Category>{
+export class CategorySqlApi extends SqlApi implements ApiCrudAdapter<Category> {
   constructor(
     platform: Platform
   ) {
@@ -22,7 +22,7 @@ export class CategorySqlApi extends SqlApi implements ApiCrudAdapter<Category>{
 
   findAll(): Promise<Category[]> {
     return this.storage.query('SELECT * FROM category')
-      .then((data: any) =>{
+      .then((data: any) => {
         //todo use Array.prototype.map() (data.res.rows is no fucking array)
         const categories = [];
         for (let i = 0; i < data.res.rows.length; i++) {
@@ -39,7 +39,7 @@ export class CategorySqlApi extends SqlApi implements ApiCrudAdapter<Category>{
       .catch(err => console.error(err));
   }
 
-  insertAll(categories: Category[]): Promise<Category[]>{
+  insertAll(categories: Category[]): Promise<Category[]> {
     return Promise.all(categories.map(category => this.insert(category)))
       .then(() => categories)
       .catch(err => console.error(err));
