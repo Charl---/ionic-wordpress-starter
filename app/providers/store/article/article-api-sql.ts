@@ -81,6 +81,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
   }
 
   insert(article: Article): Promise<Article> {
+    console.log('insert', article)
     return this.storage.query(`INSERT OR REPLACE INTO article (id, title, body, preview, picture, date, author, category) VALUES ('${article.id}', '${HtmlEscape.escape(article.title)}', '${HtmlEscape.escape(article.body)}', '${HtmlEscape.escape(article.preview)}', '${article.picture}', '${(article.date.getTime() / 1000).toFixed(0)}', '${article.author.id}', '${article.category.id}')`)
       .then(() => article)
       .catch(err => console.error(err));

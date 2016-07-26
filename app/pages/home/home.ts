@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {NavController, NavParams, Platform, Slides} from 'ionic-angular';
-import {Observable} from 'rxjs/Rx';
+import {Observable, Subscription} from 'rxjs/Rx';
 import {Config} from '../../config';
 import {ArticleStore, Article, CategoryStore, Category} from '../../providers/store'
 import {ArticlePage} from '../article/article';
@@ -8,9 +8,10 @@ import {ArticlePage} from '../article/article';
 @Component({
   templateUrl: 'build/pages/home/home.html'
 })
-export class HomePage implements OnInit{
+export class HomePage implements OnInit, OnDestroy{
   @ViewChild('homeSlider') slider: Slides;
   private category: Category;
+  private categorySub: Subscription;
   articles$: Observable<Article[]>;
   article: Article;
 
@@ -27,12 +28,23 @@ export class HomePage implements OnInit{
     this.articles$ = this.articleStore.state$
       .filter(() => this.categoryStore.currentState.categories.length > 0)
       .do(() => this.category = this.categoryStore.currentState.categories.find(cat => cat.name === this.config.homeCategory))
-      .do(state => console.log(state))
+      .filter(state => !!state.articles.get(this.category.name))
       .map(state => state.articles.get(this.category.name))
-      .do((articles) => this.article = articles[0]);
+      .do((articles) => this.article = articles[0])
+
+      this.categorySub = this.categoryStore
+        .filter(state => state.categories.length > 0)
+        .map(() => this.categoryStore.currentState.categories.find(cat => cat.name === this.config.homeCategory))
+        .do(category => this.articleStore.load(category))
+        .subscribe()
+
   }
 
-  onSlideChanged() {
+  ngOnDestroy(): void {
+    this.categorySub.unsubscribe();
+  }
+
+  onSlideChanged(): void {
     this.article = this.articleStore.currentState
       .articles.get(this.config.homeCategory)[this.slider.getActiveIndex()]
   }

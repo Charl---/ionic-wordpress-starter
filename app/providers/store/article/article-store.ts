@@ -47,22 +47,28 @@ export class ArticleStore extends Store<ArticleState> {
     }
   }
 
+  private simpleUpdate(category: Category, articles: Article[]) {
+    this.update(state => {
+      state.articles.set(category.name, articles);
+      return {};
+    })
+    return articles;
+  }
+
   initialLoad(options: ApiFindAllOptions): Promise<any> {
     return this.platform.ready()
       .then(() => this.sqlApi.findAll(options))
-      .then((articles: Article[]) => {
-        this.update(state => {
-          state.articles.set(options.filters.category.name, articles);
-          return {};
-        })
-      })
+      .then(articles => articles.length > 0
+        ? this.simpleUpdate(options.filters.category, articles)
+        : this.api.findAll(options)
+          .then(articles => this.simpleUpdate(options.filters.category, articles))
+      )
   }
 
   load(category: Category): Promise<Article[]> {
     let articles = this.currentState.articles.get(category.name);
     articles = articles ? articles : [];
     if(articles.length) {
-      console.log(articles[0])
       this.update(() => ({
         currentCategory: category,
         currentPage: Math.ceil(articles.length / this.config.articlePerPage) + 1,
@@ -80,6 +86,7 @@ export class ArticleStore extends Store<ArticleState> {
           this.update((state: ArticleState) => {
             state.articles.set(category.name, articles);
             return {
+              currentCategory: category,
               mostRecentDate: articles[0].date.toISOString(),
               currentPage: state.currentPage + 1
             }
