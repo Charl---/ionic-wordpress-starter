@@ -1,6 +1,7 @@
 .home {
   position: relative;
   ion-navbar {
+    z-index: 2;
     position: absolute;
     .toolbar-background {
       background: $bgTitleColor;

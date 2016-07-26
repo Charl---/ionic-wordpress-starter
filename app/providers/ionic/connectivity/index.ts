@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Platform} from 'ionic-angular';
-import {Network, Connection} from 'ionic-native';
+import {Network} from 'ionic-native';
 import {BehaviorSubject, Observable, Subject} from 'rxjs/Rx';
 import {Store, EventQueue} from 'sparix';
 
@@ -21,7 +21,7 @@ export class Connectivity extends Store<ConnectivityState>{
     super(eventQueue, initialState)
     platform.ready().then(() => {
       this.update(state => ({
-        isOnline: Network.connection !== Connection.NONE
+        isOnline: Network.connection !== 'none'
       }))
       Network.onConnect()
         .subscribe(() => this.update(state => ({

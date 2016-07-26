@@ -1,9 +1,11 @@
-<ion-toolbar>
-  <button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-  <search-widget [query]="query" (onSearch)="searchHandler($event)"></search-widget>
-</ion-toolbar>
+<ion-header>
+  <ion-toolbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <search-widget [query]="query" (onSearch)="searchHandler($event)"></search-widget>
+  </ion-toolbar>  
+</ion-header>
 <ion-content class="list">
     <div text-center *ngIf="articleStore.loading$ | async">
       <ion-spinner></ion-spinner>

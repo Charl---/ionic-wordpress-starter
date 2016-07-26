@@ -1,6 +1,8 @@
-<ion-navbar *navbar>
-  <ion-title>{{article.title}}</ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{article.title}}</ion-title>
+  </ion-navbar>
+</ion-header>
 <ion-content>
   <ion-card>
     <user-widget [user]="article.author"></user-widget>

@@ -1,14 +1,16 @@
-<ion-navbar *navbar>
-  <button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-  <ion-title>{{ category.name }}</ion-title>
-  <ion-buttons end>
-    <button (click)="displayFilter = !displayFilter">
-      <ion-icon name="search"></ion-icon>
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
     </button>
-  </ion-buttons>
-</ion-navbar>
+    <ion-title>{{ category.name }}</ion-title>
+    <ion-buttons end>
+      <button (click)="displayFilter = !displayFilter">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>  
+</ion-header>
 <ion-content class="list">
   <search-widget
     *ngIf="displayFilter"
