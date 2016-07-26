@@ -8,7 +8,7 @@
     <user-widget [user]="article.author"></user-widget>
     <img [src]="article.picture">
     <ion-card-content>
-      <article class="article" [innerHtml]="article.body"></article>
+      <article class="article" [innerHtml]="article.body | linky"></article>
     </ion-card-content>
     <article-widget-footer [options]="footerOptions"></article-widget-footer>
   </ion-card>

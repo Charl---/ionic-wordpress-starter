@@ -1,9 +1,11 @@
 export * from './css-background';
 export * from './list-filter';
+export * from './linky';
 
-import {CssBackground, ListFilter} from './'
+import {CssBackground, ListFilter, Linky} from './';
 
 export const APP_PIPES = [
   ListFilter,
-  CssBackground
+  CssBackground,
+  Linky
 ];

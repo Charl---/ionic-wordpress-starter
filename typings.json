@@ -2,6 +2,7 @@
   "dependencies": {},
   "devDependencies": {},
   "globalDependencies": {
+    "autolinker": "registry:dt/autolinker#0.24.0+20160220081534",
     "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504"
   }
 }

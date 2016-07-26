@@ -8,7 +8,7 @@ import {ArticlePage} from '../article/article';
 @Component({
   templateUrl: 'build/pages/home/home.html'
 })
-export class HomePage implements OnInit, OnDestroy{
+export class HomePage implements OnInit, OnDestroy {
   @ViewChild('homeSlider') slider: Slides;
   private category: Category;
   private categorySub: Subscription;
@@ -22,22 +22,24 @@ export class HomePage implements OnInit, OnDestroy{
     private nav: NavController,
     private navParams: NavParams,
     private platform: Platform
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.articles$ = this.articleStore.state$
       .filter(() => this.categoryStore.currentState.categories.length > 0)
-      .do(() => this.category = this.categoryStore.currentState.categories.find(cat => cat.name === this.config.homeCategory))
+      .do(() => this.category = this.categoryStore.currentState.categories
+        .find(cat => cat.name === this.config.homeCategory)
+      )
       .filter(state => !!state.articles.get(this.category.name))
       .map(state => state.articles.get(this.category.name))
-      .do((articles) => this.article = articles[0])
+      .do((articles) => this.article = articles[0]);
 
-      this.categorySub = this.categoryStore
-        .filter(state => state.categories.length > 0)
-        .map(() => this.categoryStore.currentState.categories.find(cat => cat.name === this.config.homeCategory))
-        .do(category => this.articleStore.load(category))
-        .subscribe()
-
+    this.categorySub = this.categoryStore
+      .filter(state => state.categories.length > 0)
+      .map(() => this.categoryStore.currentState.categories
+        .find(cat => cat.name === this.config.homeCategory)
+      )
+      .subscribe(category => this.articleStore.load(category));
   }
 
   ngOnDestroy(): void {
@@ -45,13 +47,15 @@ export class HomePage implements OnInit, OnDestroy{
   }
 
   onSlideChanged(): void {
-    this.article = this.articleStore.currentState
-      .articles.get(this.config.homeCategory)[this.slider.getActiveIndex()]
+    this.article = this.articleStore.currentState.articles
+      .get(this.config.homeCategory)[this.slider.getActiveIndex()];
   }
 
   goToArticlePage(): void {
     const index = this.slider.getActiveIndex();
-    const article = this.articleStore.currentState.articles.get(this.category.name)[index];
+    const article = this.articleStore.currentState.articles
+      .get(this.category.name)[index];
+
     this.nav.push(ArticlePage, {
       article
     });
