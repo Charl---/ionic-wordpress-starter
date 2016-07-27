@@ -34,7 +34,7 @@
     "tslint-ionic-rules": "^0.0.3"
   },
   "name": "ionic-wordpress-starer",
-  "description": "starter app for ionic / wordpress app",
+  "description": "starter app for ionic / wordpress",
   "private": true,
   "cordovaPlugins": [
     "cordova-plugin-device",

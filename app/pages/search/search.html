@@ -22,11 +22,8 @@
            <button primary item-right (click)="goToArticlePage(article)">
              <ion-icon name="eye"></ion-icon>
            </button>
-           <button clear item-left>
-             <ion-icon name="share"></ion-icon>
-           </button>
+           <wp-article-share-button [article]="article"></wp-article-share-button>
          </ion-item-options>
        </ion-item-sliding>
-
     </ion-list>
 </ion-content>

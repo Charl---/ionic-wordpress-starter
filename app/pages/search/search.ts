@@ -9,7 +9,7 @@ import { SearchWidgetOptions } from '../../providers/directives/search-widget';
   templateUrl: 'build/pages/search/search.html'
 })
 export class SearchPageComponent implements OnInit {
-  articles: Article[] = [];
+  articles: Article[] = null;
   query: string;
   userWidgetOptions: UserWidgetOptions = {
     fontSize: '1em',
@@ -39,11 +39,14 @@ export class SearchPageComponent implements OnInit {
   }
 
   searchHandler(query: string): void {
-    this.articleStore.search({ search: query })
-      .do(articles => articles.length === 0 ? this.displayToast('no results :(') : null)
-      .toPromise()
-      .then(articles => this.articles = articles)
-      .catch(err => this.displayToast('something wrong happen'));
+    if (query.length > 1) {
+      this.articles = null;
+      this.articleStore.search({ search: query })
+        .do(articles => articles.length === 0 ? this.displayToast('no results :(') : null)
+        .toPromise()
+        .then(articles => this.articles = articles)
+        .catch(err => this.displayToast('something wrong happen'));
+    }
   }
 
   goToArticlePage(article: Article): void {

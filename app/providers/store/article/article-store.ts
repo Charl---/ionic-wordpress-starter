@@ -138,7 +138,8 @@ export class ArticleStore extends Store<ArticleState> {
     this.loading$.next(true);
     return Observable.fromPromise(
       this.platform.ready().then(() => this.api.search(params))
-    ).do(() => this.loading$.next(false));
+    ).do(() => this.loading$.next(false))
+    .do(data => console.log('search ', data));
   }
 
   destroyAll(): Promise<void> {

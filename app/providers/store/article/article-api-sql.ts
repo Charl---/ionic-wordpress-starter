@@ -1,5 +1,5 @@
-import { Injectable} from '@angular/core';
-import { SqlStorage, Platform} from 'ionic-angular';
+import { Injectable } from '@angular/core';
+import { SqlStorage, Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 
 import { Article } from './index';
@@ -79,7 +79,6 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
   }
 
   insert(article: Article): Promise<Article> {
-    console.log('insert', article)
     return this.storage.query(`INSERT OR REPLACE INTO article (id, title, body, preview, picture, date, author, category) VALUES ('${article.id}', '${HtmlEscape.escape(article.title)}', '${HtmlEscape.escape(article.body)}', '${HtmlEscape.escape(article.preview)}', '${article.picture}', '${(article.date.getTime() / 1000).toFixed(0)}', '${article.author.id}', '${article.category.id}')`)
       .then(() => article)
       .catch(err => console.error(err));
@@ -92,7 +91,7 @@ export class ArticleSqlApi extends SqlApi implements ApiCrudAdapter<Article> {
   }
 
   search(params: ApiFindAllOptions): Promise<Article[]> {
-    const query = `SELECT * FROM article WHERE title LIKE '%${params.search}%' AND body LIKE '%${params.search}%' ORDER BY date DESC`;
+    const query = `SELECT * FROM article WHERE body LIKE '%${params.search}%' ORDER BY date DESC`;
 
     return this.storage.query(query)
       .then(data => this.formatData(data))

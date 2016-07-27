@@ -6,6 +6,7 @@ export interface ApiFindAllOptions {
   after?: string;
   before?: string;
   filters?: any;
+  _embed?: boolean;
 }
 
 export interface ApiCrudAdapter<T> {

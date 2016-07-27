@@ -61,11 +61,11 @@ export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article> {
   }
 
   search(params: ApiFindAllOptions): Promise<Article[]> {
-    httpParams['search'] = params.search;
+    params._embed = true;
     return this.request({
       method: RequestMethod.Get,
       url: `${this.config.baseUrl}posts`,
-      params: httpParams
+      params
     })
       .map(articles => articles.map(article => this.transformArticle(article)))
       .toPromise()
