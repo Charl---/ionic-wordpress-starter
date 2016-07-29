@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { App, Platform, Nav, Modal, Loading, MenuController } from 'ionic-angular';
-import { StatusBar } from 'ionic-native';
+import { App, Platform, Nav, Modal, Loading, MenuController, Toast } from 'ionic-angular';
+import { StatusBar, Splashscreen } from 'ionic-native';
 import { Observable } from 'rxjs/Rx';
 
 import { Config } from './config'
@@ -9,7 +9,6 @@ import { HomePageComponent } from './pages/home/home';
 import { ListPageComponent } from './pages/list/list';
 import { SettingsPageComponent } from './pages/settings/settings';
 import { SearchPageComponent } from './pages/search/search';
-import { Connectivity } from './providers/ionic'
 import { SearchWidgetOptions } from './providers/directives/search-widget';
 
 @Component({
@@ -33,8 +32,7 @@ export class WordpressAppComponent implements OnInit {
     private config: Config,
     private articleStore: ArticleStore,
     public menu: MenuController,
-    public categoryStore: CategoryStore,
-    private connec: Connectivity
+    public categoryStore: CategoryStore
   ) { }
 
   private loading(): Loading {
@@ -43,6 +41,15 @@ export class WordpressAppComponent implements OnInit {
     });
     this.nav.present(loading);
     return loading;
+  }
+
+  private displayToast(message): Toast {
+    const toast = Toast.create({
+      message,
+      duration: 3000
+    });
+    this.nav.present(toast);
+    return toast;
   }
 
   ngOnInit(): void {
@@ -57,8 +64,8 @@ export class WordpressAppComponent implements OnInit {
             .map(category => this.articleStore.initialLoad({ filters: { category } }));
 
           Promise.all(articlesFromSqlPromises)
-            .then(console.log.bind(console))
-            .catch(err => console.error('error loading sql articles', err));
+            .then(() => Splashscreen.hide())
+            .catch(err => this.displayToast('something wrong happen'));
           return state.categories;
         })
     });
@@ -74,7 +81,10 @@ export class WordpressAppComponent implements OnInit {
       .load(params.category)
       .then(() => this.navigateTo(page, params, false))
       .then(() => loading.dismiss())
-      .catch(err => console.error(err));
+      .catch(err => {
+        loading.dismiss()
+        this.displayToast('something wrong happen');
+      });
   }
 
   searchHandler(query: string): void {

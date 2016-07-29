@@ -1,10 +1,10 @@
 export interface SliderConfig {
-    autoplay?: number;
-    loop?: boolean;
-    direction?: string;
-    initialSlide?: number;
-    pager?: boolean;
-    speed?: number;
+  autoplay?: number;
+  loop?: boolean;
+  direction?: string;
+  initialSlide?: number;
+  pager?: boolean;
+  speed?: number;
 }
 
 export interface SocialConfig {
@@ -33,7 +33,7 @@ export const APP_CONFIG: Config = {
   homeCategory: 'Editorial',
   homeArticleLength: 10,
   sliderConfig: {
-    loop: false
+    loop: true
   },
   social: {
     message: 'Regarde ca !',
