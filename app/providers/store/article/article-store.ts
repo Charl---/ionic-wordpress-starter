@@ -28,7 +28,7 @@ export class ArticleStore extends Store<ArticleState> {
     private articlesFilter: ListFilter,
     private categoryStore: CategoryStore,
     private sqlApi: ArticleSqlApi,
-    httpApi: ArticleHttpApi,
+    private httpApi: ArticleHttpApi,
     eventQueue: EventQueue
   ) {
     super(new EventQueue, initialState);
@@ -49,6 +49,7 @@ export class ArticleStore extends Store<ArticleState> {
 
   private simpleUpdate(category: Category, articles: Article[]) {
     this.update(state => {
+      console.log('update !!!!!!!!!')
       state.articles.set(category.name, articles);
       return {};
     })
@@ -138,7 +139,8 @@ export class ArticleStore extends Store<ArticleState> {
     this.loading$.next(true);
     return Observable.fromPromise(
       this.platform.ready().then(() => this.api.search(params))
-    ).do(() => this.loading$.next(false))
+    )
+    .do(() => this.loading$.next(false))
     .do(data => console.log('search ', data));
   }
 

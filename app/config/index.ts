@@ -23,7 +23,6 @@ export class Config {
   social: SocialConfig;
 }
 
-
 export const CONFIG_API_URL = '';
 
 export const APP_CONFIG: Config = {
@@ -34,8 +33,7 @@ export const APP_CONFIG: Config = {
   homeCategory: 'Editorial',
   homeArticleLength: 10,
   sliderConfig: {
-    loop: true,
-    autoplay: 6000
+    loop: false
   },
   social: {
     message: 'Regarde ca !',

@@ -31,19 +31,19 @@ export class HomePageComponent implements OnInit, OnDestroy {
         .find(cat => cat.name === this.config.homeCategory)
       )
       .filter(state => !!state.articles.get(this.category.name))
-      .map(state => state.articles.get(this.category.name))
-      .do((articles) => this.article = articles[0]);
+      .map(state => state.articles.get(this.category.name).slice(0, 9))
+      .do((articles) => this.article = articles[0])
 
-    this.categorySub = this.categoryStore
-      .filter(state => state.categories.length > 0)
-      .map(() => this.categoryStore.currentState.categories
-        .find(cat => cat.name === this.config.homeCategory)
-      )
-      .subscribe(category => this.articleStore.load(category));
+    // this.categorySub = this.categoryStore
+    //   .filter(state => state.categories.length > 0)
+    //   .map(() => this.categoryStore.currentState.categories
+    //     .find(cat => cat.name === this.config.homeCategory)
+    //   )
+    //   .subscribe(category => this.articleStore.load(category));
   }
 
   ngOnDestroy(): void {
-    this.categorySub.unsubscribe();
+    // this.categorySub.unsubscribe();
   }
 
   onSlideChanged(): void {

@@ -51,11 +51,13 @@ export class WordpressAppComponent implements OnInit {
       this.categoryStore.initialLoad();
       this.categories$ = this.categoryStore
         .filter(state => state.categories.length > 0)
+        .first()
         .map(state => {
           const articlesFromSqlPromises: Promise<Article[]>[] = state.categories
             .map(category => this.articleStore.initialLoad({ filters: { category } }));
 
           Promise.all(articlesFromSqlPromises)
+            .then(console.log.bind(console))
             .catch(err => console.error('error loading sql articles', err));
           return state.categories;
         })
@@ -70,7 +72,7 @@ export class WordpressAppComponent implements OnInit {
     const loading = this.loading();
     this.articleStore
       .load(params.category)
-      .then(() => this.navigateTo(page, params, true))
+      .then(() => this.navigateTo(page, params, false))
       .then(() => loading.dismiss())
       .catch(err => console.error(err));
   }
