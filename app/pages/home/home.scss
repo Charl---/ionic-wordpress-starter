@@ -26,6 +26,7 @@
       z-index: 9999;
       margin-top: 75px;
       background: $bgTitleColor;
+      height: 550px;
       ion-card {
         margin:0;
         width:100%;
@@ -34,7 +35,6 @@
       article {
         text-align: justify;
         padding: 5px 15px 5px 15px;
-        max-height: 200px;
         // * {
         //   font-size: 0.7em !important;
         // }

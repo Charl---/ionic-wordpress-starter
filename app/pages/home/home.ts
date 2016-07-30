@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NavController, NavParams, Platform, Slides } from 'ionic-angular';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Config } from '../../config';
-import { ArticleStore, Article, CategoryStore, Category } from '../../providers/store'
+import { ArticleStore, Article, CategoryStore, Category } from '../../providers/store';
 import { ArticlePageComponent } from '../article/article';
 
 @Component({
@@ -13,7 +13,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   private category: Category;
   private categorySub: Subscription;
   articles$: Observable<Article[]>;
-  article: Article;
 
   constructor(
     private config: Config,
@@ -31,8 +30,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         .find(cat => cat.name === this.config.homeCategory)
       )
       .filter(state => !!state.articles.get(this.category.name))
-      .map(state => state.articles.get(this.category.name).slice(0, 9))
-      .do((articles) => this.article = articles[0])
+      .map(state => state.articles.get(this.category.name).slice(0, 9));
 
     // this.categorySub = this.categoryStore
     //   .filter(state => state.categories.length > 0)
@@ -46,16 +44,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     // this.categorySub.unsubscribe();
   }
 
-  onSlideChanged(): void {
-    this.article = this.articleStore.currentState.articles
-      .get(this.config.homeCategory)[this.slider.getActiveIndex()];
-  }
-
-  goToArticlePage(): void {
-    const index = this.slider.getActiveIndex();
-    const article = this.articleStore.currentState.articles
-      .get(this.category.name)[index];
-
+  goToArticlePage(article: Article): void {
     this.nav.push(ArticlePageComponent, {
       article
     });

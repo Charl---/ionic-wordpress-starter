@@ -9,16 +9,17 @@
     </ion-buttons>
   </ion-navbar>
   <ion-slides #homeSlider [options]="config.sliderConfig">
-    <ion-slide *ngFor="let article of articles$ | async" (ionDidChange)="onSlideChanged()">
+    <ion-slide *ngFor="let article of articles$ | async">
       <div class="background" [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}"></div>
       <ion-card class="home-slide">
         <wp-article-widget [article]="article"></wp-article-widget>
+        <button clear outline block (click)="goToArticlePage(article)">Read More</button>
         <article class="article-preview" [innerHTML]="article.preview"></article>
       </ion-card>
     </ion-slide>
   </ion-slides>
 </ion-content>
 
-<button clear fab fab-right fab-bottom class="home-fab" (click)="goToArticlePage()">
+<!-- <button clear fab fab-right fab-bottom class="home-fab" (click)="goToArticlePage()">
   <ion-icon name="book"></ion-icon>
-</button>
+</button> -->
