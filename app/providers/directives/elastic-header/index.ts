@@ -57,7 +57,7 @@ export class ElasticHeaderDirective implements OnInit {
   }
 
   private updateTitle() {
-    this.scrollTop > 100
+    this.scrollTop > 80
       ? this.title.classList.add('fixed-title')
       : this.title.classList.remove('fixed-title')
   }

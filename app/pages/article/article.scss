@@ -7,5 +7,8 @@
   ion-card {
     width: 100%;
     margin: 0;
+    .card-title {
+      transition: background linear 1s;
+    }
   }
 }
