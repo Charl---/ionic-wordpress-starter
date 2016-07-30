@@ -13,17 +13,17 @@ export class Article {
     public category?: Category,
     defaultPicture?: string
   ) {
-    const previewElement = document.createRange()
+    const previewFragment = document.createRange()
       .createContextualFragment(preview);
-    const toto = document.createElement('div');
-    toto.appendChild(previewElement);
+    let temp = document.createElement('div');
+    temp.appendChild(previewFragment);
 
-    const previewImg = toto.querySelector('img');
+    const previewImg = temp.querySelector('img');
     if (previewImg) {
-      previewImg.remove();
+      temp.querySelector('p').remove();
     }
 
-    this.preview = toto.innerHTML;
+    this.preview = temp.innerHTML;
 
     if (!picture) {
       try {
@@ -33,12 +33,13 @@ export class Article {
 
         this.picture = pictureElement ? pictureElement.getAttribute('src') : defaultPicture;
 
+        temp = document.createElement('div');
+        temp.appendChild(bodyFragment);
+
         if (pictureElement) {
-          pictureElement.remove();
+          temp.querySelector('p').remove();
         }
 
-        const temp = document.createElement('div');
-        temp.appendChild(bodyFragment)
         this.body = temp.innerHTML;
 
       } catch (err) {

@@ -27,6 +27,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     this.footerOptions = {
       social: true,
       comments: true,
+      date: true,
       article: this.article
     };
   }

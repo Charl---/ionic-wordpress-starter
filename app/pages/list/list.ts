@@ -18,7 +18,7 @@ export class ListPageComponent implements OnInit {
   searchWidgetOptions: SearchWidgetOptions = {
     class: 'list-filter',
     placeholder: 'filter the articles...'
-  }
+  };
 
   constructor(
     private nav: NavController,
@@ -32,7 +32,7 @@ export class ListPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.articles$ = this.articleStore
-      .map(state => state.articles.get(this.category.name))
+      .map(state => state.articles.get(this.category.name));
 
     this.connec$ = this.connectivity
       .map(state => state.isOnline);
@@ -46,12 +46,17 @@ export class ListPageComponent implements OnInit {
         if (articles.length < this.config.articlePerPage)
           infiniteScroll.enable(false);
       })
+      .catch(() => infiniteScroll.complete());
   }
 
   doRefresh(refresher: Refresher): void {
     this.articleStore
       .refresh()
       .then(() => refresher.complete())
-      .catch((err: any) => console.error(err))
+      .catch(() => refresher.complete());
+  }
+
+  toggleFilter(): void {
+    this.displayFilter = !this.displayFilter;
   }
 }

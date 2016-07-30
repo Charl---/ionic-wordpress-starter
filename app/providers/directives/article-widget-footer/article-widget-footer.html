@@ -10,7 +10,7 @@
   <ion-col *ngIf="!!options.comments">
     <wp-comment-counter [article]="options.article" (onCommentLoaded)="commentsLoadHandler($event)"></wp-comment-counter>
   </ion-col>
-  <ion-col center text-center>
+  <ion-col center text-center *ngIf="options.date">
     <ion-note>
       {{options.article.date | date: 'dd/MM/yyyy'}}
     </ion-note>

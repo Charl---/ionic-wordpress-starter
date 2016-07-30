@@ -14,7 +14,7 @@ const initialState: ArticleState = {
   currentPage: 1,
   mostRecentDate: null,
   articles: new Map<string, Article[]>()
-}
+};
 
 @Injectable()
 export class ArticleStore extends Store<ArticleState> {
@@ -35,7 +35,7 @@ export class ArticleStore extends Store<ArticleState> {
     this.api = httpApi;
     this.connectivity.state$.subscribe(state => {
       this.api = state.isOnline ? httpApi : sqlApi;
-    })
+    });
   }
 
   private findAllOptions(category: Category): ApiFindAllOptions {
@@ -44,15 +44,14 @@ export class ArticleStore extends Store<ArticleState> {
       filters: {
         category: category
       }
-    }
+    };
   }
 
   private simpleUpdate(category: Category, articles: Article[]) {
     this.update(state => {
-      console.log('update !!!!!!!!!')
       state.articles.set(category.name, articles);
       return {};
-    })
+    });
     return articles;
   }
 
@@ -63,7 +62,7 @@ export class ArticleStore extends Store<ArticleState> {
         ? this.simpleUpdate(options.filters.category, articles)
         : this.api.findAll(options)
           .then(articles => this.simpleUpdate(options.filters.category, articles))
-      )
+      );
   }
 
   load(category: Category): Promise<Article[]> {
@@ -74,13 +73,13 @@ export class ArticleStore extends Store<ArticleState> {
         currentCategory: category,
         currentPage: Math.ceil(articles.length / this.config.articlePerPage) + 1,
         mostRecentDate: articles[0].date.toISOString()
-      }))
+      }));
       return Promise.resolve(articles);
     } else {
       this.update((state: ArticleState) => ({
         currentCategory: category,
         currentPage: 1
-      }))
+      }));
       return this.platform.ready()
         .then(() => this.api.findAll(this.findAllOptions(category)))
         .then((articles: Article[]) => {
@@ -90,8 +89,8 @@ export class ArticleStore extends Store<ArticleState> {
               currentCategory: category,
               mostRecentDate: articles[0].date.toISOString(),
               currentPage: state.currentPage + 1
-            }
-          })
+            };
+          });
           return articles;
         })
         .then(articles => this.sqlApi.insertAll(articles));
@@ -108,7 +107,7 @@ export class ArticleStore extends Store<ArticleState> {
           return {
             currentPage: state.currentPage + 1
           };
-        })
+        });
         return articles;
       })
       .then(articles => this.sqlApi.insertAll(articles));
@@ -129,10 +128,10 @@ export class ArticleStore extends Store<ArticleState> {
             state.articles.set(category.name, [...articles, ...state.articles.get(category.name)]);
             return {
               mostRecentDate: !!articles[0] ? articles[0].date.toISOString() : state.mostRecentDate
-            }
-          })
-        return articles
-      })
+            };
+          });
+        return articles;
+      });
   }
 
   search(params: ApiFindAllOptions): Observable<Article[]> {
@@ -140,8 +139,8 @@ export class ArticleStore extends Store<ArticleState> {
     return Observable.fromPromise(
       this.platform.ready().then(() => this.api.search(params))
     )
-    .do(() => this.loading$.next(false))
-    .do(data => console.log('search ', data));
+      .do(() => this.loading$.next(false))
+      .do(data => console.log('search ', data));
   }
 
   destroyAll(): Promise<void> {
@@ -149,10 +148,10 @@ export class ArticleStore extends Store<ArticleState> {
     return this.sqlApi.destroyAll()
       .then(() => {
         this.update(state => {
-          this.categoryStore.currentState.categories.forEach(cat => this.currentState.articles.set(cat.name, []))
+          this.categoryStore.currentState.categories.forEach(cat => this.currentState.articles.set(cat.name, []));
           return {};
-        })
+        });
       })
-      .then(() => this.loading$.next(false))
+      .then(() => this.loading$.next(false));
   }
 }

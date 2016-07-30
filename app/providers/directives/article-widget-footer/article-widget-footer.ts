@@ -8,6 +8,7 @@ export interface ArticleWidgetFooterOptions {
   article?: Article;
   social?: boolean;
   navigate?: boolean;
+  date?: boolean;
 }
 
 @Component({
