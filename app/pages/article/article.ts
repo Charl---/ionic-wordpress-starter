@@ -1,20 +1,24 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
-import { NavParams } from 'ionic-angular';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { NavParams, NavController, Popover } from 'ionic-angular';
 import { InAppBrowser } from 'ionic-native';
-import { Article, CommentStore, Comment } from '../../providers/store'
+
+import { Article, CommentStore, Comment } from '../../providers/store';
 import { ArticleWidgetFooterOptions } from '../../providers/directives/article-widget-footer';
+import { ArticlePopOverComponent } from './article-pop-over';
 
 @Component({
-  templateUrl: 'build/pages/article/article.html',
+  templateUrl: 'build/pages/article/article.html'
 })
 export class ArticlePageComponent implements OnInit, OnDestroy {
   article: Article;
   links: NodeList;
   footerOptions: ArticleWidgetFooterOptions;
+  @ViewChild('articleText', { read: ElementRef }) text: ElementRef;
 
   constructor(
     private commentStore: CommentStore,
     private ref: ElementRef,
+    private nav: NavController,
     navParams: NavParams
   ) {
 
@@ -24,12 +28,11 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
       social: true,
       comments: true,
       article: this.article
-    }
+    };
   }
 
   private clickLinkHandler(e): void {
     e.preventDefault();
-    console.log(e.target);
     InAppBrowser.open(e.target.getAttribute('href'));
   }
 
@@ -37,14 +40,27 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.links = this.ref.nativeElement.querySelectorAll('a');
       for (let i = 0; i < this.links.length; i++) {
-        this.links.item(i).addEventListener('click', this.clickLinkHandler)
+        this.links.item(i).addEventListener('click', this.clickLinkHandler);
       }
-    })
+    });
   }
 
+  // todo check if necessary
   ngOnDestroy(): void {
     for (let i = 0; i < this.links.length; i++) {
-      this.links.item(i).removeEventListener('click', this.clickLinkHandler)
+      this.links.item(i).removeEventListener('click', this.clickLinkHandler);
     }
+  }
+
+  goBack(): void {
+    this.nav.pop();
+  }
+
+  more(ev): void {
+    const popover = Popover.create(ArticlePopOverComponent, {
+      textEle: this.text.nativeElement
+    });
+
+    this.nav.present(popover, { ev });
   }
 }

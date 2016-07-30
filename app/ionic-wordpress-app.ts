@@ -25,7 +25,7 @@ export class WordpressAppComponent implements OnInit {
   searchWidgetOptions: SearchWidgetOptions = {
     placeholder: 'Search...',
     autofocus: true
-  }
+  };
 
   constructor(
     private platform: Platform,
@@ -67,7 +67,7 @@ export class WordpressAppComponent implements OnInit {
             .then(() => Splashscreen.hide())
             .catch(err => this.displayToast('something wrong happen'));
           return state.categories;
-        })
+        });
     });
   }
 
@@ -82,7 +82,7 @@ export class WordpressAppComponent implements OnInit {
       .then(() => this.navigateTo(page, params, false))
       .then(() => loading.dismiss())
       .catch(err => {
-        loading.dismiss()
+        loading.dismiss();
         this.displayToast('something wrong happen');
       });
   }

@@ -1,0 +1,94 @@
+$tanColor:rgb(249,241,228);
+$greyColor:rgb(76,75,80);
+
+.article-pop-over {
+
+  ion-row,
+  ion-col {
+    padding: 0;
+  }
+
+  .text-button {
+    padding-left: 0;
+    text-align: center;
+    min-height: 20px;
+    line-height: 18px;
+  }
+
+  .text-button .item-inner {
+    padding-right: 0;
+  }
+
+  .text-smaller {
+    font-size: 12px;
+  }
+
+  .text-larger {
+    font-size: 16px;
+  }
+
+  .row-dots {
+    text-align: center;
+
+    .dot {
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      margin: 10px auto;
+      position: relative;
+    }
+  }
+
+  .dot-white {
+    background-color: rgb(255,255,255);
+  }
+
+  .dot-tan {
+    background-color: $tanColor;
+  }
+
+  .dot-grey {
+    background-color: $greyColor;
+  }
+
+  .dot-black {
+    background-color: rgb(0,0,0);
+  }
+
+  .dot.selected {
+    border: solid #327eff 2px
+  }
+}
+
+.article-white {
+  background: white;
+  * {
+    color: black;
+  }
+}
+.article-tan {
+  background: $tanColor;
+  * {
+    color: black;
+  }
+}
+.article-grey {
+  background: $greyColor;
+  * {
+    color: white;
+  }
+}
+.article-black {
+  background: black;
+  * {
+    color: white;
+  }
+}
+
+@for $i from 10 through 30 {
+  .article-font-#{$i} {
+    * {
+      font-size: $i + px;
+    }
+  }
+}

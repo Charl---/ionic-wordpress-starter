@@ -1,0 +1,23 @@
+<ion-list class="article-pop-over">
+   <ion-row>
+     <ion-col>
+       <button
+         (click)="changeFontSize(false)"
+         ion-item detail-none
+         class="text-button text-smaller"
+         [disabled]="fontSize === 10">A</button>
+     </ion-col>
+     <ion-col>
+       <button
+         (click)="changeFontSize(true)"
+         ion-item detail-none
+         class="text-button text-larger"
+         [disabled]="fontSize === 30">A</button>
+     </ion-col>
+   </ion-row>
+   <ion-row class="row-dots">
+      <ion-col *ngFor="let color of colors">
+        <button (click)="changeBackground(color)" category="dot" class="dot-{{color}}" [ngClass]="{selected: background === color}"></button>
+      </ion-col>
+   </ion-row>
+ </ion-list>

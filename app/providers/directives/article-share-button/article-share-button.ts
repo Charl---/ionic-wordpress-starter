@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { SocialSharing } from 'ionic-native';
-import { Article } from '../../store'
+import { Article } from '../../store';
 import { Config } from '../../../config';
 
 @Component({

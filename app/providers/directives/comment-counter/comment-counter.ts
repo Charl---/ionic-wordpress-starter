@@ -7,7 +7,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
-import { Article, Comment, CommentStore } from '../../store'
+import { Article, Comment, CommentStore } from '../../store';
 import { Config } from '../../../config';
 
 @Component({
@@ -34,7 +34,7 @@ export class CommentCounterComponent implements OnInit {
       .map(state => state.comments.get(this.article.title))
       .do(() => this.isLoading = false)
       .filter(comments => !!comments)
-      .map(comments => comments.length)
+      .map(comments => comments.length);
 
   }
 

@@ -30,4 +30,4 @@ export const APP_DIRECTIVES = [
   CommentWidgetComponent,
   ArticleShareButtonComponent,
   ElasticHeaderDirective
-]
+];

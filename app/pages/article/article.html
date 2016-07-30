@@ -1,9 +1,20 @@
-<ion-content elasticHeader class="article-page">
-  <wp-article-widget id="elastic-header" [article]="article"></wp-article-widget>
+<ion-content wpElasticHeader class="article-page">
+  <button light round class="wp-back-button" (click)="goBack()">
+    <ion-icon name="arrow-back"></ion-icon>
+  </button>
+  <wp-article-widget class="elastic-header" [article]="article"></wp-article-widget>
   <ion-card>
-    <wp-user-widget [user]="article.author"></wp-user-widget>
-    <img [src]="article.picture">
-    <ion-card-content>
+    <ion-row>
+      <ion-col>
+        <wp-user-widget [user]="article.author"></wp-user-widget>
+      </ion-col>
+      <ion-col text-right>
+        <button clear dark large (click)="more($event)">
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-card-content #articleText class="article-white article-font-15">
       <article class="article" [innerHtml]="article.body | linky"></article>
     </ion-card-content>
     <wp-article-widget-footer [options]="footerOptions"></wp-article-widget-footer>

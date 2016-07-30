@@ -1,9 +1,14 @@
-.article {
-  text-align: justify;
-  font-size: 1.5em;
-}
-
 .article-page {
+  .wp-back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 3;
+    background: $bgTitleColor;
+  }
+  .article {
+    text-align: justify !important;
+  }
   ion-card {
     width: 100%;
     margin: 0;
