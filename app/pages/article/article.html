@@ -17,6 +17,6 @@
     <ion-card-content #articleText class="article-white article-font-15">
       <article class="article" [innerHtml]="article.body | linky"></article>
     </ion-card-content>
-    <wp-article-widget-footer [options]="footerOptions"></wp-article-widget-footer>
+    <wp-article-widget-footer [options]="footerOptions" (onComments)="commentsModal($event)"></wp-article-widget-footer>
   </ion-card>
 </ion-content>

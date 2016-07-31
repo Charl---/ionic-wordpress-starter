@@ -3,7 +3,7 @@ import { Http, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs';
 import { HttpApi, ApiFindAllOptions, ApiCrudAdapter } from '../_api/api-http';
 import { Comment } from './index';
-import { User, UserStore } from '../user'
+import { User, UserStore } from '../user';
 import { Article } from '../article';
 import { Config } from '../../../config';
 import { HtmlEscape } from '../../../utils';

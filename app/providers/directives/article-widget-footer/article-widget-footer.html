@@ -8,7 +8,7 @@
     </button>
   </ion-col>
   <ion-col *ngIf="!!options.comments">
-    <wp-comment-counter [article]="options.article" (onCommentLoaded)="commentsLoadHandler($event)"></wp-comment-counter>
+    <wp-comment-counter [article]="options.article" (onCommentLoaded)="onComments.next($event)"></wp-comment-counter>
   </ion-col>
   <ion-col center text-center *ngIf="options.date">
     <ion-note>
@@ -16,6 +16,3 @@
     </ion-note>
   </ion-col>
 </ion-row>
-<ion-list>
-  <wp-comment-widget *ngFor="let comment of comments" [comment]="comment"></wp-comment-widget>
-</ion-list>

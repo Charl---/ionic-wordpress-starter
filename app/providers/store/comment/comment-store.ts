@@ -29,7 +29,7 @@ export class CommentStore extends Store<CommentState> {
       .skip(1)
       .subscribe(state => {
         this.api = state.isOnline ? httpApi : sqlApi;
-      })
+      });
   }
 
   findByArticle(article: Article): Promise<Comment[]> {
@@ -40,7 +40,7 @@ export class CommentStore extends Store<CommentState> {
       this.update(state => {
         state.comments.set(article.title, comments);
         return {};
-      })
+      });
       this.loading$.next(false);
       return Promise.resolve(comments);
     } else {
@@ -52,11 +52,11 @@ export class CommentStore extends Store<CommentState> {
         this.update(state => {
           state.comments.set(article.title, comments);
           return {};
-        })
+        });
         this.loading$.next(false);
-        return comments
+        return comments;
       })
-        .then(comments => this.sqlApi.insertAll(comments))
+        .then(comments => this.sqlApi.insertAll(comments));
     }
   }
 
@@ -64,7 +64,7 @@ export class CommentStore extends Store<CommentState> {
     this.loading$.next(true);
     return this.sqlApi.destroyAll()
       .then(() => this.update(state => initialState))
-      .then(() => this.loading$.next(false))
+      .then(() => this.loading$.next(false));
   }
 
 }

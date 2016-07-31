@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-import { NavParams, NavController, Popover } from 'ionic-angular';
+import { NavParams, NavController, Popover, Modal } from 'ionic-angular';
 import { InAppBrowser } from 'ionic-native';
 
 import { Article, CommentStore, Comment } from '../../providers/store';
 import { ArticleWidgetFooterOptions } from '../../providers/directives/article-widget-footer';
 import { ArticlePopOverComponent } from './article-pop-over';
+import { CommentModalPageComponent } from './comment-modal';
 
 @Component({
   templateUrl: 'build/pages/article/article.html'
@@ -63,5 +64,10 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     });
 
     this.nav.present(popover, { ev });
+  }
+
+  commentsModal(comments: Comment[]): void {
+    const modal = Modal.create(CommentModalPageComponent, { comments });
+    this.nav.present(modal);
   }
 }

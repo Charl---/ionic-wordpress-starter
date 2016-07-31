@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Article, Comment } from '../../store';
 import { ArticlePageComponent } from '../../../pages/article/article';
@@ -18,6 +18,7 @@ export interface ArticleWidgetFooterOptions {
 })
 export class ArticleWidgetFooterComponent {
   @Input() options: ArticleWidgetFooterOptions;
+  @Output() onComments: EventEmitter<Comment[]> = new EventEmitter<Comment[]>();
   comments: Comment[] = [];
 
   constructor(
@@ -28,9 +29,5 @@ export class ArticleWidgetFooterComponent {
     this.nav.push(ArticlePageComponent, {
       article
     });
-  }
-
-  commentsLoadHandler(comments): void {
-    this.comments = comments;
   }
 }

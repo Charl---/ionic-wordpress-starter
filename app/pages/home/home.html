@@ -1,25 +1,18 @@
 <ion-content class="home">
   <ion-navbar>
-    <button menuToggle>
+    <button menuToggle dark>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <!-- <ion-title>{{title}}</ion-title> -->
-    <ion-buttons end>
-      <wp-article-share-button [article]="article"></wp-article-share-button>
-    </ion-buttons>
   </ion-navbar>
   <ion-slides #homeSlider [options]="config.sliderConfig">
     <ion-slide *ngFor="let article of articles$ | async">
       <div class="background" [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}"></div>
       <ion-card class="home-slide">
-        <wp-article-widget [article]="article"></wp-article-widget>
-        <button clear outline block (click)="goToArticlePage(article)">Read More</button>
+        <wp-article-widget [article]="article">
+          <wp-article-widget-footer [options]="{social: true, navigate: true, comments: false, article: article, date: true}"></wp-article-widget-footer>
+        </wp-article-widget>
         <article class="article-preview" [innerHTML]="article.preview"></article>
       </ion-card>
     </ion-slide>
   </ion-slides>
 </ion-content>
-
-<!-- <button clear fab fab-right fab-bottom class="home-fab" (click)="goToArticlePage()">
-  <ion-icon name="book"></ion-icon>
-</button> -->

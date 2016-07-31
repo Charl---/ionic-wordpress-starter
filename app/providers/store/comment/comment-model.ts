@@ -15,5 +15,5 @@ export class Comment {
 }
 
 export interface CommentState {
-  comments: Map<string, Comment[]>
+  comments: Map<string, Comment[]>;
 }

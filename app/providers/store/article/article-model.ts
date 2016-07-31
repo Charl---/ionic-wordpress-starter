@@ -20,7 +20,7 @@ export class Article {
 
     const previewImg = temp.querySelector('img');
     if (previewImg) {
-      temp.querySelector('p').remove();
+      previewImg.remove();
     }
 
     this.preview = temp.innerHTML;
@@ -37,7 +37,7 @@ export class Article {
         temp.appendChild(bodyFragment);
 
         if (pictureElement) {
-          temp.querySelector('p').remove();
+          pictureElement.remove();
         }
 
         this.body = temp.innerHTML;

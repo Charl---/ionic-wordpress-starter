@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Storage, SqlStorage, Platform } from 'ionic-angular';
-import { Observable } from "rxjs/Rx";
-import { Comment } from "./index";
+import { Observable } from 'rxjs/Rx';
+import { Comment } from './index';
 import { SqlApi, ApiCrudAdapter } from '../_api/api-sql';
 import { HtmlEscape } from '../../../utils';
 
 @Injectable()
-export class CommentSqlApi extends SqlApi implements ApiCrudAdapter<Comment>{
+export class CommentSqlApi extends SqlApi implements ApiCrudAdapter<Comment> {
   constructor(
     platform: Platform
   ) {
-    super(platform, 'CREATE TABLE IF NOT EXISTS comment (id INTEGER PRIMARY KEY, post INTEGER, content TEXT, authorname TEXT, authorurl TEXT, date TEXT)')
+    super(platform, 'CREATE TABLE IF NOT EXISTS comment (id INTEGER PRIMARY KEY, post INTEGER, content TEXT, authorname TEXT, authorurl TEXT, date TEXT)');
   }
 
   insert(comment: Comment): Promise<Comment> {
@@ -23,11 +23,11 @@ export class CommentSqlApi extends SqlApi implements ApiCrudAdapter<Comment>{
   findAll(): Promise<Comment[]> {
     return this.storage.query('SELECT * FROM comment')
       .then((data: any) => {
-        //todo use Array.prototype.map() (data.res.rows is no fucking array)
+        // todo use Array.prototype.map() (data.res.rows is no fucking array)
         const comments = [];
         for (let i = 0; i < data.res.rows.length; i++) {
           const item = data.res.rows.item(i);
-          comments.push(new Comment(item.id, item.postId, HtmlEscape.unescape(item.content), item.authorName, item.authorUrl, null, new Date(item.date)))
+          comments.push(new Comment(item.id, item.postId, HtmlEscape.unescape(item.content), item.authorName, item.authorUrl, null, new Date(item.date)));
         }
         return comments;
       })
