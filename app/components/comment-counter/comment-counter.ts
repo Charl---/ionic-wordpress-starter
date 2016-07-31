@@ -7,12 +7,12 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
-import { Article, Comment, CommentStore } from '../../store';
-import { Config } from '../../../config';
+import { Article, Comment, CommentStore } from '../../providers/store';
+import { Config } from '../../config';
 
 @Component({
   selector: 'wp-comment-counter',
-  templateUrl: 'build/providers/directives/comment-counter/comment-counter.html',
+  templateUrl: 'build/components/comment-counter/comment-counter.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommentCounterComponent implements OnInit {

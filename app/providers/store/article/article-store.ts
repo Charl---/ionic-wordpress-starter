@@ -7,7 +7,7 @@ import { ApiFindAllOptions, ApiCrudAdapter } from '../_api/api-common';
 import { Category, CategoryStore } from '../category';
 import { Connectivity } from '../../ionic';
 import { Config } from '../../../config';
-import { ListFilter } from '../../pipes';
+import { ListFilter } from '../../../pipes';
 
 const initialState: ArticleState = {
   currentCategory: null,

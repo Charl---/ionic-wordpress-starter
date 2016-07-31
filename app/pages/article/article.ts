@@ -3,7 +3,7 @@ import { NavParams, NavController, Popover, Modal } from 'ionic-angular';
 import { InAppBrowser } from 'ionic-native';
 
 import { Article, CommentStore, Comment } from '../../providers/store';
-import { ArticleWidgetFooterOptions } from '../../providers/directives/article-widget-footer';
+import { ArticleWidgetFooterOptions } from '../../components/article-widget-footer';
 import { ArticlePopOverComponent } from './article-pop-over';
 import { CommentModalPageComponent } from './comment-modal';
 

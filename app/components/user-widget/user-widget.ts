@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ElementRef } from '@angular/core';
-import { User } from '../../store';
+import { User } from '../../providers/store';
 
 export interface UserWidgetOptions {
   fontSize?: string;
@@ -8,7 +8,7 @@ export interface UserWidgetOptions {
 
 @Component({
   selector: 'wp-user-widget',
-  templateUrl: 'build/providers/directives/user-widget/user-widget.html'
+  templateUrl: 'build/components/user-widget/user-widget.html'
 })
 export class UserWidgetComponent implements OnInit {
   @Input() user: User;

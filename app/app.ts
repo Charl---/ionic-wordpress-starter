@@ -3,9 +3,10 @@ import { ionicBootstrap } from 'ionic-angular';
 import { Splashscreen } from 'ionic-native';
 
 import { WordpressAppComponent } from './ionic-wordpress-app';
-import { Config, APP_CONFIG } from './config'
-import { APP_DIRECTIVES, APP_PROVIDERS, APP_PIPES } from './providers'
-
+import { Config, APP_CONFIG } from './config';
+import { APP_PROVIDERS } from './providers';
+import { APP_PIPES } from './pipes';
+import { APP_DIRECTIVES } from './components';
 // enableProdMode();
 
 ionicBootstrap(WordpressAppComponent, [

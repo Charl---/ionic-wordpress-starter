@@ -3,13 +3,13 @@ import { App, Platform, Nav, Modal, Loading, MenuController, Toast } from 'ionic
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { Observable } from 'rxjs/Rx';
 
-import { Config } from './config'
+import { Config } from './config';
 import { CategoryStore, Category, CategoryState, ArticleStore, Article } from './providers/store';
 import { HomePageComponent } from './pages/home/home';
 import { ListPageComponent } from './pages/list/list';
 import { SettingsPageComponent } from './pages/settings/settings';
 import { SearchPageComponent } from './pages/search/search';
-import { SearchWidgetOptions } from './providers/directives/search-widget';
+import { SearchWidgetOptions } from './components/search-widget';
 
 @Component({
   templateUrl: 'build/ionic-wordpress-app.html'

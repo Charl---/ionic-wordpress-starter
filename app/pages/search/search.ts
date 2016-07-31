@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Loading, NavController, NavParams, Toast } from 'ionic-angular';
 import { ArticleStore, Article, ArticleState } from '../../providers/store';
 import { ArticlePageComponent } from '../article/article';
-import { UserWidgetOptions } from '../../providers/directives/user-widget';
-import { SearchWidgetOptions } from '../../providers/directives/search-widget';
+import { UserWidgetOptions } from '../../components/user-widget';
+import { SearchWidgetOptions } from '../../components/search-widget';
 
 @Component({
   templateUrl: 'build/pages/search/search.html'
@@ -14,11 +14,11 @@ export class SearchPageComponent implements OnInit {
   userWidgetOptions: UserWidgetOptions = {
     fontSize: '1em',
     color: 'black'
-  }
+  };
   searchWidgetOptions: SearchWidgetOptions = {
     placeholder: 'filter the articles...',
     autofocus: true
-  }
+  };
 
   constructor(
     public articleStore: ArticleStore,
@@ -34,7 +34,7 @@ export class SearchPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.query = this.navParams.get('query')
+    this.query = this.navParams.get('query');
     this.query ? this.searchHandler(this.query) : null;
   }
 

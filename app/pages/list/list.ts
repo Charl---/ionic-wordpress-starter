@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Category, ArticleStore, Article } from '../../providers/store';
 import { Config } from '../../config';
 import { Connectivity } from '../../providers/ionic';
-import { SearchWidgetOptions } from '../../providers/directives/search-widget';
+import { SearchWidgetOptions } from '../../components/search-widget';
 
 @Component({
   templateUrl: 'build/pages/list/list.html'

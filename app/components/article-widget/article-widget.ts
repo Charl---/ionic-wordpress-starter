@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Article } from '../../store/article'
+import { Article } from '../../providers/store/article';
 import { UserWidgetOptions } from '../user-widget';
 
 export interface ArticleWidgetOptions {
@@ -8,7 +8,7 @@ export interface ArticleWidgetOptions {
 
 @Component({
   selector: 'wp-article-widget',
-  templateUrl: 'build/providers/directives/article-widget/article-widget.html',
+  templateUrl: 'build/components/article-widget/article-widget.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleWidgetComponent implements OnInit {

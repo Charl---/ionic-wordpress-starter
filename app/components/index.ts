@@ -1,4 +1,4 @@
-import { FORM_DIRECTIVES } from '@angular/common'
+import { FORM_DIRECTIVES } from '@angular/common';
 
 export * from './user-widget';
 export * from './search-widget';

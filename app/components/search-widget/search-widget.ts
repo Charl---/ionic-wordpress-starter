@@ -19,7 +19,7 @@ export interface SearchWidgetOptions {
 
 @Component({
   selector: 'wp-search-widget',
-  templateUrl: 'build/providers/directives/search-widget/search-widget.html',
+  templateUrl: 'build/components/search-widget/search-widget.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchWidgetComponent implements OnInit, OnDestroy {

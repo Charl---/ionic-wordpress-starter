@@ -7,11 +7,15 @@
 // By default each design mode includes these shared imports.
 // App Shared Sass variables belong in app.variables.scss.
 @import "../../node_modules/animatewithsass/animate.scss";
-@import "../providers/directives/user-widget/user-widget";
-@import "../providers/directives/article-widget/article-widget";
-@import "../providers/directives/search-widget/search-widget";
-@import "../providers/directives/article-widget-footer/article-widget-footer";
-@import "../providers/directives/elastic-header/elastic-header";
+@import "../components/user-widget/user-widget";
+@import "../components/article-widget/article-widget";
+@import "../components/article-widget-footer/article-widget-footer";
+@import "../components/article-share-button/article-share-button";
+@import "../components/comment-counter/comment-counter";
+@import "../components/comment-widget/comment-widget";
+@import "../components/elastic-header/elastic-header";
+@import "../components/search-widget/search-widget";
+
 
 @import "../pages/home/home";
 @import "../pages/list/list";
@@ -19,4 +23,5 @@
 @import "../pages/article/article-pop-over/article-pop-over";
 @import "../pages/article/comment-modal/comment-modal";
 @import "../pages/search/search";
-@import "../pages/settings/settings.scss";
+@import "../pages/settings/settings";
+@import "../pages/profile/profile";
