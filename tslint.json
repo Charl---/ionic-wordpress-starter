@@ -20,7 +20,6 @@
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "pipe-naming": [true, "camelCase"],
-    "component-class-suffix": true,
     "directive-class-suffix": true,
     "import-destructuring-spacing": true
   }

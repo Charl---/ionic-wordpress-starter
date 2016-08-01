@@ -13,6 +13,6 @@ export class SqlApi {
 
   private initTable(createQuery: string): Promise<any> {
     return this.platform.ready()
-      .then(() => this.storage.query(createQuery))
+      .then(() => this.storage.query(createQuery));
   }
 }

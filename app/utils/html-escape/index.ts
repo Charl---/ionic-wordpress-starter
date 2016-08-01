@@ -16,4 +16,3 @@ export class HtmlEscape {
       .documentElement.textContent;
   }
 }
-''''''''''''''''''

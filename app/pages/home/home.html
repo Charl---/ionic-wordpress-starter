@@ -1,5 +1,5 @@
 <ion-content class="home">
-  <ion-navbar>
+  <ion-navbar class="abs-navbar">
     <button menuToggle dark>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -8,9 +8,8 @@
     <ion-slide *ngFor="let article of articles$ | async">
       <div class="background" [ngStyle]="{'background': article.picture | cssbackground, 'background-size': 'cover'}"></div>
       <ion-card class="home-slide">
-        <wp-article-widget [article]="article">
-          <wp-article-widget-footer [options]="{social: true, navigate: true, comments: false, article: article, date: true}"></wp-article-widget-footer>
-        </wp-article-widget>
+        <wp-article-widget [article]="article"></wp-article-widget>
+        <wp-article-widget-footer [options]="{social: true, navigate: true, comments: false, article: article, date: true}"></wp-article-widget-footer>
         <article class="article-preview" [innerHTML]="article.preview"></article>
       </ion-card>
     </ion-slide>

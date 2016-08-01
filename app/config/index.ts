@@ -39,4 +39,4 @@ export const APP_CONFIG: Config = {
     message: 'Regarde ca !',
     subject: 'Touriscopie'
   }
-}
+};

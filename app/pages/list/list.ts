@@ -40,7 +40,7 @@ export class ListPageComponent implements OnInit {
 
   loadMore(infiniteScroll: InfiniteScroll): void {
     this.articleStore
-      .loadMore(this.category)
+      .loadMore({ category: this.category })
       .then((articles: Article[]) => {
         infiniteScroll.complete();
         if (articles.length < this.config.articlePerPage)
@@ -51,7 +51,9 @@ export class ListPageComponent implements OnInit {
 
   doRefresh(refresher: Refresher): void {
     this.articleStore
-      .refresh()
+      .refresh({
+        category: this.category
+      })
       .then(() => refresher.complete())
       .catch(() => refresher.complete());
   }

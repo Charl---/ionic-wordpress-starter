@@ -54,10 +54,6 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  goBack(): void {
-    this.nav.pop();
-  }
-
   more(ev): void {
     const popover = Popover.create(ArticlePopOverComponent, {
       textEle: this.text.nativeElement

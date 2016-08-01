@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Type } from '@angular/core';
 import { App, Platform, Nav, Modal, Loading, MenuController, Toast } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { Observable } from 'rxjs/Rx';
@@ -16,10 +16,10 @@ import { SearchWidgetOptions } from './components/search-widget';
 })
 export class WordpressAppComponent implements OnInit {
   @ViewChild(Nav) nav: Nav;
-  rootPage: any = HomePageComponent;
-  listPage: any = ListPageComponent;
-  settingsPage: any = SettingsPageComponent;
-  searchPage: any = SearchPageComponent;
+  rootPage: Type = HomePageComponent;
+  listPage: Type = ListPageComponent;
+  settingsPage: Type = SettingsPageComponent;
+  searchPage: Type = SearchPageComponent;
   categories$: Observable<Category[]>;
   query: string;
   searchWidgetOptions: SearchWidgetOptions = {
@@ -61,11 +61,12 @@ export class WordpressAppComponent implements OnInit {
         .first()
         .map(state => {
           const articlesFromSqlPromises: Promise<Article[]>[] = state.categories
-            .map(category => this.articleStore.initialLoad({ filters: { category } }));
+            .map(category => this.articleStore.initialLoad({ category }));
 
           Promise.all(articlesFromSqlPromises)
             .then(() => Splashscreen.hide())
-            .catch(err => this.displayToast('something wrong happen'));
+            // .catch(() => this.displayToast('something wrong happen'));
+            .catch(err => console.log(err))
           return state.categories;
         });
     });
@@ -78,7 +79,7 @@ export class WordpressAppComponent implements OnInit {
   goToListPage(page: any, params: any): void {
     const loading = this.loading();
     this.articleStore
-      .load(params.category)
+      .load(params)
       .then(() => this.navigateTo(page, params, false))
       .then(() => loading.dismiss())
       .catch(err => {

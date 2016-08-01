@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs';
+
 import { HttpApi, ApiFindAllOptions, ApiCrudAdapter } from '../_api/api-http';
 import { Article } from './index';
-import { User, UserStore } from '../user'
+import { User, UserStore } from '../user';
 import { CategoryStore, Category } from '../category';
 import { Config } from '../../../config';
 import { HtmlEscape } from '../../../utils';
 
-const httpParams = {
-  _embed: true
-};
+
 
 @Injectable()
 export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article> {
@@ -23,7 +22,7 @@ export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article> {
     super(http);
   }
 
-  //todo move this out of here
+  // todo move this out of here
   private transformArticle(a: any): Article {
     const category = this.categoryStore
       .currentState
@@ -36,8 +35,15 @@ export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article> {
   }
 
   findAll(params: ApiFindAllOptions): Promise<Article[]> {
+    const httpParams = {
+      _embed: true
+    };
+
     if (params.filters.category)
       httpParams['filter[category_name]'] = params.filters.category.slug;
+
+    if (params.filters.author)
+      httpParams['filter[author]'] = params.filters.author.id;
 
     if (params.page) {
       httpParams['per_page'] = this.config.articlePerPage;

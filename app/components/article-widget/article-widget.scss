@@ -10,6 +10,9 @@ ion-card {
   width: 100%;
   font-weight: bold;
   background: $bgTitleColor;
+  transition: all 0.3s linear !important;
+  // -webkit-transition: top 1s linear;
+
 }
 
 .card-subtitle {

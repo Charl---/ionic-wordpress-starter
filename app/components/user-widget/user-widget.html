@@ -2,6 +2,6 @@
   <ion-avatar item-left>
     <img [src]="user?.avatar">
   </ion-avatar>
-  <h2>{{user?.name}}</h2>
+  <button clear (click)="itemClicked()">{{user?.name}}</button>
   <ng-content></ng-content>
 </ion-item>

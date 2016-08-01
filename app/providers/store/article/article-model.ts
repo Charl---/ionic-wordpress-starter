@@ -51,6 +51,7 @@ export class Article {
 }
 
 export interface ArticleState {
+  currentAuthor: User;
   currentCategory: Category;
   currentPage: number;
   mostRecentDate: string;

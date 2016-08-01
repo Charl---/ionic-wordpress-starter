@@ -25,3 +25,24 @@
 @import "../pages/search/search";
 @import "../pages/settings/settings";
 @import "../pages/profile/profile";
+
+.abs-navbar {
+  z-index: 2;
+  position: absolute;
+  .toolbar-background {
+    background: transparent;
+  }
+
+  .bar-button {
+    background: $bgTitleColor;
+  }
+}
+
+.flex-container {
+  display: flex;
+  align-items: stretch;
+}
+
+.flex {
+  align-self: stretch;
+}

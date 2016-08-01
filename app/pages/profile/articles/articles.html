@@ -1,0 +1,17 @@
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="connec$ | async">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <wp-article-widget *ngFor="let article of articles" [article]="article">
+    <wp-article-widget-footer
+      [options]="{social: true, navigate: true, comments: false, article: article, date: true}">
+    </wp-article-widget-footer>
+  </wp-article-widget>
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingText="Loading more data..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

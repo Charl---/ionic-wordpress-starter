@@ -6,15 +6,15 @@ export * from './api-common';
 export class HttpApi {
   constructor(
     private http: Http
-  ) {}
+  ) { }
 
   request(options: any): Observable<any> {
     if (options.params) {
-      options.search = new URLSearchParams()
+      options.search = new URLSearchParams();
       for (let i in options.params) {
-        options.search.set(i, options.params[i])
+        options.search.set(i, options.params[i]);
       }
-      delete options.params
+      delete options.params;
     }
 
     return this.http.request(new Request(new RequestOptions(options)))

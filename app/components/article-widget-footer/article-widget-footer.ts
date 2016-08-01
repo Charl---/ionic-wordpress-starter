@@ -26,7 +26,7 @@ export class ArticleWidgetFooterComponent {
   ) { }
 
   goToArticlePage(article: Article): void {
-    this.nav.push(ArticlePageComponent, {
+    this.nav.rootNav.push(ArticlePageComponent, {
       article
     });
   }

@@ -5,16 +5,24 @@ import { Store, EventQueue, Updater } from 'sparix';
 import { ArticleHttpApi, ArticleSqlApi, Article, ArticleState } from './index';
 import { ApiFindAllOptions, ApiCrudAdapter } from '../_api/api-common';
 import { Category, CategoryStore } from '../category';
+import { User } from '../user';
 import { Connectivity } from '../../ionic';
 import { Config } from '../../../config';
 import { ListFilter } from '../../../pipes';
 
+interface StoreLoadOptions {
+  author?: User;
+  category?: Category;
+}
+
 const initialState: ArticleState = {
   currentCategory: null,
+  currentAuthor: null,
   currentPage: 1,
   mostRecentDate: null,
   articles: new Map<string, Article[]>()
 };
+
 
 @Injectable()
 export class ArticleStore extends Store<ArticleState> {
@@ -38,15 +46,47 @@ export class ArticleStore extends Store<ArticleState> {
     });
   }
 
-  private findAllOptions(category: Category): ApiFindAllOptions {
-    return {
+  /**
+   * [findAllApiCall description]
+   * @param  {StoreLoadOptions}   options [description]
+   * @param  {boolean}            refresh [description]
+   * @return {Promise<Article[]>}         [description]
+   */
+  private findAllApiCall(options: StoreLoadOptions, refresh?: boolean): Promise<Article[]> {
+    const apiOptions: ApiFindAllOptions = {
       page: this.currentState.currentPage,
-      filters: {
-        category: category
-      }
+      filters: options
     };
+
+    if (refresh)
+      apiOptions.after = this.currentState.mostRecentDate;
+
+    return this.api.findAll(apiOptions)
+      .then(articles => this.complexUpdate(options, articles))
+      .then(articles => this.api === this.httpApi ? this.sqlApi.insertAll(articles) : articles)
+      .catch(err => console.error(err));
   }
 
+  /**
+   * [resetState description]
+   * @param {StoreLoadOptions} options  [description]
+   * @param {Article[]}        articles [description]
+   */
+  private resetState(options: StoreLoadOptions, articles?: Article[]): void {
+    this.update(state => ({
+      currentAuthor: options.author,
+      currentCategory: options.category,
+      currentPage: articles ? Math.ceil(articles.length / this.config.articlePerPage) + 1 : 1,
+      mostRecentDate: articles ? articles[0].date.toISOString() : state.mostRecentDate
+    }));
+  }
+
+  /**
+   * [simpleUpdate description]
+   * @param  {Category}  category [description]
+   * @param  {Article[]} articles [description]
+   * @return {[type]}             [description]
+   */
   private simpleUpdate(category: Category, articles: Article[]) {
     this.update(state => {
       state.articles.set(category.name, articles);
@@ -55,94 +95,146 @@ export class ArticleStore extends Store<ArticleState> {
     return articles;
   }
 
-  initialLoad(options: ApiFindAllOptions): Promise<any> {
+  /**
+   * [complexUpdate description]
+   * @param  {StoreLoadOptions} options  [description]
+   * @param  {Article[]}        articles [description]
+   * @param  {boolean}          reverse  [description]
+   * @return {Article[]}                 [description]
+   */
+  private complexUpdate(options: StoreLoadOptions, articles: Article[], reverse?: boolean): Article[] {
+    if (articles.length > 0) {
+      let stateArticles: Article[];
+      this.update((state: ArticleState) => {
+        if (options.category) {
+          stateArticles = state.articles.get(options.category.name) || [];
+          reverse
+            ? state.articles.set(options.category.name, [...articles, ...stateArticles])
+            : state.articles.set(options.category.name, [...stateArticles, ...articles]);
+        }
+
+        if (options.author) {
+          articles.reverse().forEach(article => {
+            stateArticles = state.articles.get(article.category.name) || [];
+            if (stateArticles.indexOf(article) === -1) {
+              reverse
+                ? state.articles.set(article.category.name, [article, ...stateArticles])
+                : state.articles.set(article.category.name, [...stateArticles, article]);
+            }
+          });
+        }
+
+        return {
+          mostRecentDate: stateArticles[0] ? stateArticles[0].date.toISOString() : null,
+          currentPage: reverse ? state.currentPage : state.currentPage + 1
+        };
+      });
+    }
+    return articles;
+  }
+
+  /**
+   * [getByAuthor description]
+   * @param  {User}      author [description]
+   * @return {Article[]}        [description]
+   */
+  private getByAuthor(author: User): Article[] {
+    let articles = [];
+    this.categoryStore.currentState.categories.forEach(category => {
+      articles = [...articles, ...this.currentState.articles.get(category.name)
+        .filter(article => article.author.id === author.id)];
+    });
+
+    articles.sort((a: Article, b: Article) => {
+      if (a.date < b.date)
+        return 1;
+      if (a.date > b.date)
+        return -1;
+      return 0;
+    });
+
+    return articles;
+  }
+
+  /**
+   * [initialLoad description]
+   * @param  {StoreLoadOptions} options [description]
+   * @return {Promise<any>}             [description]
+   */
+  initialLoad(options: StoreLoadOptions): Promise<any> {
+    const apiOptions: ApiFindAllOptions = {
+      page: this.currentState.currentPage,
+      filters: options
+    };
+
     return this.platform.ready()
-      .then(() => this.sqlApi.findAll(options))
+      .then(() => this.sqlApi.findAll(apiOptions))
       .then(articles => articles.length > 0
-        ? this.simpleUpdate(options.filters.category, articles)
-        : this.api.findAll(options)
-          .then(articles => this.simpleUpdate(options.filters.category, articles))
+        ? this.simpleUpdate(options.category, articles)
+        : this.findAllApiCall(options)
       );
   }
 
-  load(category: Category): Promise<Article[]> {
-    let articles = this.currentState.articles.get(category.name);
-    articles = articles ? articles : [];
+  /**
+   * [load description]
+   * @param  {StoreLoadOptions}   options [description]
+   * @return {Promise<Article[]>}         [description]
+   */
+  load(options: StoreLoadOptions): Promise<Article[]> {
+    let articles = [];
+
+    if (options.category)
+      articles = this.currentState.articles.get(options.category.name);
+
+    if (options.author)
+      articles = this.getByAuthor(options.author);
+
     if (articles.length) {
-      this.update(() => ({
-        currentCategory: category,
-        currentPage: Math.ceil(articles.length / this.config.articlePerPage) + 1,
-        mostRecentDate: articles[0].date.toISOString()
-      }));
+      this.resetState(options, articles);
+
       return Promise.resolve(articles);
+
     } else {
-      this.update((state: ArticleState) => ({
-        currentCategory: category,
-        currentPage: 1
-      }));
-      return this.platform.ready()
-        .then(() => this.api.findAll(this.findAllOptions(category)))
-        .then((articles: Article[]) => {
-          this.update((state: ArticleState) => {
-            state.articles.set(category.name, articles);
-            return {
-              currentCategory: category,
-              mostRecentDate: articles[0].date.toISOString(),
-              currentPage: state.currentPage + 1
-            };
-          });
-          return articles;
-        })
-        .then(articles => this.sqlApi.insertAll(articles));
+      this.resetState(options);
+
+      return this.findAllApiCall(options);
     }
   }
-
-  loadMore(category: Category): Promise<Article[]> {
-    // this.update(state => ({ currentPage: state.currentPage + 1 }))
-    return this.platform.ready()
-      .then(() => this.api.findAll(this.findAllOptions(category)))
-      .then(articles => {
-        this.update(state => {
-          state.articles.set(category.name, [...state.articles.get(category.name), ...articles]);
-          return {
-            currentPage: state.currentPage + 1
-          };
-        });
-        return articles;
-      })
-      .then(articles => this.sqlApi.insertAll(articles));
+  /**
+   * [loadMore description]
+   * @param  {StoreLoadOptions}   options [description]
+   * @return {Promise<Article[]>}         [description]
+   */
+  loadMore(options: StoreLoadOptions): Promise<Article[]> {
+    return this.findAllApiCall(options);
   }
 
-  refresh(): Promise<Article[]> {
-    return this.platform.ready()
-      .then(() => this.api.findAll({
-        filters: {
-          category: this.currentState.currentCategory,
-        },
-        after: this.currentState.mostRecentDate,
-      }))
-      .then((articles: Article[]) => {
-        if (articles.length > 0)
-          this.update(state => {
-            const category = this.currentState.currentCategory;
-            state.articles.set(category.name, [...articles, ...state.articles.get(category.name)]);
-            return {
-              mostRecentDate: !!articles[0] ? articles[0].date.toISOString() : state.mostRecentDate
-            };
-          });
-        return articles;
-      });
+  /**
+   * [refresh description]
+   * @param  {StoreLoadOptions}   options [description]
+   * @return {Promise<Article[]>}         [description]
+   */
+  refresh(options: StoreLoadOptions): Promise<Article[]> {
+    return this.findAllApiCall(options, true);
   }
 
+  /**
+   * [search description]
+   * @param  {ApiFindAllOptions}     params [description]
+   * @return {Observable<Article[]>}        [description]
+   */
   search(params: ApiFindAllOptions): Observable<Article[]> {
     this.loading$.next(true);
     return Observable.fromPromise(
       this.platform.ready().then(() => this.api.search(params))
     )
-      .do(() => this.loading$.next(false))
-      .do(data => console.log('search ', data));
+      .do(() => this.loading$.next(false));
   }
 
+  /**
+   * [destroyAll description]
+   * @return {Promise<void>} [description]
+   */
   destroyAll(): Promise<void> {
     this.loading$.next(true);
     return this.sqlApi.destroyAll()
