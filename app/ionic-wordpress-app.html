@@ -14,6 +14,7 @@
       <button menuClose ion-item *ngFor="let category of categories$ | async" (click)="goToListPage(listPage, {category: category})">
         <ion-icon name="book" item-left></ion-icon>
         {{category.name}}
+        <wp-article-counter item-right [category]="category"></wp-article-counter>
       </button>
       <button menuClose ion-item (click)="navigateTo(settingsPage, null, false)">
         <ion-icon name="settings" item-left></ion-icon>

@@ -9,7 +9,7 @@
   </figure>
   <ion-tabs #profileTabs class="profile-tabs" tabbarPlacement="top">
     <ion-tab [root]="tab1Root" tabTitle="bio" tabIcon="person" [rootParams]="user"></ion-tab>
-    <ion-tab [root]="tab2Root" tabTitle="articles" tabIcon="book" [rootParams]="user"></ion-tab>
+    <ion-tab [root]="tab2Root" [tabTitle]="articleTitle" tabIcon="book" [rootParams]="user"></ion-tab>
     <ion-tab [root]="tab3Root" tabTitle="comments" tabIcon="chatboxes" [rootParams]="user"></ion-tab>
   </ion-tabs>
 </ion-content>

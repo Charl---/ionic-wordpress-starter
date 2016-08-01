@@ -8,6 +8,7 @@ export * from './comment-counter'
 export * from './comment-widget';
 export * from './article-share-button'
 export * from './elastic-header';
+export * from './article-counter';
 
 import {
   UserWidgetComponent,
@@ -17,7 +18,8 @@ import {
   CommentCounterComponent,
   ArticleShareButtonComponent,
   CommentWidgetComponent,
-  ElasticHeaderDirective
+  ElasticHeaderDirective,
+  ArticleCounterComponent
 } from './';
 
 export const APP_DIRECTIVES = [
@@ -29,5 +31,6 @@ export const APP_DIRECTIVES = [
   CommentCounterComponent,
   CommentWidgetComponent,
   ArticleShareButtonComponent,
-  ElasticHeaderDirective
+  ElasticHeaderDirective,
+  ArticleCounterComponent
 ];

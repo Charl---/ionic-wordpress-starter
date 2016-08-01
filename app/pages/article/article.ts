@@ -63,7 +63,10 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   }
 
   commentsModal(comments: Comment[]): void {
-    const modal = Modal.create(CommentModalPageComponent, { comments });
+    const modal = Modal.create(CommentModalPageComponent, {
+      comments,
+      article: this.article
+    });
     this.nav.present(modal);
   }
 }

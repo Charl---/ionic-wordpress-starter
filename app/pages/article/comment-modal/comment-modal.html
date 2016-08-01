@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Comments
+      {{title}}
     </ion-title>
     <ion-buttons start>
       <button (click)="dismiss()">
@@ -13,5 +13,19 @@
 </ion-header>
 
 <ion-content>
-  <wp-comment-widget *ngFor="let comment of comments" [comment]="comment"></wp-comment-widget>
+  <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="connec$ | async">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="bubbles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <wp-comment-widget *ngFor="let comment of comments$ | async" [comment]="comment"></wp-comment-widget>
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

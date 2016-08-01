@@ -246,4 +246,15 @@ export class ArticleStore extends Store<ArticleState> {
       })
       .then(() => this.loading$.next(false));
   }
+
+  /**
+   * [count description]
+   * @param  {ApiFindAllOptions} options [description]
+   * @return {Promise<string>}           [description]
+   */
+  count(options: ApiFindAllOptions): Promise<string> {
+    return this.api.count(options)
+      .toPromise()
+      .catch(err => console.error(err));
+  }
 }

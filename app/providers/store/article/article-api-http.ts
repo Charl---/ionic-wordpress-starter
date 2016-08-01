@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestMethod } from '@angular/http';
+import { Http, RequestMethod, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { HttpApi, ApiFindAllOptions, ApiCrudAdapter } from '../_api/api-http';
@@ -61,6 +61,7 @@ export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article> {
       url: `${this.config.baseUrl}posts`,
       params: httpParams
     })
+      .map((res: Response) => res.json())
       .toPromise()
       .then(articles => articles.map(article => this.transformArticle(article)))
       .catch(err => console.error(err));
@@ -73,8 +74,28 @@ export class ArticleHttpApi extends HttpApi implements ApiCrudAdapter<Article> {
       url: `${this.config.baseUrl}posts`,
       params
     })
+      .map((res: Response) => res.json())
       .map(articles => articles.map(article => this.transformArticle(article)))
       .toPromise()
       .catch(err => console.error(err));
+  }
+
+  count(params: ApiFindAllOptions): Observable<string> {
+    const httpParams = {
+      'per_page': 1
+    };
+
+    if (params.filters.category)
+      httpParams['filter[category_name]'] = params.filters.category.slug;
+
+    if (params.filters.author)
+      httpParams['filter[author]'] = params.filters.author.id;
+
+    return this.request({
+      method: RequestMethod.Get,
+      url: `${this.config.baseUrl}posts`,
+      params: httpParams
+    })
+      .map((res: Response) => res.headers.get('X-WP-Total'));
   }
 }

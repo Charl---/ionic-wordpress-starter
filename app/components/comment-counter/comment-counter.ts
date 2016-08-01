@@ -6,39 +6,44 @@ import {
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { Observable, Subject } from 'rxjs/Rx';
-import { Article, Comment, CommentStore } from '../../providers/store';
-import { Config } from '../../config';
+
+import { Article, Comment, CommentStore, User } from '../../providers/store';
 
 @Component({
   selector: 'wp-comment-counter',
-  templateUrl: 'build/components/comment-counter/comment-counter.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: 'build/components/comment-counter/comment-counter.html'
 })
 export class CommentCounterComponent implements OnInit {
-  commentLength$: Observable<number>;
-  isLoading: boolean;
+  isLoading: boolean = true;
+  counter: string;
   @Input() article: Article;
+  @Input() author: User;
   @Output() onCommentLoaded: EventEmitter<Comment[]> = new EventEmitter<Comment[]>();
 
   constructor(
-    private config: Config,
     private commentStore: CommentStore
   ) { }
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.commentStore.findByArticle(this.article);
-
-    this.commentLength$ = this.commentStore
-      .map(state => state.comments.get(this.article.title))
-      .do(() => this.isLoading = false)
-      .filter(comments => !!comments)
-      .map(comments => comments.length);
-
+    this.commentStore.count({
+      filters: {
+        article: this.article,
+        author: this.author
+      }
+    })
+      .then(count => {
+        this.isLoading = false;
+        this.counter = count;
+      })
+      .catch(err => console.error(err));
   }
 
   clickHandler(): void {
-    this.onCommentLoaded.emit(this.commentStore.currentState.comments.get(this.article.title));
+    this.commentStore.load({
+      article: this.article,
+      author: this.author
+    })
+      .then(comments => this.onCommentLoaded.emit(comments))
+      .catch(err => console.error(err));
   }
 }

@@ -9,6 +9,7 @@ export class HttpApi {
   ) { }
 
   request(options: any): Observable<any> {
+    console.log(options);
     if (options.params) {
       options.search = new URLSearchParams();
       for (let i in options.params) {
@@ -17,7 +18,6 @@ export class HttpApi {
       delete options.params;
     }
 
-    return this.http.request(new Request(new RequestOptions(options)))
-      .map((res: Response) => res.json());
+    return this.http.request(new Request(new RequestOptions(options)));
   }
 }

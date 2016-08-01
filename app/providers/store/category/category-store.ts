@@ -4,12 +4,12 @@ import { Network } from 'ionic-native';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { Store, EventQueue } from 'sparix';
 import { CategoryHttpApi, CategorySqlApi, CategoryState, Category } from './index';
-import { ApiCrudAdapter } from '../_api/api-common'
-import { Connectivity } from '../../ionic'
+import { ApiCrudAdapter } from '../_api/api-common';
+import { Connectivity } from '../../ionic';
 
 const initialState: CategoryState = {
   categories: []
-}
+};
 
 @Injectable()
 export class CategoryStore extends Store<CategoryState> {
@@ -31,7 +31,7 @@ export class CategoryStore extends Store<CategoryState> {
         this.api = state.isOnline ? httpApi : sqlApi;
         if (this.currentState.categories.length === 0)
           this.load();
-      })
+      });
   }
 
   private simpleUpdate(categories: Category[]): Category[] {
@@ -46,8 +46,8 @@ export class CategoryStore extends Store<CategoryState> {
     return this.platform.ready()
       .then(() => this.sqlApi.findAll())
       .then((categories: Category[]) => {
-        this.update(state => ({ categories }))
-      })
+        this.update(state => ({ categories }));
+      });
   }
 
   load(): Promise<Category[]> {
@@ -85,6 +85,6 @@ export class CategoryStore extends Store<CategoryState> {
     this.loading$.next(true);
     return this.sqlApi.destroyAll()
       .then(() => this.update(state => initialState))
-      .then(() => this.loading$.next(false))
+      .then(() => this.loading$.next(false));
   }
 }

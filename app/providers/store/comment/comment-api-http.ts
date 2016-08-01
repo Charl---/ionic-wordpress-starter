@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestMethod } from '@angular/http';
+import { Http, RequestMethod, Response } from '@angular/http';
 import { Observable } from 'rxjs';
+
 import { HttpApi, ApiFindAllOptions, ApiCrudAdapter } from '../_api/api-http';
 import { Comment } from './index';
 import { User, UserStore } from '../user';
 import { Article } from '../article';
 import { Config } from '../../../config';
 import { HtmlEscape } from '../../../utils';
-
-const httpParams = {};
 
 @Injectable()
 export class CommentHttpApi extends HttpApi implements ApiCrudAdapter<Comment> {
@@ -32,6 +31,8 @@ export class CommentHttpApi extends HttpApi implements ApiCrudAdapter<Comment> {
   }
 
   findAll(params: ApiFindAllOptions): Promise<Comment[]> {
+    const httpParams = {};
+
     if (params.filters.article)
       httpParams['post'] = params.filters.article.id;
 
@@ -40,8 +41,29 @@ export class CommentHttpApi extends HttpApi implements ApiCrudAdapter<Comment> {
       url: `${this.config.baseUrl}comments`,
       params: httpParams
     })
+      .map((res: Response) => res.json())
       .toPromise()
       .then(comments => comments.map(comment => this.transformComment(comment)))
       .catch(err => console.error(err));
+  }
+
+  count(params: ApiFindAllOptions): Observable<string> {
+    const httpParams = {
+      'per_page': 1
+    };
+
+    if (params.filters.article)
+      httpParams['post'] = params.filters.article.id;
+
+    // require auth
+    // if (params.filters.author)
+    //   httpParams['filter[author]'] = params.filters.author.id;
+
+    return this.request({
+      method: RequestMethod.Get,
+      url: `${this.config.baseUrl}comments`,
+      params: httpParams
+    })
+      .map((res: Response) => res.headers.get('X-WP-Total'));
   }
 }

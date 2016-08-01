@@ -1,4 +1,5 @@
 import { Article } from '../article';
+import { User } from '../user';
 
 export class Comment {
   constructor(
@@ -15,5 +16,9 @@ export class Comment {
 }
 
 export interface CommentState {
+  currentAuthor: User;
+  currentArticle: Article;
+  currentPage: number;
+  mostRecentDate: string;
   comments: Map<string, Comment[]>;
 }

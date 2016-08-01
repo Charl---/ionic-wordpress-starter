@@ -15,6 +15,7 @@ export interface SocialConfig {
 export class Config {
   baseUrl: string;
   articlePerPage: number;
+  commentPerPage: number;
   homeCategory: string;
   homeTitle: string;
   homeArticleLength: number;
@@ -28,6 +29,7 @@ export const CONFIG_API_URL = '';
 export const APP_CONFIG: Config = {
   baseUrl: 'http://touriscopie.fr/wp-json/wp/v2/',
   articlePerPage: 10,
+  commentPerPage: 10,
   defaultPicture: 'http://touriscopie.fr/wp-content/uploads/2015/05/cropped-parasol.jpg',
   homeTitle: 'Touriscopie Mag',
   homeCategory: 'Editorial',

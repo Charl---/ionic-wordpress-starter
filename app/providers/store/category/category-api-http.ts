@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestMethod } from '@angular/http';
+import { Http, RequestMethod, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { HttpApi, ApiCrudAdapter } from '../_api/api-http';
 import { Category } from './index';
 import { Config } from '../../../config';
 
 @Injectable()
-export class CategoryHttpApi extends HttpApi implements ApiCrudAdapter<Category>{
+export class CategoryHttpApi extends HttpApi implements ApiCrudAdapter<Category> {
   constructor(
     private config: Config,
     http: Http
@@ -19,9 +19,11 @@ export class CategoryHttpApi extends HttpApi implements ApiCrudAdapter<Category>
       method: RequestMethod.Get,
       url: `${this.config.baseUrl}categories`,
       params
-    }).toPromise()
+    })
+      .map((res: Response) => res.json())
+      .toPromise()
       .then((categories: Category[]) => categories.map(cat => {
-        return new Category(cat.id, cat.name, cat.description, cat.slug)
+        return new Category(cat.id, cat.name, cat.description, cat.slug);
       }))
       .catch(err => console.error(err));
   }
